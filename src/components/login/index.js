@@ -1,12 +1,15 @@
 
 import React from 'react';
 import Register from '../register';
+import Titles from '../common/title';
+
+let codeImage = require('../../images/code_edit.png');
+
+
 import {
   BrowserRouter as Router,
   Route,
-  Link,
-  Redirect,
-  withRouter
+  Link
 } from 'react-router-dom'
 
 
@@ -31,36 +34,31 @@ class Login extends React.Component {
 
     return(
         <div className="login">
-          <h2>我是login</h2>
+          <Titles />
           <form className="form-horizontal col-xs-12">
-              <div className="form-group">
-                  <div className="col-sm-8 col-sm-offset-2">
-                      <input type="text" className="form-control" id="inputEmail3" placeholder="用户名" />
+              <div className="form-group centers">
+                  <div className="col-sm-9 ">
+                      <input type="text" className="form-control" id="inputEmail3" placeholder="请输入用户名" />
                   </div>
               </div>
-              <div className="form-group">
-                  <div className="col-sm-8 col-sm-offset-2">
-                      <input type="password" className="form-control" id="inputPassword3" placeholder="密码" />
+              <div className="form-group centers">
+                  <div className="col-sm-9 ">
+                      <input type="password" className="form-control" id="inputPassword3" placeholder="请输入密码" />
                   </div>
               </div>
-              <div className="form-group">
-                  <div className="col-sm-8 col-sm-offset-2">
-                      <div className="checkbox">
-                          <label>
-                              <input type="checkbox" /> 记住密码
-                          </label>
-                      </div>
+              <div className="form-group centers">
+                  <div className="col-sm-6 pull-left incode">
+                    <input type="number" className="form-control"  placeholder="请输入验证码" />
+                  </div>
+                  <div className="pull-right code">
+                    <img src={codeImage} />
                   </div>
               </div>
-              <div className="form-group">
-                  <div className="col-xs-10">
-                      <div className="pull-right">
-                          <Link  className="btn btn-default" to="/register">注册</Link>
-                      </div>
-                      <div className="pull-right">
-                        <div className="btn btn-default" onClick={this.login}>登录</div>
-                      </div>
-                  </div>
+              <div className="form-group" style={{
+                display:'flex',
+                justifyContent: 'center'
+              }}>
+                  <button className="btn btn-warning logbtn">登  录</button>
               </div>
           </form>
       </div>

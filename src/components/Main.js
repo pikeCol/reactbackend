@@ -19,7 +19,7 @@ import {
 class AppComponent extends React.Component {
   render() {
     return (
-      <div className="index">
+      <div className="index container-fluid">
         <Switch>
           <Route exact path='/' component={Login}/>
           <Route exact path='/login' component={Login}/>

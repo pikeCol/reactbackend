@@ -1,22 +1,61 @@
 /* Base Application Styles */
-body {
+body,html {
+  width: 100%;
+  min-height: 100%;
+}
+body{
+  background: url(../images/bg.png) no-repeat center center;
+}
+.titleimg{
+  margin-right: 10px;
+}
+.centers{
+  display: flex;
+justify-content: space-around;
+}
+.forms{
+  width: 360px;
+  margin: 0 auto;
+}
+.h1{
+  font-size: 24px;
+  color: #696969;
+  margin-bottom: 28px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0;
+}
+.code{
+  cursor: pointer;
+  box-sizing: border-box;
+  padding-right: 27px;
+}
+.incode{
+  padding-left: 25px
+}
+.code img{
+  width: 86px;
+  height: 36px;
+}
+.btnlog{
+  margin-top: 40px;
 }
 .login {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  background: #205B5A;
-  color: #ffffff;
-  vertical-align: middle;
-  width: 30%;
+  background: white;
+  border-radius: 10px;
+  width: 484px;
+  height: 353px;
   margin: 0 auto;
-  margin-top: 10%;
-  padding: 20px;
-  min-height: 300px;
+  padding-top: 40px;
+  margin-top: 15%;
+  box-sizing: border-box;
 }
- .login input{
-  outline: none;
-  border-radius: 4px;
+.logbtn {
+  width: 333px!important;
+  margin-top: 25px;
+}
+.login .form-group input{
+  text-indent: 8px;
 }
