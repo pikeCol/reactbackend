@@ -143,10 +143,8 @@ justify-content: space-around;
 .sidebar{
   padding-left: 0;
 }
-.sidebar li a{
-  display: block;
-}
-.sidebar li{
+
+.sidebar .static{
   padding-left: 42px;
   position: relative;
   font-size: 16px;
@@ -154,10 +152,21 @@ justify-content: space-around;
   line-height: 60px;
   color: #6260bf;
 }
+.sidebar .static img{
+  vertical-align: text-bottom;
+  margin-right: 6px;
+}
 .sidebar .selection{
   color: white;
-  padding-left: 72px;
+  padding-left: 52px;
   position: relative;
+  height: 60px;
+  line-height: 60px;
+  cursor: pointer;
+}
+.selection a{
+  padding: 20px;
+  padding-right: 84px;
 }
 .active{
   color: white;
@@ -166,40 +175,4 @@ justify-content: space-around;
 .selection:hover{
   color: white;
   background: #080b2f;
-}
-.sidebar li:nth-child(1)::before{
-  content: '';
-  width: 32px;
-  height: 32px;
-  display: inline-block;
-  background: url(../images/indexicon.png) no-repeat center center;
-  position: relative;
-  top: 8px;
-}
-.sidebar li:nth-child(3)::before{
-  content: '';
-  width: 32px;
-  height: 32px;
-  display: inline-block;
-  background: url(../images/touziicon.png) no-repeat center center;
-  position: relative;
-  top: 11px;
-}
-.sidebar li:nth-child(6)::before{
-  content: '';
-  width: 32px;
-  height: 32px;
-  display: inline-block;
-  background: url(../images/accounticon.png) no-repeat center center;
-  position: relative;
-  top: 11px;
-}
-.sidebar li:nth-child(9)::before{
-  content: '';
-  width: 32px;
-  height: 32px;
-  display: inline-block;
-  background: url(../images/personicon.png) no-repeat center center;
-  position: relative;
-  top: 11px;
 }

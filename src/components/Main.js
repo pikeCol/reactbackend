@@ -14,6 +14,7 @@ import {
 } from 'react-router-dom'
 
 
+
 class AppComponent extends React.Component {
   render() {
     return (
@@ -30,6 +31,7 @@ class AppComponent extends React.Component {
 }
 
 AppComponent.defaultProps = {
+  test:1
 };
 
 export default AppComponent;

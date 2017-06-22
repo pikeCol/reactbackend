@@ -12,61 +12,46 @@ import {
 } from 'react-router-dom'
 
 let banklogo = require('../../images/zylogo.png')
+let indexicon = require('../../images/indexicon.png')
+let touziicon = require('../../images/touziicon.png')
+let accounticon = require('../../images/accounticon.png')
+let personicon = require('../../images/personicon.png')
+
+const OldSchoolMenuLink = ({ label, to, activeOnlyWhenExact }) => (
+  <Route path={to} exact={activeOnlyWhenExact} children={({ match }) => (
+    <div className={match ? 'active selection' : 'selection'}>
+      <Link to={to}>
+        {label}
+        {match?<Line />:''}
+      </Link>
+    </div>
+  )}/>
+  )
+
+  const StaticMenuLink = ({ label,imgsrc }) => (
+      <div className="static">
+        <img src={imgsrc} />
+        {label}
+      </div>
+    )
 
 class Menus extends React.Component{
   state={
     show:true
   }
-  hander=()=>{
-    this.setState({
-      show: !this.state.show
-    })
-    console.log(this.state.show)
-  }
   render(){
-    // console.log(this.props.match.params)
     return(
       <div>
         <Header />
         <div className="wrapcontainer">
-          <ul className="sidebar">
-            <li>
-              首页
-            </li>
-            <li className="selection active" onClick={this.hander}>
-              <Link to="/menu">首页</Link>
-              <Line />
-            </li>
-            <li>
-              投资项目
-            </li>
-            <li className="selection" onClick={this.hander}>
-              <Link to="/menu/second">项目列表</Link>
-            </li>
-            <li className="selection" onClick={this.hander}>
-              <Link to="/menu/second">项目模板管理</Link>
-            </li>
-
-            <li>
-              账户管理
-            </li>
-            <li className="selection" onClick={this.hander}>
-              <Link to="/menu/second">角色管理</Link>
-            </li>
-            <li className="selection" onClick={this.hander}>
-              <Link to="/menu/second">账户管理</Link>
-            </li>
-
-            <li>
-              个人中心
-            </li>
-            <li className="selection" onClick={this.hander}>
-              <Link to="/menu/second">修改资料</Link>
-            </li>
-            <li className="selection" onClick={this.hander}>
-              <Link to="/menu/second">修改密码</Link>
-            </li>
-          </ul>
+          <div className="sidebar">
+            <StaticMenuLink imgsrc={indexicon} label="首页"/>
+            <OldSchoolMenuLink activeOnlyWhenExact={true}  to="/menu" label="首页"/>
+            <StaticMenuLink imgsrc={touziicon} label="首页"/>
+            <OldSchoolMenuLink  to="/menu/second" label="项目列表"/>
+            <StaticMenuLink imgsrc={accounticon} label="首页"/>
+            <StaticMenuLink imgsrc={personicon} label="首页"/>
+          </div>
           <div className="maincontainer">
             <Route exact path="/menu" component={First}/>
             <Route path="/menu/second" component={Second}/>

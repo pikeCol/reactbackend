@@ -8,7 +8,7 @@ class First extends React.Component{
         color:'#151515',
         fontSize:'36px',
         textAlign:'center'
-      }}>浙银资产投资项目管理系统</h1>
+      }}>浙银资产投资项目管理系统 </h1>
     )
   }
 }
