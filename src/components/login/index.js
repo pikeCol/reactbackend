@@ -1,6 +1,5 @@
 
 import React from 'react';
-import Register from '../register';
 import Titles from '../common/title';
 
 let codeImage = require('../../images/code_edit.png');
@@ -9,16 +8,21 @@ let codeImage = require('../../images/code_edit.png');
 import {
   BrowserRouter as Router,
   Route,
-  Link
+  Link,
+  Redirect
 } from 'react-router-dom'
 
 
 class Login extends React.Component {
   state = {
-     redirectToReferrer: false
+     redirectToReferrer: false,
+     islogin: false
    }
    login=()=>{
-     this.setState({ redirectToReferrer: true })
+    //  请求
+     this.setState({
+       redirectToReferrer: true
+     })
    }
   render() {
 
@@ -33,6 +37,7 @@ class Login extends React.Component {
 
 
     return(
+      <div className="login_wrap">
         <div className="login">
           <Titles />
           <form className="form-horizontal col-xs-12">
@@ -48,7 +53,7 @@ class Login extends React.Component {
               </div>
               <div className="form-group centers">
                   <div className="col-sm-6 pull-left incode">
-                    <input type="number" className="form-control"  placeholder="请输入验证码" />
+                    <input type="text" className="form-control"  placeholder="请输入验证码" />
                   </div>
                   <div className="pull-right code">
                     <img src={codeImage} />
@@ -56,11 +61,25 @@ class Login extends React.Component {
               </div>
               <div className="form-group" style={{
                 display:'flex',
+                position: 'relative',
                 justifyContent: 'center'
               }}>
-                  <button className="btn btn-warning logbtn">登  录</button>
+                  {
+                    this.state.islogin?
+                    <div className="alert alert-danger" role="alert" style={{
+                      position:'absolute',
+                      top:'-10px',
+                      padding: '3px',
+                      width:'333px'
+                    }}>
+                        您输入的账号或密码有误
+                    </div>
+                    :''
+                  }
+                  <div className="btn btn-warning logbtn" onClick={this.login}>登  录</div>
               </div>
           </form>
+        </div>
       </div>
   )
   }
