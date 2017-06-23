@@ -2,6 +2,10 @@ import React from 'react';
 import {
   Link
 } from 'react-router-dom'
+
+
+
+
 const Home = () => (
   <div>
     <h2>Featured Images</h2>

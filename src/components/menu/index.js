@@ -40,6 +40,7 @@ class Menus extends React.Component{
     show:true
   }
   render(){
+    console.log(this.state.usrname)
     return(
       <div>
         <Header />
@@ -47,10 +48,15 @@ class Menus extends React.Component{
           <div className="sidebar">
             <StaticMenuLink imgsrc={indexicon} label="首页"/>
             <OldSchoolMenuLink activeOnlyWhenExact={true}  to="/menu" label="首页"/>
-            <StaticMenuLink imgsrc={touziicon} label="首页"/>
-            <OldSchoolMenuLink  to="/menu/second" label="项目列表"/>
-            <StaticMenuLink imgsrc={accounticon} label="首页"/>
-            <StaticMenuLink imgsrc={personicon} label="首页"/>
+            <StaticMenuLink imgsrc={touziicon} label="投资项目管理"/>
+            <OldSchoolMenuLink  to="/menu/list" label="项目列表"/>
+            <OldSchoolMenuLink  to="/menu/listtmp" label="项目模板管理"/>
+            <StaticMenuLink imgsrc={accounticon} label="账户管理"/>
+            <OldSchoolMenuLink  to="/menu/rolemanage" label="角色管理"/>
+            <OldSchoolMenuLink  to="/menu/accoutmanage" label="账户管理"/>
+            <StaticMenuLink imgsrc={personicon} label="个人中心"/>
+            <OldSchoolMenuLink  to="/menu/editprofile" label="修改资料"/>
+            <OldSchoolMenuLink  to="/menu/editpass" label="修改密码"/>
           </div>
           <div className="maincontainer">
             <Route exact path="/menu" component={First}/>

@@ -16,21 +16,30 @@ import {
 class Login extends React.Component {
   state = {
      redirectToReferrer: false,
-     islogin: false
+     islogin: false,
+     usr:''
    }
    login=()=>{
     //  请求
-     this.setState({
-       redirectToReferrer: true
-     })
+    let that =this;
+    fetch('../../api/data.json')
+     .then((res)=>res.json())
+      .then(function(json){
+        console.log(json.usr);
+        that.setState({
+          redirectToReferrer: true,
+          usr:json.usr
+        })
+      })
+
    }
   render() {
 
-    const { redirectToReferrer } = this.state
-
+    const { redirectToReferrer,usr } = this.state
+    console.log(usr)
     if (redirectToReferrer) {
       return (
-        <Redirect to={'/menu'}/>
+        <Redirect to={'/menu'} state={{usrname:usr}} />
       )
     }
 
