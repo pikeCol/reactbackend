@@ -6,9 +6,8 @@ let codeImage = require('../../images/code_edit.png');
 
 
 import {
-  BrowserRouter as Router,
-  Route,
-  Link,
+  // Route,
+  // Link,
   Redirect
 } from 'react-router-dom'
 
@@ -25,7 +24,7 @@ class Login extends React.Component {
     fetch('../../api/data.json')
      .then((res)=>res.json())
       .then(function(json){
-        console.log(json.usr);
+        // console.log(json.usr);
         that.setState({
           redirectToReferrer: true,
           usr:json.usr
@@ -36,10 +35,10 @@ class Login extends React.Component {
   render() {
 
     const { redirectToReferrer,usr } = this.state
-    console.log(usr)
+    // console.log(usr)
     if (redirectToReferrer) {
       return (
-        <Redirect to={'/menu'} state={{usrname:usr}} />
+        <Redirect to={`/menu?usr=${usr}`}  />
       )
     }
 

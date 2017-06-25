@@ -7,7 +7,16 @@ import {
   Route
 } from 'react-router-dom'
 
+import { createStore } from 'redux'
+import todoApp from './reducer'
 
+let store = createStore(todoApp)
+
+store.dispatch({
+  type: 'logout',
+  text: 'Use Redux'
+})
+console.log(store.getState())
 // Render the main component into the dom
 ReactDOM.render(
   (

@@ -3,12 +3,10 @@ require('styles/App.css');
 
 import React from 'react';
 import Login from './login';
-import Home from './home';
 import Menus from './menu';
 import NoMatch from './notmatch';
 
 import {
-  BrowserRouter as Router,
   Route,
   Switch
 } from 'react-router-dom'
@@ -31,7 +29,6 @@ class AppComponent extends React.Component {
 }
 
 AppComponent.defaultProps = {
-  test:1
 };
 
 export default AppComponent;

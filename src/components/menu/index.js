@@ -11,7 +11,7 @@ import {
   Link
 } from 'react-router-dom'
 
-let banklogo = require('../../images/zylogo.png')
+// let banklogo = require('../../images/zylogo.png')
 let indexicon = require('../../images/indexicon.png')
 let touziicon = require('../../images/touziicon.png')
 let accounticon = require('../../images/accounticon.png')
@@ -40,7 +40,7 @@ class Menus extends React.Component{
     show:true
   }
   render(){
-    console.log(this.state.usrname)
+    // console.log(this.props )
     return(
       <div>
         <Header />
