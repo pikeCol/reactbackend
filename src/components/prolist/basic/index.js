@@ -3,19 +3,30 @@ import {urlParse} from '../../common/util'
 
 class Basic extends React.Component{
   state={
-    edit:false
+    edit:''
   }
   componentWillMount(){
     let urls=this.props.location.search;
-    let edit=urlParse(urls)
+    let _edit=urlParse(urls)
+    let isedit=_edit.edit
+    isedit = !isedit
     this.setState({
-      edit:!edit.edit
+      edit:isedit
     })
+    console.log(this.state.edit)
   }
+  // hander=()=>{
+  //   let urls=this.props.location.search;
+  //   let edit=urlParse(urls)
+  //   this.setState({
+  //     edit:!edit.edit
+  //   })
+  //   console.log(this.props.history)
+  // }
   render(){
     // let urls=this.props.location.search;
     // let edit=urlParse(urls)
-    console.log(this.state)
+    // console.log(!this.state.edit)
     return(
       <div className="col-sm-10 " style={{ paddingTop: '12px'}}>
         <form className="form-horizontal">
@@ -189,10 +200,13 @@ class Basic extends React.Component{
           </div>
 
           <div className="center">
-            <a href={`/menu/prolist?edit=${!this.state.edit}`} className="btn btn-primary" style={{
+            <a
+              href={`/menu/prolist?edit=${this.state.edit}`}
+              // onClick={this.hander}
+              className="btn btn-primary" style={{
               padding: '6px 20px',
               marginTop: '24px'
-            }}>{this.state.edit?'确认修改':'编辑'}</a>
+            }}>{this.state.edit?'编辑':'确认修改'}</a>
           </div>
         </form>
       </div>
