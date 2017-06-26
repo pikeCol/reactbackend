@@ -17,7 +17,7 @@ class First extends React.Component{
           fontSize:'18px',
           textAlign:'center'
         }}>
-          初次登录如未修改密码，请立即<Link to={'/login'}><strong style={{
+          初次登录如未修改密码，请立即<Link to={'/menu/editpass'}><strong style={{
           color:'#ff3747'
           }}>修改密码</strong></Link>
         </h4>

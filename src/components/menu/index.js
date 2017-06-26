@@ -1,5 +1,6 @@
 import React from 'react';
 import First from '../first'
+import Prolist from '../prolist'
 import Second from '../second'
 import Header from '../common/header'
 import Line from '../common/line'
@@ -49,7 +50,7 @@ class Menus extends React.Component{
             <StaticMenuLink imgsrc={indexicon} label="首页"/>
             <OldSchoolMenuLink activeOnlyWhenExact={true}  to="/menu" label="首页"/>
             <StaticMenuLink imgsrc={touziicon} label="投资项目管理"/>
-            <OldSchoolMenuLink  to="/menu/list" label="项目列表"/>
+            <OldSchoolMenuLink  to="/menu/prolist" label="项目列表"/>
             <OldSchoolMenuLink  to="/menu/listtmp" label="项目模板管理"/>
             <StaticMenuLink imgsrc={accounticon} label="账户管理"/>
             <OldSchoolMenuLink  to="/menu/rolemanage" label="角色管理"/>
@@ -60,6 +61,7 @@ class Menus extends React.Component{
           </div>
           <div className="maincontainer">
             <Route exact path="/menu" component={First}/>
+            <Route path="/menu/prolist" component={Prolist}/>
             <Route path="/menu/second" component={Second}/>
           </div>
         </div>

@@ -7,22 +7,28 @@ import {
   Route
 } from 'react-router-dom'
 
+import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import todoApp from './reducer'
 
 let store = createStore(todoApp)
 
 store.dispatch({
-  type: 'logout',
-  text: 'Use Redux'
+  type: 'login',
+  text: 'Use Redux111'
 })
-console.log(store.getState())
+// setTimeout(function(){
+//   console.log(store.getState())
+// },300)
+// console.log(store.getState())
 // Render the main component into the dom
 ReactDOM.render(
   (
+    <Provider store={store}>
     <Router>
       <Route component={App} />
       {/* <App /> */}
     </Router>
+    </Provider>
 ),
    document.getElementById('app'));

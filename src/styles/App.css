@@ -18,7 +18,14 @@ a:hover,a:link,a:visited,a:active{
   right: -3px;
   top: 0;
 }
-
+.bottomLine{
+  width: 50%;
+  height: 6px;
+  background: #fd8534;
+  position: absolute;
+  bottom: 0;
+  left: 25%;
+}
 
 .login_wrap{
   width: 100%;
@@ -129,7 +136,6 @@ justify-content: space-around;
 .sidebar{
   flex: 0 0 220px;
   background: #1f214a;
-  height: 100%;
   padding-top: 54px;
   min-height: 800px;
   margin-bottom: 0;
@@ -137,6 +143,7 @@ justify-content: space-around;
 .maincontainer{
   flex: 1;
   background: #efefef;
+
 }
 
 /*侧边栏*/
@@ -172,7 +179,31 @@ justify-content: space-around;
   color: white;
   background: #080b2f;
 }
+.center{
+  text-align: center;
+}
 .selection:hover{
   color: white;
   background: #080b2f;
+}
+
+.prolist_nav{
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  padding: 0;
+  border-bottom: 1px solid #d3d3d3;
+}
+.prolist_nav a{
+  color: #4a4a4a;
+  font-size: 18px;
+}
+.form-group .formlabel{
+  margin-bottom: 20px;
+  text-align: left;
+  padding: 0;
+}
+.textbg{
+  background: #f2dede;
+  resize: none;
 }

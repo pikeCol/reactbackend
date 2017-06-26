@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
+import { connect } from 'react-redux'
+
 let banklogo = require('../../../images/zylogo.png')
 let back = require('../../../images/backicon.png')
 
 class Header extends React.Component{
 
   render(){
+     const { store } = this.context;
+     console.log(store)
     return(
       <div className="header_wrap">
         <img src={banklogo} className="zylogos"/>
@@ -18,5 +22,12 @@ class Header extends React.Component{
   }
 }
 
-
-export default Header;
+const mapStateToProps = (state) => {
+  return {
+    type:'login',
+    text:'usrs'
+  }
+}
+export default connect(
+mapStateToProps
+)(Header);

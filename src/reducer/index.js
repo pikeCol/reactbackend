@@ -1,12 +1,15 @@
 import { combineReducers } from 'redux'
 
 import { LOGOUT } from '../actions/action.js'
+import { LOGIN } from '../actions/action.js'
 
 // const { SHOW_ALL } = VisibilityFilters
 
-function visibilityFilter(state = 'logout', action) {
+function visibilityFilter(state = LOGOUT, action) {
   switch (action.type) {
-    case 'logout':
+    case LOGOUT:
+      return state
+    case LOGIN:
       return state
     default:
       return state
@@ -15,8 +18,16 @@ function visibilityFilter(state = 'logout', action) {
 
 function todos(state = [], action) {
   switch (action.type) {
-    case LOGOUT:
+    case 'logout':
       return [
+        ...state,
+        {
+          text: action.text,
+          completed: false
+        }
+      ]
+    case 'login':
+      return  [
         ...state,
         {
           text: action.text,
