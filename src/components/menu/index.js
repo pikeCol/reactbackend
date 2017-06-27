@@ -12,6 +12,9 @@ import Add from '../accoutmanage/add'
 import Header from '../common/header'
 import Line from '../common/line'
 
+import {urlParse} from '../common/util'
+
+
 
 
 import {
@@ -48,12 +51,26 @@ class Menus extends React.Component{
   state={
     show:true
   }
+  constructor(props){
+    super(props)
+    this.state={
+      show:true,
+      usr:''
+    }
+  }
+  componentWillMount() {
+    let urls=this.props.location.search;
+    let usrs=urlParse(urls)
+    this.setState({
+      usr:usrs.usr
+    })
+  }
   render(){
     console.log(this.props )
     let isnone=this.props.location.pathname=='/menu' ? 'none':'block'
     return(
       <div>
-        <Header />
+        <Header names={this.state.usr} />
         <div className="wrapcontainer">
           <div className="sidebar">
             <StaticMenuLink imgsrc={indexicon} label="首页"/>

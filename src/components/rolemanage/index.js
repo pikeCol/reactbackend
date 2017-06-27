@@ -5,6 +5,18 @@ import React from 'react';
 // )
 
 class Rolemanage extends React.Component{
+  constructor(){
+    super()
+    this.state={
+      liston:''
+    }
+  }
+  change=(e)=>{
+    let t=e.target.value
+    this.setState({
+      liston:t
+    })
+  }
   render(){
     return(
       <div>
@@ -33,7 +45,41 @@ class Rolemanage extends React.Component{
             justifyContent: 'space-between'
           }}>
             <div>
-              <h4><input type="checkbox" /> 项目管理列表</h4>
+              <h4 onClick={this.change}>
+                <div className="checkbox">
+                  <label>
+                    <input type="checkbox" /> 项目管理列表
+                  </label>
+                </div>
+              </h4>
+              <ul style={{
+                paddingLeft:'20px'
+              }}>
+                <li>
+                  <div className="checkbox">
+                    <label>
+                      <input type="checkbox" checked={this.state.liston?'on':'off'}/>查看详情
+                    </label>
+                  </div>
+                </li>
+                <li>
+                  <div className="checkbox">
+                    <label>
+                      <input type="checkbox" />添加
+                    </label>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4>
+                <div className="checkbox">
+                  <label>
+                    <input type="checkbox" /> 项目模板列表
+                  </label>
+                </div>
+              </h4>
               <ul style={{
                 paddingLeft:'20px'
               }}>
@@ -55,29 +101,13 @@ class Rolemanage extends React.Component{
             </div>
 
             <div>
-              <h4><input type="checkbox" /> 项目模板列表</h4>
-              <ul style={{
-                paddingLeft:'20px'
-              }}>
-                <li>
-                  <div className="checkbox">
-                    <label>
-                      <input type="checkbox" />查看详情
-                    </label>
-                  </div>
-                </li>
-                <li>
-                  <div className="checkbox">
-                    <label>
-                      <input type="checkbox" />添加
-                    </label>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4><input type="checkbox" /> 角色列表</h4>
+              <h4>
+              <div className="checkbox">
+                <label>
+                  <input type="checkbox" /> 角色列表
+                </label>
+              </div>
+              </h4>
               <ul style={{
                 paddingLeft:'20px'
               }}>
@@ -113,7 +143,13 @@ class Rolemanage extends React.Component{
             </div>
 
             <div>
-              <h4><input type="checkbox" /> 个人中心</h4>
+              <h4>
+                <div className="checkbox">
+                  <label>
+                    <input type="checkbox" /> 个人中心
+                  </label>
+                </div>
+              </h4>
               <ul style={{
                 paddingLeft:'20px'
               }}>
