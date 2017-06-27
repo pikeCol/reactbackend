@@ -9,11 +9,9 @@ class Basic extends React.Component{
     let urls=this.props.location.search;
     let _edit=urlParse(urls)
     let isedit=_edit.edit
-    isedit = !isedit
     this.setState({
       edit:isedit
     })
-    console.log(this.state.edit)
   }
   // hander=()=>{
   //   let urls=this.props.location.search;
@@ -26,7 +24,7 @@ class Basic extends React.Component{
   render(){
     // let urls=this.props.location.search;
     // let edit=urlParse(urls)
-    // console.log(!this.state.edit)
+    console.log(this.state.edit)
     return(
       <div className="col-sm-10 " style={{ paddingTop: '12px'}}>
         <form className="form-horizontal">
@@ -201,7 +199,7 @@ class Basic extends React.Component{
 
           <div className="center">
             <a
-              href={`/menu/prolist?edit=${this.state.edit}`}
+              href={`/menu/prolist?edit=${!this.state.edit}`}
               // onClick={this.hander}
               className="btn btn-primary" style={{
               padding: '6px 20px',

@@ -127,11 +127,28 @@ justify-content: space-around;
 }
 
 /*主要内容*/
-
+.operate{
+  display: flex;
+  justify-content: space-around;
+}
+/*.operate a:link{
+  color: #333;
+}*/
+.operate a:hover, .operate a:link, .operate a:visited, .operate a:active{
+  color: #333
+}
 .wrapcontainer{
   display: flex;
   flex-direction: row;
   min-height: 800px;
+}
+.main_wrap{
+  background: white;
+  min-height: 600px;
+  margin-top: 50px;
+  border: 1px solid #d3d3d3;
+  padding: 0;
+  padding-bottom:150px;
 }
 .sidebar{
   flex: 0 0 220px;

@@ -2,6 +2,13 @@ import React from 'react';
 import First from '../first'
 import Prolist from '../prolist'
 import Second from '../second'
+import Editpass from '../editpass'
+import Rolemanage from '../rolemanage'
+import Editprofile from '../editprofile'
+
+
+import Accoutmanage from '../accoutmanage'
+import Add from '../accoutmanage/add'
 import Header from '../common/header'
 import Line from '../common/line'
 
@@ -9,7 +16,8 @@ import Line from '../common/line'
 
 import {
   Route,
-  Link
+  Link,
+  Switch
 } from 'react-router-dom'
 
 // let banklogo = require('../../images/zylogo.png')
@@ -41,7 +49,8 @@ class Menus extends React.Component{
     show:true
   }
   render(){
-    // console.log(this.props )
+    console.log(this.props )
+    let isnone=this.props.location.pathname=='/menu' ? 'none':'block'
     return(
       <div>
         <Header />
@@ -61,8 +70,19 @@ class Menus extends React.Component{
           </div>
           <div className="maincontainer">
             <Route exact path="/menu" component={First}/>
-            <Route path="/menu/prolist" component={Prolist}/>
-            <Route path="/menu/second" component={Second}/>
+            <div className="col-sm-10 col-sm-offset-1 main_wrap" style={{
+              display:isnone
+            }}>
+              <Switch>
+                <Route path="/menu/prolist" component={Prolist}/>
+                <Route path="/menu/second" component={Second}/>
+                <Route path="/menu/editpass" component={Editpass}/>
+                <Route path="/menu/accoutmanage/add" component={Add}/>
+                <Route path="/menu/accoutmanage" component={Accoutmanage}/>
+                <Route path="/menu/rolemanage" component={Rolemanage}/>
+                <Route path="/menu/editprofile" component={Editprofile}/>
+              </Switch>
+            </div>
           </div>
         </div>
       </div>

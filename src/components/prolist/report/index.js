@@ -1,10 +1,10 @@
 import React from 'react';
 
-class Basic extends React.Component{
+class Report extends React.Component{
   render(){
     return(
-      <h1>我是Basic</h1>
+      <h1>我是Report</h1>
     )
   }
 }
-export default Basic;
+export default Report;

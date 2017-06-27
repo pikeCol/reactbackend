@@ -24,13 +24,7 @@ const ListlMenuLink = ({ label, to, activeOnlyWhenExact }) => (
 class Prolist extends React.Component{
   render(){
     return(
-      <div className="col-sm-10 col-sm-offset-1" style={{
-        background: 'white',
-        marginTop: '60px',
-        border: '1px solid #d3d3d3',
-        padding: 0,
-        paddingBottom:'150px'
-      }}>
+      <div>
           <nav>
             <ListlMenuLink label="基本信息" activeOnlyWhenExact={true} to="/menu/prolist" />
             <ListlMenuLink label="报表信息"  to="/menu/prolist/report" />
