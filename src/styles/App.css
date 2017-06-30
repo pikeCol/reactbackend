@@ -224,3 +224,17 @@ justify-content: space-around;
   background: #f2dede;
   resize: none;
 }
+
+.nav_head{
+  clear: both;
+height: 60px;
+padding-top: 14px;
+box-sizing: border-box;
+border-bottom: 1px solid #e3e3e3;
+}
+.prolist{
+  margin-top: 20px
+}
+.prolist li{
+  height: 40px;
+}

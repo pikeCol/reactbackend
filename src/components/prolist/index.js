@@ -26,13 +26,13 @@ class Prolist extends React.Component{
     return(
       <div>
           <nav>
-            <ListlMenuLink label="基本信息" activeOnlyWhenExact={true} to="/menu/prolist" />
+            <ListlMenuLink label="基本信息" to="/menu/prolist/basic" />
             <ListlMenuLink label="报表信息"  to="/menu/prolist/report" />
             <ListlMenuLink label="重要事项通报"  to="/menu/prolist/matters" />
             <ListlMenuLink label="附加资料"  to="/menu/prolist/infos" />
           </nav>
           <div >
-            <Route exact path="/menu/prolist" component={Basic}/>
+            <Route exact path="/menu/prolist/basic" component={Basic}/>
             <Route path="/menu/prolist/infos" component={Infos}/>
             <Route path="/menu/prolist/matters" component={Matters}/>
             <Route path="/menu/prolist/report" component={Report}/>

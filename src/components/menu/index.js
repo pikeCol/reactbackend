@@ -1,6 +1,7 @@
 import React from 'react';
 import First from '../first'
 import Prolist from '../prolist'
+import Todetail from '../prolist/todetail'
 import Second from '../second'
 import Editpass from '../editpass'
 import Rolemanage from '../rolemanage'
@@ -91,7 +92,8 @@ class Menus extends React.Component{
               display:isnone
             }}>
               <Switch>
-                <Route path="/menu/prolist" component={Prolist}/>
+                <Route path="/menu/prolist/:basic" component={Prolist}/>
+                <Route path="/menu/prolist" component={Todetail}/>
                 <Route path="/menu/second" component={Second}/>
                 <Route path="/menu/editpass" component={Editpass}/>
                 <Route path="/menu/accoutmanage/add" component={Add}/>

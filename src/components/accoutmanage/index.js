@@ -43,6 +43,7 @@ class Accoutmanage extends React.Component{
                 <a href="#">冻结</a>
                 <a href="#">修改</a>
                 <a href="#">删除</a>
+                <a href="#">重置密码</a>
               </td>
             </tr>
           </tbody>
