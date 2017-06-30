@@ -1,175 +1,69 @@
 import React from 'react';
-//
-// const temLi=({label})=>(
-//
-// )
+import { Row, Col, Table, Button} from 'antd';
+import { Link, Redirect } from 'react-router-dom'
+
+const columns=[{
+  title:'角色名称',
+  dataIndex: 'name'
+},{
+  title:'角色性质',
+  dataIndex: 'propety'
+},{
+  title:'角色状态',
+  dataIndex: 'status'
+},{
+  title:'创建时间',
+  dataIndex: 'createtiem'
+},{
+  title:'操作',
+  dataIndex: 'operate',
+  render: arr =>{
+    return (<Row gutter={26}  type="flex" justify="start" align="middle">
+              <Col span={3}><Button type="primary">编辑</Button></Col>
+              <Col span={3}><Button type="primary">停用</Button></Col>
+              <Col span={3}><Button type="primary">删除</Button></Col>
+              <Col span={3}><Button type="primary">修改密码</Button></Col>
+            </Row>
+  )
+  }
+},]
+
+const data=[{
+  key:1,
+  name:'2312',
+  propety:'2312',
+  status:'2312',
+  createtiem:'2312',
+}]
 
 class Rolemanage extends React.Component{
-  constructor(){
-    super()
-    this.state={
-      liston:''
-    }
+  state={
+    isnew:false
   }
-  change=(e)=>{
-    let t=e.target.value
+  newroles = (e) =>{
     this.setState({
-      liston:t
+      isnew: true
     })
   }
   render(){
+    if(this.state.isnew) {
+      return(
+        <Redirect to={'/menu/rolemanage/newrole'} />
+      )
+    }
     return(
       <div>
-        <div style={{
-          height: '60px',
-          borderBottom: '1px solid rgb(211, 211, 211)'
-        }}>
-            <form className="form-inline" style={{
-              paddingTop:'14px'
-            }}>
-              <div className="form-group col-sm-offset-1">
-                <label htmlFor="exampleInputName2">新建角色</label>
-                <input type="text" className="form-control" id="exampleInputName2" placeholder="Jane Doe" />
-              </div>
-              <div className="form-group">
-                <label htmlFor="exampleInputEmail2">角色名称</label>
-                <input type="email" className="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com" />
-              </div>
-            </form>
-
+        <div className="border_line">
+          <Row type="flex" align="middle" style={{height:'60px'}}>
+            <Col span={3} offset={18}><Button type="primary" onClick={this.newroles}>新建角色</Button></Col>
+          </Row>
         </div>
-        <div className="col-sm-10 col-sm-offset-1"  style={{paddingLeft:0}}>
-          <p>请配置权限</p>
-          <div className="col-sm-10 col-sm-offset-1" style={{
-            display: 'flex',
-            justifyContent: 'space-between'
-          }}>
-            <div>
-              <h4 onClick={this.change}>
-                <div className="checkbox">
-                  <label>
-                    <input type="checkbox" /> 项目管理列表
-                  </label>
-                </div>
-              </h4>
-              <ul style={{
-                paddingLeft:'20px'
-              }}>
-                <li>
-                  <div className="checkbox">
-                    <label>
-                      <input type="checkbox" checked={this.state.liston?'on':'off'}/>查看详情
-                    </label>
-                  </div>
-                </li>
-                <li>
-                  <div className="checkbox">
-                    <label>
-                      <input type="checkbox" />添加
-                    </label>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4>
-                <div className="checkbox">
-                  <label>
-                    <input type="checkbox" /> 项目模板列表
-                  </label>
-                </div>
-              </h4>
-              <ul style={{
-                paddingLeft:'20px'
-              }}>
-                <li>
-                  <div className="checkbox">
-                    <label>
-                      <input type="checkbox" />查看详情
-                    </label>
-                  </div>
-                </li>
-                <li>
-                  <div className="checkbox">
-                    <label>
-                      <input type="checkbox" />添加
-                    </label>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4>
-              <div className="checkbox">
-                <label>
-                  <input type="checkbox" /> 角色列表
-                </label>
-              </div>
-              </h4>
-              <ul style={{
-                paddingLeft:'20px'
-              }}>
-                <li>
-                  <div className="checkbox">
-                    <label>
-                      <input type="checkbox" />新建角色
-                    </label>
-                  </div>
-                </li>
-                <li>
-                  <div className="checkbox">
-                    <label>
-                      <input type="checkbox" />编辑角色
-                    </label>
-                  </div>
-                </li>
-                <li>
-                  <div className="checkbox">
-                    <label>
-                      <input type="checkbox" />停用角色
-                    </label>
-                  </div>
-                </li>
-                <li>
-                  <div className="checkbox">
-                    <label>
-                      <input type="checkbox" />删除角色
-                    </label>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4>
-                <div className="checkbox">
-                  <label>
-                    <input type="checkbox" /> 个人中心
-                  </label>
-                </div>
-              </h4>
-              <ul style={{
-                paddingLeft:'20px'
-              }}>
-                <li>
-                  <div className="checkbox">
-                    <label>
-                      <input type="checkbox" />修改资料
-                    </label>
-                  </div>
-                </li>
-                <li>
-                  <div className="checkbox">
-                    <label>
-                      <input type="checkbox" />修改密码
-                    </label>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
+        <div style={{padding:'10px 20px'}}>
+          <Table
+            columns={columns}
+            dataSource={data}
+            bordered
+          />
         </div>
       </div>
     )

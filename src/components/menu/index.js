@@ -5,7 +5,9 @@ import Todetail from '../prolist/todetail'
 import Second from '../second'
 import Editpass from '../editpass'
 import Rolemanage from '../rolemanage'
+import Newrole from '../rolemanage/newrole'
 import Editprofile from '../editprofile'
+import Listtmp from '../listtmp'
 
 
 import Accoutmanage from '../accoutmanage'
@@ -67,7 +69,6 @@ class Menus extends React.Component{
     })
   }
   render(){
-    console.log(this.props )
     let isnone=this.props.location.pathname=='/menu' ? 'none':'block'
     return(
       <div>
@@ -81,7 +82,7 @@ class Menus extends React.Component{
             <OldSchoolMenuLink  to="/menu/listtmp" label="项目模板管理"/>
             <StaticMenuLink imgsrc={accounticon} label="账户管理"/>
             <OldSchoolMenuLink  to="/menu/rolemanage" label="角色管理"/>
-            <OldSchoolMenuLink  to="/menu/accoutmanage" label="账户管理"/>
+            <OldSchoolMenuLink  to="/menu/accoutmanage" label="账户设置"/>
             <StaticMenuLink imgsrc={personicon} label="个人中心"/>
             <OldSchoolMenuLink  to="/menu/editprofile" label="修改资料"/>
             <OldSchoolMenuLink  to="/menu/editpass" label="修改密码"/>
@@ -98,8 +99,10 @@ class Menus extends React.Component{
                 <Route path="/menu/editpass" component={Editpass}/>
                 <Route path="/menu/accoutmanage/add" component={Add}/>
                 <Route path="/menu/accoutmanage" component={Accoutmanage}/>
+                <Route path="/menu/rolemanage/newrole" component={Newrole}/>
                 <Route path="/menu/rolemanage" component={Rolemanage}/>
                 <Route path="/menu/editprofile" component={Editprofile}/>
+                <Route path="/menu/listtmp" component={Listtmp}/>
               </Switch>
             </div>
           </div>
