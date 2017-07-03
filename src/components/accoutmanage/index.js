@@ -24,15 +24,17 @@ const columns=[{
   title:'操作',
   dataIndex: 'operate',
   render: arr =>{
-    return (<Row gutter={26}  type="flex" justify="start" align="middle">
-              <Col span={3}><Button type="primary">编辑</Button></Col>
-              <Col span={3}><Button type="primary">停用</Button></Col>
-              <Col span={3}><Button type="primary">删除</Button></Col>
-              <Col span={3}><Button type="primary">修改密码</Button></Col>
-            </Row>
-  )
+    return (
+      <Row   type="flex" align="middle">
+        <Col span={6}><Button type="primary">编辑</Button></Col>
+        <Col span={6}><Button type="primary">停用</Button></Col>
+        <Col span={6}><Button type="primary">删除</Button></Col>
+        <Col span={6}><Button type="primary">修改密码</Button></Col>
+      </Row>
+      )
+    }
   }
-},]
+]
 
 const data=[{
   key:1,

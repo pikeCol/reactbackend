@@ -6,11 +6,9 @@ import React from 'react';
 let banklogo = require('../../../images/zylogo.png')
 let back = require('../../../images/backicon.png')
 
-export default class Header extends React.Component{
+export default class Headers extends React.Component{
 
   render(){
-    //  const { store } = this.context;
-    //  console.log(store)
     return(
       <div className="header_wrap">
         <img src={banklogo} className="zylogos"/>

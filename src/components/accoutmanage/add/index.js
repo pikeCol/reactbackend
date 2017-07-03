@@ -1,4 +1,4 @@
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete,  } from 'antd';
+import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Button, AutoComplete  } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
@@ -18,13 +18,13 @@ const residences = [{
 class RegistrationForm extends React.Component {
   state = {
     confirmDirty: false,
-    autoCompleteResult: [],
+    autoCompleteResult: []
   };
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        console.log('Received values of form: ', values)
       }
     });
   }
@@ -65,27 +65,27 @@ class RegistrationForm extends React.Component {
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 6 },
+        sm: { span: 6 }
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 14 },
-      },
+        sm: { span: 14 }
+      }
     };
     const tailFormItemLayout = {
       wrapperCol: {
         xs: {
           span: 24,
-          offset: 0,
+          offset: 0
         },
         sm: {
           span: 14,
-          offset: 6,
-        },
-      },
+          offset: 6
+        }
+      }
     };
     const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: '86',
+      initialValue: '86'
     })(
       <Select style={{ width: 60 }}>
         <Option value="86">+86</Option>
@@ -114,7 +114,7 @@ class RegistrationForm extends React.Component {
             hasFeedback
           >
             {getFieldDecorator('nickname', {
-              rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+              rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }]
             })(
               <Input />
             )}
@@ -141,9 +141,9 @@ class RegistrationForm extends React.Component {
           >
             {getFieldDecorator('password', {
               rules: [{
-                required: false, message: 'Please input your password!',
+                required: false, message: 'Please input your password!'
               }, {
-                validator: this.checkConfirm,
+                validator: this.checkConfirm
               }],
             })(
               <Input type="password" placeholder="初始密码"/>
@@ -155,7 +155,7 @@ class RegistrationForm extends React.Component {
           >
             {getFieldDecorator('residence', {
               initialValue: ['请选择'],
-              rules: [{ type: 'array', required: true, message: 'Please select your habitual residence!' }],
+              rules: [{ type: 'array', required: true, message: 'Please select your habitual residence!' }]
             })(
               <Cascader options={residences} />
             )}
@@ -166,7 +166,7 @@ class RegistrationForm extends React.Component {
           >
             {getFieldDecorator('residence', {
               initialValue: ['请选择'],
-              rules: [{ type: 'array', required: true, message: 'Please select your habitual residence!' }],
+              rules: [{ type: 'array', required: true, message: 'Please select your habitual residence!' }]
             })(
               <Cascader options={residences} />
             )}
@@ -176,7 +176,7 @@ class RegistrationForm extends React.Component {
             label="Phone Number"
           >
             {getFieldDecorator('phone', {
-              rules: [{ required: false, message: 'Please input your phone number!' }],
+              rules: [{ required: false, message: 'Please input your phone number!' }]
             })(
               <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
             )}
@@ -189,9 +189,9 @@ class RegistrationForm extends React.Component {
           >
             {getFieldDecorator('email', {
               rules: [{
-                type: 'email', message: 'The input is not valid E-mail!',
+                type: 'email', message: 'The input is not valid E-mail!'
               }, {
-                required: false, message: 'Please input your E-mail!',
+                required: false, message: 'Please input your E-mail!'
               }],
             })(
               <Input />

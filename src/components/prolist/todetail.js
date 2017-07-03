@@ -6,50 +6,50 @@ import { Table, Row, Col, Input, Button } from 'antd';
 const columns = [{
     title: '项目名称',
     dataIndex: 'name',
-    render: text => <div className="td_a"><Link to={'/menu/prolist/basic'}>{text}</Link></div>,
+    render: text => <div className="td_a"><Link to={'/menu/prolist/report'}>{text}</Link></div>
   }, {
     title: '主营业务',
     className: 'column-money',
-    dataIndex: 'money',
+    dataIndex: 'money'
   }, {
     title: '注册资本',
-    dataIndex: 'regmoney',
+    dataIndex: 'regmoney'
   }, {
     title: '实缴资本',
-    dataIndex: 'jiaomon',
+    dataIndex: 'jiaomon'
   }, {
     title: '我方投资方',
-    dataIndex: 'myinvent',
+    dataIndex: 'myinvent'
   }, {
     title: '实投金额',
-    dataIndex: 'finvent',
+    dataIndex: 'finvent'
   }, {
     title: '持有比例',
-    dataIndex: 'persent',
+    dataIndex: 'persent'
   }, {
     title: '投资时间',
-    dataIndex: 'inventime',
+    dataIndex: 'inventime'
   }, {
     title: '最新总资产',
-    dataIndex: 'address',
+    dataIndex: 'address'
   }, {
     title: '最新净资产',
-    dataIndex: 'resonmon',
+    dataIndex: 'resonmon'
   }, {
     title: '最新实收资本',
-    dataIndex: 'actmon',
+    dataIndex: 'actmon'
   }, {
     title: '最新货币资金',
-    dataIndex: 'newmon',
+    dataIndex: 'newmon'
   }, {
     title: '最新营收',
     dataIndex: 'newacount',
   }, {
     title: '最新利润',
-    dataIndex: 'lirun',
+    dataIndex: 'lirun'
   }, {
     title: '备注',
-    dataIndex: 'beizhu',
+    dataIndex: 'beizhu'
 }];
 
 const data = [{
@@ -107,6 +107,9 @@ const data = [{
 
 
 class Todetail extends React.Component{
+  constructor(props){
+    super(props)
+  }
   // render(){
   //   return(
   //     <div>

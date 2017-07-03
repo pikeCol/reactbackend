@@ -12,12 +12,14 @@ import Listtmp from '../listtmp'
 
 import Accoutmanage from '../accoutmanage'
 import Add from '../accoutmanage/add'
-import Header from '../common/header'
+import Headers from '../common/header'
 import Line from '../common/line'
 
 import {urlParse} from '../common/util'
 
-
+import { Layout, Menu, Icon } from 'antd';
+const { SubMenu } = Menu;
+const { Content, Sider } = Layout;
 
 
 import {
@@ -26,7 +28,6 @@ import {
   Switch
 } from 'react-router-dom'
 
-// let banklogo = require('../../images/zylogo.png')
 let indexicon = require('../../images/indexicon.png')
 let touziicon = require('../../images/touziicon.png')
 let accounticon = require('../../images/accounticon.png')
@@ -34,12 +35,11 @@ let personicon = require('../../images/personicon.png')
 
 const OldSchoolMenuLink = ({ label, to, activeOnlyWhenExact }) => (
   <Route path={to} exact={activeOnlyWhenExact} children={({ match }) => (
-    <div className={match ? 'active selection' : 'selection'}>
+    // <div className={match ? 'active selection' : 'selection'}>
       <Link to={to}>
         {label}
-        {match?<Line />:''}
       </Link>
-    </div>
+    // </div>
   )}/>
   )
 
@@ -71,10 +71,10 @@ class Menus extends React.Component{
   render(){
     let isnone=this.props.location.pathname=='/menu' ? 'none':'block'
     return(
-      <div>
-        <Header names={this.state.usr} />
-        <div className="wrapcontainer">
-          <div className="sidebar">
+      <Layout>
+        <Headers names={this.state.usr} />
+         <Layout>
+          {/* <div className="sidebar">
             <StaticMenuLink imgsrc={indexicon} label="首页"/>
             <OldSchoolMenuLink activeOnlyWhenExact={true}  to="/menu" label="首页"/>
             <StaticMenuLink imgsrc={touziicon} label="投资项目管理"/>
@@ -86,28 +86,70 @@ class Menus extends React.Component{
             <StaticMenuLink imgsrc={personicon} label="个人中心"/>
             <OldSchoolMenuLink  to="/menu/editprofile" label="修改资料"/>
             <OldSchoolMenuLink  to="/menu/editpass" label="修改密码"/>
+          </div> */}
+          <Sider width={200} style={{ background: '#fff' }}>
+            <Menu
+              mode="inline"
+              defaultSelectedKeys={['1']}
+              defaultOpenKeys={['sub1']}
+              style={{ height: '100%', borderRight: 0 }}
+            >
+              <SubMenu key="sub1" title={<span><Icon type="menu-unfold" />首页</span>}>
+                <Menu.Item key="1">
+                    <OldSchoolMenuLink activeOnlyWhenExact={true}  to="/menu" label="首页"/>
+                </Menu.Item>
+              </SubMenu>
+              <SubMenu key="sub2" title={<span><Icon type="laptop" />投资项目管理</span>}>
+                <Menu.Item key="5">
+                  <OldSchoolMenuLink  to="/menu/prolist" label="项目列表"/>
+                </Menu.Item>
+                <Menu.Item key="6">
+                  <OldSchoolMenuLink  to="/menu/listtmp" label="项目模板管理"/>
+                </Menu.Item>
+              </SubMenu>
+              <SubMenu key="sub3" title={<span><Icon type="notification" />账户管理</span>}>
+                <Menu.Item key="9">
+                  <OldSchoolMenuLink  to="/menu/rolemanage" label="角色管理"/>
+                </Menu.Item>
+                <Menu.Item key="10">
+                  <OldSchoolMenuLink  to="/menu/accoutmanage" label="账户设置"/>
+                </Menu.Item>
+              </SubMenu>
+              <SubMenu key="sub4" title={<span><Icon type="user" />个人中心</span>}>
+                <Menu.Item key="11">
+                  <OldSchoolMenuLink  to="/menu/editprofile" label="修改资料"/>
+                </Menu.Item>
+                <Menu.Item key="12">
+                  <OldSchoolMenuLink  to="/menu/editpass" label="修改密码"/>
+                </Menu.Item>
+              </SubMenu>
+            </Menu>
+          </Sider>
+          <Layout style={{ padding: '24px' }}>
+            <div className="maincontainer">
+            <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
+              <Route exact path="/menu" component={First}/>
+              <div className="main_wrap" style={{
+                display:isnone
+              }}>
+                <Switch>
+                  <Route path="/menu/prolist/:basic" component={Prolist}/>
+                  <Route path="/menu/prolist" component={Todetail}/>
+                  <Route path="/menu/second" component={Second}/>
+                  <Route path="/menu/editpass" component={Editpass}/>
+                  <Route path="/menu/accoutmanage/add" component={Add}/>
+                  <Route path="/menu/accoutmanage" component={Accoutmanage}/>
+                  <Route path="/menu/rolemanage/newrole" component={Newrole}/>
+                  <Route path="/menu/rolemanage" component={Rolemanage}/>
+                  <Route path="/menu/editprofile" component={Editprofile}/>
+                  <Route path="/menu/listtmp" component={Listtmp}/>
+                </Switch>
+              </div>
+            </Content>
           </div>
-          <div className="maincontainer">
-            <Route exact path="/menu" component={First}/>
-            <div className="col-sm-10 col-sm-offset-1 main_wrap" style={{
-              display:isnone
-            }}>
-              <Switch>
-                <Route path="/menu/prolist/:basic" component={Prolist}/>
-                <Route path="/menu/prolist" component={Todetail}/>
-                <Route path="/menu/second" component={Second}/>
-                <Route path="/menu/editpass" component={Editpass}/>
-                <Route path="/menu/accoutmanage/add" component={Add}/>
-                <Route path="/menu/accoutmanage" component={Accoutmanage}/>
-                <Route path="/menu/rolemanage/newrole" component={Newrole}/>
-                <Route path="/menu/rolemanage" component={Rolemanage}/>
-                <Route path="/menu/editprofile" component={Editprofile}/>
-                <Route path="/menu/listtmp" component={Listtmp}/>
-              </Switch>
-            </div>
-          </div>
-        </div>
-      </div>
+          </Layout>
+        </Layout>
+      </Layout>
     )
   }
 }

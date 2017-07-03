@@ -29,7 +29,7 @@ const data = [{
   address: 'Sidney No. 1 Lake Park',
 }];
 
-class Basic extends React.Component{
+export default class Basic extends React.Component{
   render(){
     return(
       <div>
