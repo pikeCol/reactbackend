@@ -1,43 +1,89 @@
 import React from 'react';
-import { Table, Row, Col } from 'antd';
+import { Table, Row, Col, Input, Button } from 'antd';
 // import {urlParse} from '../../common/util'
 
 const columns = [{
-  title: 'Name',
-  dataIndex: 'name',
+  title: '项目编码',
+  dataIndex: 'code'
 }, {
-  title: 'Age',
-  dataIndex: 'age',
+  title: '公司名称',
+  dataIndex: 'name'
 }, {
-  title: 'Address',
-  dataIndex: 'address',
+  title: '主营业务',
+  dataIndex: 'business'
+}, {
+  title: '注册资本',
+  dataIndex: 'regcap'
 }];
 const data = [{
   key: '1',
+  code:'1111',
   name: 'John Brown',
-  age: 32,
-  address: 'New York No. 1 Lake Park',
-}, {
+  business: 32,
+  regcap: 'New York No. 1 Lake Park'
+},{
   key: '2',
-  name: 'Jim Green',
-  age: 42,
-  address: 'London No. 1 Lake Park',
-}, {
-  key: '3',
-  name: 'Joe Black',
-  age: 32,
-  address: 'Sidney No. 1 Lake Park',
+  code:'1111',
+  name: 'John Brown',
+  business: 32,
+  regcap: 'New York No. 1 Lake Park'
 }];
 
 export default class Basic extends React.Component{
   render(){
     return(
-      <div>
+      <div style={{paddingTop:'20px'}}>
         <Row>
-          <Col span={20} offset={2}>
-             <Table columns={columns} dataSource={data} size="middle" />
+          <Col span={2} offset={2}>
+            目标名称
+          </Col>
+          <Col span={6}>
+            <Input />
           </Col>
         </Row>
+        <Row>
+          <Col offset={2} className="listtitle">
+            <h6>项目简介</h6>
+          </Col>
+          <Col span={20} offset={2}>
+             <Table columns={columns} dataSource={data} size="middle" pagination={false}  />
+          </Col>
+        </Row>
+       <Row>
+        <Col offset={2} className="listtitle">
+          <h6>股东结构</h6>
+        </Col>
+        <Col span={20} offset={2}>
+           <Table columns={columns} dataSource={data} size="middle" pagination={false}  />
+        </Col>
+      </Row>
+      <Row>
+       <Col offset={2} className="listtitle">
+         <h6>董事会/监事会结构</h6>
+       </Col>
+       <Col span={20} offset={2}>
+          <Table columns={columns} dataSource={data} size="middle" pagination={false}  />
+       </Col>
+     </Row>
+     <Row>
+      <Col offset={2} className="listtitle">
+        <h6>重要条款</h6>
+      </Col>
+      <Col span={20} offset={2}>
+        <Input type="textarea" autosize={{ minRows: 5, maxRows: 8 }} />
+      </Col>
+      </Row>
+      <Row>
+       <Col offset={2} className="listtitle">
+         <h6>备注</h6>
+       </Col>
+       <Col span={20} offset={2}>
+         <Input type="textarea" autosize={{ minRows: 5, maxRows: 8 }} />
+       </Col>
+      </Row>
+      <Row type="flex" justify="center" style={{paddingTop:'30px'}}>
+        <Button type="primary">编辑</Button>
+      </Row>
       </div>
     )
   }

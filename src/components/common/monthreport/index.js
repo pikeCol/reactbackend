@@ -119,7 +119,7 @@ export default class MonthReport extends React.Component {
     return (
       <div>
         <Button className="editable-add-btn" onClick={this.handleAdd}>Add</Button>
-        <Table bordered dataSource={dataSource} columns={columns} />
+        <Table bordered dataSource={dataSource} columns={columns} pagination={false} />
       </div>
     );
   }

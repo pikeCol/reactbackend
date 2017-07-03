@@ -6,7 +6,7 @@ import { Table, Row, Col, Input, Button } from 'antd';
 const columns = [{
     title: '项目名称',
     dataIndex: 'name',
-    render: text => <div className="td_a"><Link to={'/menu/prolist/report'}>{text}</Link></div>
+    render: text => <div className="td_a"><Link to={'/menu/prolist/basic'}>{text}</Link></div>
   }, {
     title: '主营业务',
     className: 'column-money',
@@ -181,6 +181,7 @@ class Todetail extends React.Component{
             columns={columns}
             dataSource={data}
             bordered
+            pagination={false}
           />
         </div>
       )

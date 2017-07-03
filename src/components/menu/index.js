@@ -35,11 +35,9 @@ let personicon = require('../../images/personicon.png')
 
 const OldSchoolMenuLink = ({ label, to, activeOnlyWhenExact }) => (
   <Route path={to} exact={activeOnlyWhenExact} children={({ match }) => (
-    // <div className={match ? 'active selection' : 'selection'}>
       <Link to={to}>
         {label}
       </Link>
-    // </div>
   )}/>
   )
 
@@ -74,19 +72,6 @@ class Menus extends React.Component{
       <Layout>
         <Headers names={this.state.usr} />
          <Layout>
-          {/* <div className="sidebar">
-            <StaticMenuLink imgsrc={indexicon} label="首页"/>
-            <OldSchoolMenuLink activeOnlyWhenExact={true}  to="/menu" label="首页"/>
-            <StaticMenuLink imgsrc={touziicon} label="投资项目管理"/>
-            <OldSchoolMenuLink  to="/menu/prolist" label="项目列表"/>
-            <OldSchoolMenuLink  to="/menu/listtmp" label="项目模板管理"/>
-            <StaticMenuLink imgsrc={accounticon} label="账户管理"/>
-            <OldSchoolMenuLink  to="/menu/rolemanage" label="角色管理"/>
-            <OldSchoolMenuLink  to="/menu/accoutmanage" label="账户设置"/>
-            <StaticMenuLink imgsrc={personicon} label="个人中心"/>
-            <OldSchoolMenuLink  to="/menu/editprofile" label="修改资料"/>
-            <OldSchoolMenuLink  to="/menu/editpass" label="修改密码"/>
-          </div> */}
           <Sider width={200} style={{ background: '#fff' }}>
             <Menu
               mode="inline"
@@ -128,11 +113,9 @@ class Menus extends React.Component{
           <Layout style={{ padding: '24px' }}>
             <div className="maincontainer">
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-              <Route exact path="/menu" component={First}/>
-              <div className="main_wrap" style={{
-                display:isnone
-              }}>
+              <div className="main_wrap">
                 <Switch>
+                  <Route exact path="/menu" component={First}/>
                   <Route path="/menu/prolist/:basic" component={Prolist}/>
                   <Route path="/menu/prolist" component={Todetail}/>
                   <Route path="/menu/second" component={Second}/>

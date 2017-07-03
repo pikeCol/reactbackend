@@ -14,27 +14,8 @@ ul{
   margin-bottom: 10px;
   font-size: 16px
 }
-/*.ant-checkbox-group-item{
-  display: flex;
-  flex-direction: column;
-}*/
 
-.line{
-  width: 6px;
-  height: 60px;
-  background: #fd8534;
-  position: absolute;
-  right: -3px;
-  top: 0;
-}
-.bottomLine{
-  width: 50%;
-  height: 6px;
-  background: #fd8534;
-  position: absolute;
-  bottom: 0;
-  left: 25%;
-}
+
 
 .login_wrap{
   width: 100%;
@@ -152,12 +133,7 @@ justify-content: space-around;
   display: flex;
   justify-content: space-around;
 }
-/*.operate a:link{
-  color: #333;
-}*/
-.operate a:hover, .operate a:link, .operate a:visited, .operate a:active{
-  color: #333
-}
+
 .wrapcontainer{
   display: flex;
   flex-direction: row;
@@ -170,21 +146,17 @@ justify-content: space-around;
   padding: 0;
   padding-bottom:150px;
 }
-.sidebar{
-  flex: 0 0 220px;
-  background: #1f214a;
-  padding-top: 54px;
-  min-height: 800px;
-  margin-bottom: 0;
-}
 .maincontainer{
   flex: 1;
   background: #efefef;
-
+}
+.listtitle{
+  font-size: 24px;
+  padding: 26px 0 10px;
 }
 
 /*侧边栏*/
-.sidebar{
+/*.sidebar{
   padding-left: 0;
 }
 
@@ -222,24 +194,34 @@ justify-content: space-around;
 .selection:hover{
   color: white;
   background: #080b2f;
-}
+}*/
 
 .prolist_nav{
   height: 60px;
   text-align: center;
   line-height: 60px;
   padding: 0;
-  border-bottom: 1px solid #d3d3d3;
+  /*border-bottom: 1px solid #d3d3d3;*/
 }
 .prolist_nav a{
   color: #4a4a4a;
   font-size: 18px;
+  position: relative;
 }
 .form-group .formlabel{
   margin-bottom: 20px;
   text-align: left;
   padding: 0;
 }
+.bottomLine{
+  width: 120%;
+  height: 3px;
+  background: #fd8534;
+  position: absolute;
+  bottom: -8px;
+  left: -10%;
+}
+
 .textbg{
   background: #f2dede;
   resize: none;
@@ -252,12 +234,12 @@ padding-top: 14px;
 box-sizing: border-box;
 border-bottom: 1px solid #e3e3e3;
 }
-.prolist{
+/*.prolist{
   margin-top: 20px
 }
 .prolist li{
   height: 40px;
-}
+}*/
 
 /*可编辑表格*/
 .border_line{
