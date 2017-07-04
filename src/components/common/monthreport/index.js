@@ -106,11 +106,11 @@ export default class MonthReport extends React.Component {
       key: count,
       name: `Edward King ${count}`,
       age: 32,
-      address: `London, Park Lane no. ${count}`,
+      address: `London, Park Lane no. ${count}`
     };
     this.setState({
       dataSource: [...dataSource, newData],
-      count: count + 1,
+      count: count + 1
     });
   }
   render() {

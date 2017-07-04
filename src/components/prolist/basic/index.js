@@ -1,35 +1,137 @@
 import React from 'react';
 import { Table, Row, Col, Input, Button } from 'antd';
-// import {urlParse} from '../../common/util'
 
 const columns = [{
   title: '项目编码',
-  dataIndex: 'code'
+  dataIndex: 'templateOid'
 }, {
   title: '公司名称',
-  dataIndex: 'name'
+  dataIndex: 'companyName'
 }, {
   title: '主营业务',
-  dataIndex: 'business'
+  dataIndex: 'mainBusiness'
 }, {
   title: '注册资本',
-  dataIndex: 'regcap'
-}];
-const data = [{
-  key: '1',
-  code:'1111',
-  name: 'John Brown',
-  business: 32,
-  regcap: 'New York No. 1 Lake Park'
+  dataIndex: 'regCapital'
 },{
-  key: '2',
-  code:'1111',
-  name: 'John Brown',
-  business: 32,
-  regcap: 'New York No. 1 Lake Park'
+  title: '实缴资本',
+  dataIndex: 'contributedCapital'
+},{
+  title: '我方投资方',
+  dataIndex: 'ourInvestors'
+},{
+  title: '我方持股比例',
+  dataIndex: 'ourRate'
+},{
+  title: '实投金额',
+  dataIndex: 'actualAmount'
+},{
+  title: '我方投资时间',
+  dataIndex: 'ourInvestmentTime'
 }];
+//
+// const data = [{
+//   key: '1',
+//   companyName:'',
+//   mainBusiness:'',
+//   regCapital:'',
+//   contributedCapital:'',
+//   ourInvestors:'',
+//   ourRate:'',
+//   actualAmount:'',
+//   ourInvestmentTime:''
+// }];
+//
+// const columnsPartents = [{
+//   title: '股东名称',
+//   dataIndex: 'name'
+// }, {
+//   title: '投资时间',
+//   dataIndex: 'investmentTime'
+// }, {
+//   title: '持股比例',
+//   dataIndex: 'rate'
+// }, {
+//   title: '认缴资本',
+//   dataIndex: 'subscribedCapital'
+// },{
+//   title: '实缴资本',
+//   dataIndex: 'contributedCapital'
+// }];
+
+// const dataPartents = [{
+//   key: '20',
+//   name:'',
+//   investmentTime:'',
+//   rate:'',
+//   subscribedCapital:'',
+//   contributedCapital:''
+// }];
+
 
 export default class Basic extends React.Component{
+  state={
+    data:{
+      project:[],
+      projectPartents:[]
+    }
+  }
+  componentWillMount(){
+    let that = this
+    let dataPartents = [{
+      key: '',
+      name:'',
+      investmentTime:'',
+      rate:'',
+      subscribedCapital:'',
+      contributedCapital:''
+    }];
+    const data = [{
+      key: '',
+      companyName:'',
+      mainBusiness:'',
+      regCapital:'',
+      contributedCapital:'',
+      ourInvestors:'',
+      ourRate:'',
+      actualAmount:'',
+      ourInvestmentTime:''
+    }];
+    fetch('../../../api/data.json')
+      .then((res) => res.json())
+       .then((res) => {
+         if (res.restCode==200) {
+          //  this.state.project=res.data.project
+            let resdata=res.data.project
+            // console.log(resdata)
+            data[0].key = resdata.oid
+            for (var variable in resdata) {
+              if (resdata.hasOwnProperty(variable)&&data[0].hasOwnProperty(variable)) {
+                  data[0][variable] = resdata[variable]
+              }
+            }
+            console.log(data)
+            // 项目简介
+
+
+            // 股东结构  commonlyUsedContact
+            let resParentdata=res.data.projectPartents[0]
+            dataPartents[0].key=resParentdata.oid
+            dataPartents[0].name=resParentdata.name
+            dataPartents[0].investmentTime=resParentdata.investmentTime
+            dataPartents[0].rate=resParentdata.rate
+            dataPartents[0].subscribedCapital=resParentdata.subscribedCapital
+            dataPartents[0].contributedCapital=resParentdata.contributedCapital
+            that.setState({
+               data:{
+                 project:data,
+                 projectPartents:dataPartents
+               }
+            })
+         }
+       })
+       .catch((err) => console.error(err));
+  }
   render(){
     return(
       <div style={{paddingTop:'20px'}}>
@@ -46,7 +148,7 @@ export default class Basic extends React.Component{
             <h6>项目简介</h6>
           </Col>
           <Col span={20} offset={2}>
-             <Table columns={columns} dataSource={data} size="middle" pagination={false}  />
+             <Table columns={columns} dataSource={this.state.data.project} size="middle" pagination={false}  />
           </Col>
         </Row>
        <Row>
@@ -54,7 +156,7 @@ export default class Basic extends React.Component{
           <h6>股东结构</h6>
         </Col>
         <Col span={20} offset={2}>
-           <Table columns={columns} dataSource={data} size="middle" pagination={false}  />
+           <Table columns={columnsPartents} dataSource={this.state.data.projectPartents} size="middle" pagination={false}  />
         </Col>
       </Row>
       <Row>
