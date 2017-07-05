@@ -1,7 +1,7 @@
 import React from 'react';
 import { DatePicker, Button, Row, Col } from 'antd';
 import moment from 'moment';
-const { MonthPicker } = DatePicker;
+// const { MonthPicker } = DatePicker;
 
 import { Table } from 'antd';
 

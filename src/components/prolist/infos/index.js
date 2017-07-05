@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Row, Col, Icon, Checkbox } from  'antd'
 function onChange(checkedValues) {
-  console.log('checked = ', checkedValues);
 }
 class Infos extends React.Component{
   constructor(props) {

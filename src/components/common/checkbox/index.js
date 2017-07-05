@@ -6,7 +6,7 @@ export default class Checkboxes extends React.Component {
   state = {
     checkedList: this.props.defaultCheckedList,
     indeterminate: true,
-    checkAll: false,
+    checkAll: false
   };
   render() {
     return (
@@ -28,14 +28,14 @@ export default class Checkboxes extends React.Component {
     this.setState({
       checkedList,
       indeterminate: !!checkedList.length && (checkedList.length < this.props.plainOptions.length),
-      checkAll: checkedList.length === this.props.plainOptions.length,
+      checkAll: checkedList.length === this.props.plainOptions.length
     });
   }
   onCheckAllChange = (e) => {
     this.setState({
       checkedList: e.target.checked ? this.props.plainOptions : [],
       indeterminate: false,
-      checkAll: e.target.checked,
+      checkAll: e.target.checked
     });
   }
 }

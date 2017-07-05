@@ -11,7 +11,6 @@ export default class NormalLoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         this.setState({
           islogin:true
         })
@@ -29,14 +28,14 @@ export default class NormalLoginForm extends React.Component {
       <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem>
           {getFieldDecorator('userName', {
-            rules: [{ required: true, message: 'Please input your username!' }],
+            rules: [{ required: true, message: 'Please input your username!' }]
           })(
             <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />
           )}
         </FormItem>
         <FormItem>
           {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
+            rules: [{ required: true, message: 'Please input your Password!' }]
           })(
             <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
           )}
@@ -44,7 +43,7 @@ export default class NormalLoginForm extends React.Component {
         <FormItem>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
-            initialValue: true,
+            initialValue: true
           })(
             <Checkbox style={{color:"#fff"}}>Remember me</Checkbox>
           )}

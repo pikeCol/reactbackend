@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import reqwest from 'reqwest';
 
 import { Table, Row, Col, Input, Button } from 'antd';
 
@@ -43,7 +44,7 @@ const columns = [{
     dataIndex: 'newmon'
   }, {
     title: '最新营收',
-    dataIndex: 'newacount',
+    dataIndex: 'newacount'
   }, {
     title: '最新利润',
     dataIndex: 'lirun'
@@ -52,121 +53,54 @@ const columns = [{
     dataIndex: 'beizhu'
 }];
 
-const data = [{
-    key: '1',
-    name: 'John Brown',
-    money: '￥300,000.00',
-    address: 'New York No. 1 Lake Park',
-    regmoney:'222222',
-    jiaomon:'222222',
-    myinvent:'222222',
-    finvent:'222222',
-    persent:'222222',
-    inventime:'222222',
-    resonmon:'222222',
-    actmon:'222222',
-    newmon:'222222',
-    newacount:'222222',
-    lirun:'222222',
-    beizhu:'222222'
-  }, {
-    key: '2',
-    name: 'Jim Green',
-    money: '￥1,256,000.00',
-    address: 'London No. 1 Lake Park',
-    regmoney:'222222',
-    jiaomon:'222222',
-    myinvent:'222222',
-    finvent:'222222',
-    persent:'222222',
-    inventime:'222222',
-    resonmon:'222222',
-    actmon:'222222',
-    newmon:'222222',
-    newacount:'222222',
-    lirun:'222222',
-    beizhu:'222222'
-  }, {
-    key: '3',
-    name: 'Joe Black',
-    money: '￥120,000.00',
-    address: 'Sidney No. 1 Lake Park',
-    regmoney:'222222',
-    jiaomon:'222222',
-    myinvent:'222222',
-    finvent:'222222',
-    persent:'222222',
-    inventime:'222222',
-    resonmon:'222222',
-    actmon:'222222',
-    newmon:'222222',
-    newacount:'222222',
-    lirun:'222222',
-    beizhu:'222222'
-}];
-
 
 class Todetail extends React.Component{
   constructor(props){
     super(props)
   }
-  // render(){
-  //   return(
-  //     <div>
-  //       <div>
-  //         <form className="form-inline">
-  //           <div className="form-group">
-  //             <label htmlFor="exampleInputName2">项目名称</label>
-  //             <input type="text" className="form-control" id="exampleInputName2" placeholder="Jane Doe" />
-  //           </div>
-  //           <button type="submit" className="btn btn-default">查找</button>
-  //         </form>
-  //       </div>
-  //       <div>
-  //         <table className="table table-bordered">
-  //           <tbody>
-  //             <tr className="danger">
-  //               <td>项目名称</td>
-  //               <td>主营业务</td>
-  //               <td>注册资本</td>
-  //               <td>实缴资本</td>
-  //               <td>我方投资方</td>
-  //               <td>实投金额</td>
-  //               <td>持有比例</td>
-  //               <td>投资时间</td>
-  //               <td>最新总资产</td>
-  //               <td>最新净资产</td>
-  //               <td>最新实收资本</td>
-  //               <td>最新货币资金</td>
-  //               <td>最新营收</td>
-  //               <td>最新利润</td>
-  //               <td>备注</td>
-  //             </tr>
-  //             <tr>
-  //               <td>
-  //                 <Link to={'/menu/prolist/basic'}>项目名称</Link>
-  //               </td>
-  //               <td>主营业务</td>
-  //               <td>注册资本</td>
-  //               <td>实缴资本</td>
-  //               <td>我方投资方</td>
-  //               <td>实投金额</td>
-  //               <td>持有比例</td>
-  //               <td>投资时间</td>
-  //               <td>最新总资产</td>
-  //               <td>最新净资产</td>
-  //               <td>最新实收资本</td>
-  //               <td>最新货币资金</td>
-  //               <td>最新营收</td>
-  //               <td>最新利润</td>
-  //               <td>备注</td>
-  //             </tr>
-  //           </tbody>
-  //         </table>
-  //       </div>
-  //     </div>
-  //   )
-  // }
+  state = {
+      data: [],
+      pagination: {},
+      loading: false,
+    };
+
+  handleTableChange = (pagination) => {
+    const pager = { ...this.state.pagination };
+    pager.current = pagination.current;
+    this.setState({
+      pagination: pager,
+    });
+    this.fetch({
+      results: pagination.pageSize,
+      page: pagination.current,
+    });
+  }
+
+    fetch = (params = {}) => {
+      console.log('params:', params);
+      this.setState({ loading: true });
+      reqwest({
+        url: '../../api/item.json',
+        method: 'get',
+        data: {
+          results: 10
+        },
+        type: 'json'
+      }).then((data) => {
+        console.log(data)
+        const pagination = { ...this.state.pagination };
+        pagination.total = 200;
+        this.setState({
+          loading: false,
+          data: data.data,
+          pagination,
+        });
+      });
+    }
+    componentDidMount() {
+      this.fetch();
+    }
+
     render(){
       return(
         <div style={{padding:'0 20px'}}>
@@ -179,9 +113,10 @@ class Todetail extends React.Component{
           </div>
           <Table
             columns={columns}
-            dataSource={data}
+            rowKey={record => record.registered}
+            dataSource={this.state.data}
             bordered
-            pagination={false}
+            onChange={this.handleTableChange}
           />
         </div>
       )

@@ -7,11 +7,10 @@ import BottomLine from '../common/bottomline'
 
 import {
   Route,
-  Link,
-  Switch
+  Link
 } from 'react-router-dom'
 
-import {Row, Col} from 'antd'
+import {Row} from 'antd'
 
 const ListlMenuLink = ({ label, to, activeOnlyWhenExact }) => (
   <Route path={to} exact={activeOnlyWhenExact} children={({ match }) => (

@@ -94,7 +94,6 @@
 //
 // export default Login;
 import React from 'react';
-import { Row, Col } from 'antd';
 import { Form } from 'antd';
 
 import NormalLoginForm from './login.js'

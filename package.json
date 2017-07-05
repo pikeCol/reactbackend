@@ -72,6 +72,7 @@
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
-    "redux": "^3.7.0"
+    "redux": "^3.7.0",
+    "reqwest": "^2.0.5"
   }
 }

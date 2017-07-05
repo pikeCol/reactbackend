@@ -1,20 +1,19 @@
-import { Form, Input, Select, Row, Col, Button, AutoComplete,  } from 'antd'
+import { Form, Input, Select, Row, Col, Button, AutoComplete } from 'antd'
 const FormItem = Form.Item
-const Option = Select.Option
-const AutoCompleteOption = AutoComplete.Option
+// const Option = Select.Option
+// const AutoCompleteOption = AutoComplete.Option
 import React from 'react'
 
 
 class RegistrationForm extends React.Component {
   state = {
     confirmDirty: false,
-    autoCompleteResult: [],
+    autoCompleteResult: []
   };
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
       }
     });
   }
@@ -50,7 +49,7 @@ class RegistrationForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
+    // const { autoCompleteResult } = this.state;
 
     const formItemLayout = {
       labelCol: {

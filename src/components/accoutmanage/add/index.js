@@ -1,22 +1,25 @@
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Button, AutoComplete  } from 'antd';
+import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Button, AutoComplete, Radio   } from 'antd';
+const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
 import React from 'react';
 
-const residences = [{
-  value: '请选择',
-  label: '请选择'
-},{
-  value: '内部角色',
-  label: '内部角色'
-},{
-  value: '外部角色',
-  label: '外部角色'
-}];
+// const residences = [{
+//   value: '请选择',
+//   label: '请选择'
+// },{
+//   value: '内部角色',
+//   label: '内部角色'
+// },{
+//   value: '外部角色',
+//   label: '外部角色'
+// }];
 
 class RegistrationForm extends React.Component {
   state = {
+    isconnect:'',
+    value:1,
     confirmDirty: false,
     autoCompleteResult: []
   };
@@ -24,7 +27,7 @@ class RegistrationForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values)
+        console.log('Received values of form: ', values);
       }
     });
   }
@@ -48,6 +51,10 @@ class RegistrationForm extends React.Component {
     callback();
   }
 
+  onChange = (e) => {
+    console.log(e.target.value)
+  }
+
   handleWebsiteChange = (value) => {
     let autoCompleteResult;
     if (!value) {
@@ -56,6 +63,16 @@ class RegistrationForm extends React.Component {
       autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
     }
     this.setState({ autoCompleteResult });
+  }
+
+  countpro = (value)=>{
+    console.log(value)
+  }
+
+  changeradio = (e)=> {
+    this.setState({
+      isconnect:e.target.value
+    })
   }
 
   render() {
@@ -126,10 +143,10 @@ class RegistrationForm extends React.Component {
           >
             {getFieldDecorator('text', {
               rules: [{
-                required: true, message: '请输入你的账户!',
+                required: true, message: '请输入你的账户!'
               }, {
-                validator: this.checkConfirm,
-              }],
+                validator: this.checkConfirm
+              }]
             })(
               <Input type="text" placeholder="登录账户"/>
             )}
@@ -144,33 +161,46 @@ class RegistrationForm extends React.Component {
                 required: false, message: 'Please input your password!'
               }, {
                 validator: this.checkConfirm
-              }],
+              }]
             })(
               <Input type="password" placeholder="初始密码"/>
             )}
           </FormItem>
+
           <FormItem
             {...formItemLayout}
             label="账户性质"
+            hasFeedback
           >
-            {getFieldDecorator('residence', {
-              initialValue: ['请选择'],
-              rules: [{ type: 'array', required: true, message: 'Please select your habitual residence!' }]
-            })(
-              <Cascader options={residences} />
-            )}
-          </FormItem>
+          {getFieldDecorator('roleaccount', {
+            rules: [
+              { required: true, message: '请选择一个账户性质' }
+            ]
+          })(
+            <Select placeholder="请选择" onChange={this.countpro}>
+              <Option value="ousideaccount">外部账户</Option>
+              <Option value="insideaccount">内部账户</Option>
+            </Select>
+          )}
+        </FormItem>
+
           <FormItem
             {...formItemLayout}
             label="角色"
+            hasFeedback
           >
-            {getFieldDecorator('residence', {
-              initialValue: ['请选择'],
-              rules: [{ type: 'array', required: true, message: 'Please select your habitual residence!' }]
-            })(
-              <Cascader options={residences} />
-            )}
-          </FormItem>
+          {getFieldDecorator('selectrole', {
+            rules: [
+              { required: true, message: '请选择一个角色性质' }
+            ]
+          })(
+            <Select placeholder="请选择">
+              <Option value="outsiderole">外部角色</Option>
+              <Option value="insiderole">内部角色</Option>
+            </Select>
+          )}
+        </FormItem>
+
           <FormItem
             {...formItemLayout}
             label="Phone Number"
@@ -192,20 +222,50 @@ class RegistrationForm extends React.Component {
                 type: 'email', message: 'The input is not valid E-mail!'
               }, {
                 required: false, message: 'Please input your E-mail!'
-              }],
+              }]
             })(
               <Input />
             )}
           </FormItem>
 
+          <FormItem
+             {...formItemLayout}
+             label="是否关联项目"
+           >
+           {getFieldDecorator('radio-group')(
+             <RadioGroup onChange={this.changeradio}>
+               <Radio value="1">是</Radio>
+               <Radio value="0">否</Radio>
+             </RadioGroup>
+           )}
+         </FormItem>
 
-          {/* <FormItem {...tailFormItemLayout} style={{ marginBottom: 8 }}>
-            {getFieldDecorator('agreement', {
-              valuePropName: 'checked',
-            })(
-              <Checkbox>I have read the <a href="">agreement</a></Checkbox>
-            )}
-          </FormItem> */}
+         {
+           this.state.isconnect>0?
+           <FormItem
+             {...formItemLayout}
+             label=""
+           >
+             {getFieldDecorator('select-multiple')(
+               <Select mode="multiple" placeholder="请选择项目">
+                 <Option value="12345">12345 人众项目</Option>
+                 <Option value="12344">12344 浙银资产</Option>
+               </Select>
+             )}
+           </FormItem>
+           :
+           <FormItem
+             {...formItemLayout}
+             label="请配置关联项目"
+           >
+             {getFieldDecorator('select-multiple')(
+               <Select mode="multiple" placeholder="请选择项目">
+                 <Option value="12345">12345 人众项目</Option>
+                 <Option value="12344">12344 浙银资产</Option>
+               </Select>
+             )}
+           </FormItem>
+         }
           <FormItem {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" size="large">保存</Button>
           </FormItem>

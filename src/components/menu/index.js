@@ -13,7 +13,6 @@ import Listtmp from '../listtmp'
 import Accoutmanage from '../accoutmanage'
 import Add from '../accoutmanage/add'
 import Headers from '../common/header'
-import Line from '../common/line'
 
 import {urlParse} from '../common/util'
 
@@ -28,10 +27,10 @@ import {
   Switch
 } from 'react-router-dom'
 
-let indexicon = require('../../images/indexicon.png')
-let touziicon = require('../../images/touziicon.png')
-let accounticon = require('../../images/accounticon.png')
-let personicon = require('../../images/personicon.png')
+// let indexicon = require('../../images/indexicon.png')
+// let touziicon = require('../../images/touziicon.png')
+// let accounticon = require('../../images/accounticon.png')
+// let personicon = require('../../images/personicon.png')
 
 const OldSchoolMenuLink = ({ label, to, activeOnlyWhenExact }) => (
   <Route path={to} exact={activeOnlyWhenExact} children={({ match }) => (
@@ -41,12 +40,12 @@ const OldSchoolMenuLink = ({ label, to, activeOnlyWhenExact }) => (
   )}/>
   )
 
-  const StaticMenuLink = ({ label,imgsrc }) => (
-      <div className="static">
-        <img src={imgsrc} />
-        {label}
-      </div>
-    )
+  // const StaticMenuLink = ({ label,imgsrc }) => (
+  //     <div className="static">
+  //       <img src={imgsrc} />
+  //       {label}
+  //     </div>
+  //   )
 
 class Menus extends React.Component{
   state={
