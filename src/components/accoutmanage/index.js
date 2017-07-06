@@ -1,6 +1,10 @@
 import React from 'react';
-import { Row, Col, Table, Button} from 'antd';
+import { Row, Col, Table, Button, Popconfirm} from 'antd';
 import { Redirect } from 'react-router-dom'
+
+import EditableCell from '../common/editablecell'
+
+import { connect } from 'react-redux';
 
 
 class Accoutmanage extends React.Component{
@@ -13,10 +17,18 @@ class Accoutmanage extends React.Component{
       pro:'施蒂利克九分裤',
       status:'启用',
       createtiem:'2312'
+    },{
+      key:2,
+      name:'2312',
+      propety:'2312',
+      longin_account:'asdfasd',
+      pro:'施蒂利克九分裤',
+      status:'启用',
+      createtiem:'2312'
     }],
     columns:[{
         title:'姓名',
-        dataIndex: 'name'
+        dataIndex: 'name',
       },{
         title:'角色',
         dataIndex: 'propety'
@@ -40,13 +52,38 @@ class Accoutmanage extends React.Component{
             <Row   type="flex" align="middle">
               <Col span={6}><Button type="primary">编辑</Button></Col>
               <Col span={6}><Button type="primary">停用</Button></Col>
-              <Col span={6}><Button type="primary">删除</Button></Col>
+              <Col span={6}>
+                {/* <Button type="primary">删除</Button> */}
+                { this.state.columns.length > 0 ?
+                 (
+                   <Popconfirm title="Sure to delete?" onConfirm={() => this.onDelete(index)}>
+                     <Button type="primary">删除</Button>
+                     {/* <a href="#">Delete</a> */}
+                   </Popconfirm>
+                 ) : null}
+              </Col>
             </Row>
             )
           }
         }
     ],
+    count: 2,
+    // editable:false,
     isnew:false
+  }
+
+  onDelete = (index) => {
+    const data = [...this.state.data];
+    data.splice(index, 1);
+    this.setState({ data });
+  }
+
+  onCellChange = (index, key) => {
+     return (value) => {
+       const data = [...this.state.data];
+       data[index][key] = value;
+       this.setState({ data });
+     };
   }
   newroles = (e) =>{
     this.setState({
@@ -59,6 +96,8 @@ class Accoutmanage extends React.Component{
         <Redirect to={'/menu/accoutmanage/add'} />
       )
     }
+    const { edit }=this.props
+
     return(
       <div>
         <div className="border_line">
@@ -73,8 +112,31 @@ class Accoutmanage extends React.Component{
             bordered
           />
         </div>
+        <Button type="primary" onClick={edit}>加</Button>
+        <EditableCell />
       </div>
     )
   }
 }
-export default Accoutmanage;
+function mapStateToProps(state)  {
+  return{
+    value:state.editable
+  }
+}
+
+
+function mapDispatchToProps(dispatch) {
+  return {
+    edit: () => dispatch({isedit: true})
+  };
+}
+
+
+
+
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Accoutmanage);
