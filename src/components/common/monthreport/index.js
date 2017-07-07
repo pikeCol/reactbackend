@@ -71,6 +71,10 @@ export default class MonthReport extends React.Component {
     }, {
       title: 'address',
       dataIndex: 'address'
+    }, {
+      title: 'opetate',
+      dataIndex: 'opetate',
+      render:()=>(<a>sdfas</a>)
     }];
 
     this.state = {

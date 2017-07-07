@@ -1,5 +1,5 @@
 import React from 'react';
-import MonthReport from '../common/monthReport'
+// import MonthReport from '../common/monthReport'
 import { Row, Col, Input, Select,Button  } from 'antd';
 const Option = Select.Option;
 
@@ -37,7 +37,23 @@ class Listtmp extends React.Component{
           </Col>
           <Col span={4} offset={2}><Button type="primary">调用模板</Button></Col>
         </Row>
-        <MonthReport />
+        {/* <MonthReport /> */}
+        <table>
+          <tbody className="ant-table ant-table-large ant-table-bordered ant-table-scroll-position-left">
+            <tr>
+              <th>dfasd</th>
+              <td>asdfas</td>
+              <td>asdfas</td>
+              <td>asdfas</td>
+            </tr>
+            <tr>
+              <th>dfasd</th>
+              <td>asdfas</td>
+              <td>asdfas</td>
+              <td>asdfas</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     )
   }

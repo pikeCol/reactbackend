@@ -32,22 +32,27 @@ const columns = [{
     dataIndex: 'ourInvestmentTime'
 }];
 
-const columnsPartents = [{
-    title: '股东名称',
-    dataIndex: 'name'
-  }, {
-    title: '投资时间',
-    dataIndex: 'investmentTime'
-  }, {
-    title: '持股比例',
-    dataIndex: 'rate'
-  }, {
-    title: '认缴资本',
-    dataIndex: 'subscribedCapital'
-  },{
-    title: '实缴资本',
-    dataIndex: 'contributedCapital'
-}];
+// const columnsPartents = [{
+//     title: '股东名称',
+//     dataIndex: 'name',
+//     render: (text, record, index) => <EditableCell value={text}  isedit={false}/>
+//   }, {
+//     title: '投资时间',
+//     dataIndex: 'investmentTime',
+//     render: (text, record, index) => <EditableCell value={text}  isedit={false}/>
+//   }, {
+//     title: '持股比例',
+//     dataIndex: 'rate',
+//     render: (text, record, index) => <EditableCell value={text}  isedit={false}/>
+//   }, {
+//     title: '认缴资本',
+//     dataIndex: 'subscribedCapital',
+//     render: (text, record, index) => <EditableCell value={text} isedit={false}/>
+//   },{
+//     title: '实缴资本',
+//     dataIndex: 'contributedCapital',
+//     render: (text, record, index) => <EditableCell value={text}  isedit={false}/>
+// }];
 
 export default class Basic extends React.Component{
   state={
@@ -55,11 +60,63 @@ export default class Basic extends React.Component{
       project:[],
       projectPartents:[]
     },
+    columnsPartents : [{
+        title: '股东名称',
+        dataIndex: 'name',
+        render: (text, record, index) => <EditableCell value={text}  isedit={this.state.editable}/>
+      }, {
+        title: '投资时间',
+        dataIndex: 'investmentTime',
+        render: (text, record, index) => <EditableCell value={text}  isedit={this.state.editable}/>
+      }, {
+        title: '持股比例',
+        dataIndex: 'rate',
+        render: (text, record, index) => <EditableCell value={text}  isedit={this.state.editable}/>
+      }, {
+        title: '认缴资本',
+        dataIndex: 'subscribedCapital',
+        render: (text, record, index) => <EditableCell value={text} isedit={this.state.editable}/>
+      },{
+        title: '实缴资本',
+        dataIndex: 'contributedCapital',
+        render: (text, record, index) => <EditableCell value={text}  isedit={this.state.editable}/>
+    }],
     editable:false,
     value:'dfka'
   }
+  handleAdd = () => {
+    const { projectPartents, project } = this.state.data;
+    const newData = {
+      "name":'22',
+      "investmentTime":'22',
+      "rate":'22',
+      "subscribedCapital":'22',
+      "contributedCapital":'22'
+    }
+    this.setState({
+      data:{
+        project:[...project],
+        projectPartents:[...projectPartents,newData]
+      }
+    })
+  }
+  onDelete = () => {
+    const { projectPartents, project } = this.state.data
+    let len = projectPartents.length
+    projectPartents.splice(len-1, 1)
+    this.setState({
+      data:{
+        project:[...project],
+        projectPartents:projectPartents
+      }
+    })
+  }
   edit = () => {
-    this.setState({ editable: !this.state.editable });
+    const { columnsPartents } = this.state;
+    this.setState({
+      editable: !this.state.editable,
+      columnsPartents: columnsPartents
+    });
   }
   componentWillMount(){
     let that = this
@@ -116,8 +173,18 @@ export default class Basic extends React.Component{
         <Col offset={2} className="listtitle">
           <h6>股东结构</h6>
         </Col>
+        <Col offset={2} className="listtitle">
+          {
+            editable?
+            <div>
+              <Button type="primary" style={{marginRight:'10px'}} onClick={this.handleAdd}>添加</Button>
+              <Button type="primary" onClick={this.onDelete}>删除</Button>
+            </div>
+            :''
+          }
+        </Col>
         <Col span={20} offset={2}>
-           <Table  rowKey={(record, index) => index} columns={columnsPartents} dataSource={this.state.data.projectPartents} size="middle" pagination={false}  />
+           <Table  rowKey={(record, index) => index} columns={this.state.columnsPartents} dataSource={this.state.data.projectPartents} size="middle" pagination={false}  />
         </Col>
       </Row>
       <Row>
@@ -125,7 +192,7 @@ export default class Basic extends React.Component{
          <h6>董事会/监事会结构</h6>
        </Col>
        <Col span={20} offset={2}>
-          <Table  rowKey={(record, index) => index} columns={columnsPartents} dataSource={this.state.data.projectPartents} size="middle" pagination={false}  />
+          <Table  rowKey={(record, index) => index} columns={this.state.columnsPartents} dataSource={this.state.data.projectPartents} size="middle" pagination={false}  />
        </Col>
      </Row>
      <Row>

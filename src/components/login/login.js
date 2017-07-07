@@ -1,7 +1,9 @@
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Row, Col } from 'antd';
 const FormItem = Form.Item;
 import React from 'react';
 import { Redirect } from 'react-router-dom'
+
+const imgsrc = require('../../images/code_edit.png');
 
 export default class NormalLoginForm extends React.Component {
   state={
@@ -40,6 +42,24 @@ export default class NormalLoginForm extends React.Component {
             <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
           )}
         </FormItem>
+
+        <FormItem>
+          <Row gutter={8}>
+            <Col span={12}>
+              {getFieldDecorator('captcha', {
+                rules: [{ required: true, message: '请输入验证码!' }],
+              })(
+                <Input size="large" />
+              )}
+            </Col>
+            <Col span={12} style={{textAlign:'right'}}>
+              <Button size="large" style={{overflow:'hidden',width:'86px',padding:'0'}}>
+                <img src={imgsrc} />
+              </Button>
+            </Col>
+          </Row>
+        </FormItem>
+
         <FormItem>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
