@@ -2,12 +2,12 @@ import React from 'react';
 import { Row, Col, Table, Button, Popconfirm} from 'antd';
 import { Redirect } from 'react-router-dom'
 
-import EditableCell from '../common/editablecell'
+import EditableCell  from '../common/editablecell'
 
 import { connect } from 'react-redux';
 
 
-class Accoutmanage extends React.Component{
+export default class Accoutmanage extends React.Component{
   state={
     data:[{
       key:1,
@@ -29,6 +29,11 @@ class Accoutmanage extends React.Component{
     columns:[{
         title:'姓名',
         dataIndex: 'name',
+        render:(text, record, index) => {
+          return(
+            <p>text</p>
+          )
+        }
       },{
         title:'角色',
         dataIndex: 'propety'
@@ -50,15 +55,13 @@ class Accoutmanage extends React.Component{
         render: (text, record, index) =>{
           return (
             <Row   type="flex" align="middle">
-              <Col span={6}><Button type="primary">编辑</Button></Col>
-              <Col span={6}><Button type="primary">停用</Button></Col>
+              <Col span={6}><a href="#"  onClick={this.check}>编辑</a></Col>
+              <Col span={6}><a href="#">停用</a></Col>
               <Col span={6}>
-                {/* <Button type="primary">删除</Button> */}
                 { this.state.columns.length > 0 ?
                  (
                    <Popconfirm title="Sure to delete?" onConfirm={() => this.onDelete(index)}>
-                     <Button type="primary">删除</Button>
-                     {/* <a href="#">Delete</a> */}
+                     <a>删除</a>
                    </Popconfirm>
                  ) : null}
               </Col>
@@ -68,8 +71,15 @@ class Accoutmanage extends React.Component{
         }
     ],
     count: 2,
-    // editable:false,
+    editable:false,
     isnew:false
+  }
+
+  check = () => {
+    this.setState({ editable: false });
+    if (this.props.onChange) {
+      this.props.onChange(this.state.value);
+    }
   }
 
   onDelete = (index) => {
@@ -85,6 +95,11 @@ class Accoutmanage extends React.Component{
        this.setState({ data });
      };
   }
+  edit=()=>{
+    this.setState({
+      editable:true
+    })
+  }
   newroles = (e) =>{
     this.setState({
       isnew: true
@@ -96,7 +111,7 @@ class Accoutmanage extends React.Component{
         <Redirect to={'/menu/accoutmanage/add'} />
       )
     }
-    const { edit }=this.props
+    // const { edit }=this.props
 
     return(
       <div>
@@ -112,31 +127,36 @@ class Accoutmanage extends React.Component{
             bordered
           />
         </div>
-        <Button type="primary" onClick={edit}>加</Button>
-        <EditableCell />
+        <Button type="primary" onClick={this.edit}>加</Button>
+        {/* <EditableCell value={this.state.editable} /> */}
       </div>
     )
   }
 }
-function mapStateToProps(state)  {
-  return{
-    value:state.editable
-  }
-}
 
 
-function mapDispatchToProps(dispatch) {
-  return {
-    edit: () => dispatch({isedit: true})
-  };
-}
-
-
-
-
-
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Accoutmanage);
+// const editableAction = {type: 'editable'};
+// const diseditableAction = {type: 'diseditable'};
+//
+// function mapStateToProps(state)  {
+//   return{
+//     value:state.editable
+//   }
+// }
+//
+//
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     edit: () => dispatch(editableAction)
+//   };
+// }
+//
+//
+//
+//
+//
+//
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(Accoutmanage);

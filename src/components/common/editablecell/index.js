@@ -1,85 +1,10 @@
-import { Table, Input, Button } from 'antd';
-import React from 'react';
-import { connect } from 'react-redux';
-
-
-class EditableCell extends React.Component {
-  constructor(props){
-    super(props)
-  }
-
-  render() {
-    let { value } = this.props
-    return (
-      <div className="editable-cell">
-        {
-          value ?
-            <div className="editable-cell-input-wrapper">
-              <Input
-                value={value}
-              />
-            </div>
-            :
-            <div className="editable-cell-text-wrapper">
-              {value || ' '}
-            </div>
-        }
-      </div>
-    );
-  }
-}
-
-function mapStateToProps(state)  {
-  return {
-    value: state.isedit
-  };
-}
-
-export default connect(
-  mapStateToProps
-)(EditableCell)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export default class EditableCell extends React.Component {
-//   constructor(props){
-//     super(props)
-//     this.state = {
-//       value: this.props.value,
-//       editable: this.props.editable,
-//     }
-//   }
+// import { Table, Input, Icon, Button } from 'antd';
 //
+// export default class EditableCell extends React.Component {
+//   state = {
+//     value: this.props.value,
+//     editable: false,
+//   }
 //   handleChange = (e) => {
 //     const value = e.target.value;
 //     this.setState({ value });
@@ -90,7 +15,9 @@ export default connect(
 //       this.props.onChange(this.state.value);
 //     }
 //   }
-//
+//   edit = () => {
+//     this.setState({ editable: true });
+//   }
 //   render() {
 //     const { value, editable } = this.state;
 //     return (

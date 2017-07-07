@@ -28,15 +28,6 @@ function iseditable(state={isedit: false}, action) {
 
 let store = createStore(iseditable)
 
-// store.dispatch({
-//   type: 'login',
-//   text: 'Use Redux111'
-// })
-// setTimeout(function(){
-//   console.log(store.getState())
-// },300)
-// console.log(store.getState())
-// Render the main component into the dom
 ReactDOM.render(
   (
     <Provider store={store}>
