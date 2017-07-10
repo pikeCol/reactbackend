@@ -56,7 +56,7 @@ export default class Accoutmanage extends React.Component{
           return (
             <Row   type="flex" align="middle">
               <Col span={6}><a href="#"  onClick={this.check}>编辑</a></Col>
-              <Col span={6}><a href="#">停用</a></Col>
+              <Col span={6}><a onClick={() => this.stop(index)}>停用</a></Col>
               <Col span={6}>
                 { this.state.columns.length > 0 ?
                  (
@@ -81,7 +81,16 @@ export default class Accoutmanage extends React.Component{
       this.props.onChange(this.state.value);
     }
   }
-
+  stop = (index) =>{
+    const data = this.state.data
+    // console.log(data[index].status)
+    if (data[index].status == '启用') {
+      data[index].status = '禁止'
+    }
+    this.setState({
+      data:data
+    })
+  }
   onDelete = (index) => {
     const data = [...this.state.data];
     data.splice(index, 1);
