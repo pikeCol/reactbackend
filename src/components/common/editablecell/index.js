@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Table, Input, Popconfirm, Icon } from 'antd';
 import React from 'react'
 
@@ -57,10 +58,14 @@ export default class EditableCell extends React.Component {
 }
 
 
+=======
+// import { Table, Input, Icon, Button } from 'antd';
+>>>>>>> 11642f088613eb1b2eaea993fd237dee0d1a657c
 //
 // export default class EditableCell extends React.Component {
 //   state = {
 //     value: this.props.value,
+<<<<<<< HEAD
 //     editable: this.props.editable || false,
 //   }
 //   componentWillReceiveProps(nextProps) {
@@ -87,6 +92,23 @@ export default class EditableCell extends React.Component {
 //     const value = e.target.value;
 //     this.setState({ value });
 //   }
+=======
+//     editable: false,
+//   }
+//   handleChange = (e) => {
+//     const value = e.target.value;
+//     this.setState({ value });
+//   }
+//   check = () => {
+//     this.setState({ editable: false });
+//     if (this.props.onChange) {
+//       this.props.onChange(this.state.value);
+//     }
+//   }
+//   edit = () => {
+//     this.setState({ editable: true });
+//   }
+>>>>>>> 11642f088613eb1b2eaea993fd237dee0d1a657c
 //   render() {
 //     const { value, editable } = this.state;
 //     return (
