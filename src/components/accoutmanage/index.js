@@ -31,11 +31,7 @@ export default class Accoutmanage extends React.Component{
         dataIndex: 'name',
         render:(text, record, index) => {
           return(
-<<<<<<< HEAD
             <EditableCell isedit={true} value={text} />
-=======
-            <p>text</p>
->>>>>>> 11642f088613eb1b2eaea993fd237dee0d1a657c
           )
         }
       },{
