@@ -5,29 +5,49 @@ const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
 import React from 'react';
 
-// const residences = [{
-//   value: '请选择',
-//   label: '请选择'
-// },{
-//   value: '内部角色',
-//   label: '内部角色'
-// },{
-//   value: '外部角色',
-//   label: '外部角色'
-// }];
-
 class RegistrationForm extends React.Component {
+  constructor(props){
+    super(props)
+  }
   state = {
+    _postdata:{},
     isconnect:'',
     value:1,
     confirmDirty: false,
     autoCompleteResult: []
-  };
+  }
+  componentWillReceiveProps (nextProps) {
+    let _postdata = nextProps.nickname
+     this.setState({
+       _postdata:_postdata
+     })
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        let that = this
+        $.ajax({
+          type:"POST",
+          data:{
+            accountName:values.accountName,
+            roleOid:values.roleOid,
+            name:values.name,
+            telephone:values.telephone,
+            email:values.email,
+            accountType:values.accountType,
+            isLimit:values.isLimit,
+            projectList:values.projectList
+          },
+          url: '/account/addAccount.do',
+          success:function(datas){
+              if(datas.restCode===200){
+                alert('success')
+              }
+          }
+        })
       }
     });
   }
@@ -78,7 +98,10 @@ class RegistrationForm extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult } = this.state;
+    console.log(this.state._postdata)
+    getFieldDecorator('accountName', { initialValue: [ ] })
 
+    const { accountName,name,accountPassword }=this.state._postdata
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -87,6 +110,16 @@ class RegistrationForm extends React.Component {
       wrapperCol: {
         xs: { span: 24 },
         sm: { span: 14 }
+      }
+    };
+    const formItemLayout2 = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 6 }
+      },
+      wrapperCol: {
+        xs: { span: 24, offset: 6 },
+        sm: { span: 14, offset: 6 }
       }
     };
     const tailFormItemLayout = {
@@ -130,10 +163,11 @@ class RegistrationForm extends React.Component {
             )}
             hasFeedback
           >
-            {getFieldDecorator('nickname', {
-              rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }]
+            {getFieldDecorator('name', {
+              rules: [{ required: true, message: 'Please input your nickname!', whitespace: true}],
+              initialValue: name
             })(
-              <Input />
+              <Input  />
             )}
           </FormItem>
           <FormItem
@@ -141,12 +175,13 @@ class RegistrationForm extends React.Component {
             label="登录账户"
             hasFeedback
           >
-            {getFieldDecorator('text', {
+            {getFieldDecorator('accountName', {
               rules: [{
                 required: true, message: '请输入你的账户!'
               }, {
                 validator: this.checkConfirm
-              }]
+              }],
+              initialValue: accountName,
             })(
               <Input type="text" placeholder="登录账户"/>
             )}
@@ -156,12 +191,13 @@ class RegistrationForm extends React.Component {
             label="登录密码"
             hasFeedback
           >
-            {getFieldDecorator('password', {
+            {getFieldDecorator('accountPassword', {
               rules: [{
                 required: false, message: 'Please input your password!'
               }, {
                 validator: this.checkConfirm
-              }]
+              }],
+              initialValue:accountPassword
             })(
               <Input type="password" placeholder="初始密码"/>
             )}
@@ -172,7 +208,7 @@ class RegistrationForm extends React.Component {
             label="账户性质"
             hasFeedback
           >
-          {getFieldDecorator('roleaccount', {
+          {getFieldDecorator('accountType', {
             rules: [
               { required: true, message: '请选择一个账户性质' }
             ]
@@ -243,7 +279,7 @@ class RegistrationForm extends React.Component {
          {
            this.state.isconnect>0?
            <FormItem
-             {...formItemLayout}
+             {...formItemLayout2}
              label=""
            >
              {getFieldDecorator('select-multiple')(
@@ -277,134 +313,43 @@ class RegistrationForm extends React.Component {
 }
 
 const WrappedRegistrationForm = Form.create()(RegistrationForm);
+import $ from 'jquery'
 
 export default class Add extends React.Component{
+  state={
+    postdata:[]
+  }
+  componentWillMount () {
+    let {postdata} = this.state
+    let that = this
+    $.ajax({
+      type:"POST",
+      url: '/account/getAccountDetail.do',
+      // url: '/getAccountDetail.json',
+      success:function(datas){
+        postdata = datas.data
+        that.setState({
+          postdata
+        })
+        console.log(that.state.postdata)
+        // if( datas.restCode === 200 ){
+        //   data = datas.data
+        //   that.setState({
+        //     data:data
+        //   })
+        // }
+      }
+    })
+  }
+
   render(){
+    const {postdata} = this.state
+    console.log(postdata)
     return(
-          <WrappedRegistrationForm />
+        <div>
+          <WrappedRegistrationForm  nickname={this.state.postdata} />
+        </div>
         )
 
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React from 'react';
-// import Dot from '../../common/dot'
-//
-// class Add extends React.Component{
-//   render(){
-//     return(
-//       <div className="col-sm-4 col-sm-offset-4" style={{
-//         marginTop:'50px'
-//       }}>
-//         <form className="form-horizontal">
-//           <div className="form-group">
-//             <label htmlFor="inputEmail3" className="col-sm-4 control-label"><Dot />姓名</label>
-//             <div className="col-sm-8">
-//               <input type="email" className="form-control" id="inputEmail3" placeholder="旧密码" />
-//             </div>
-//           </div>
-//           <div className="form-group">
-//             <label htmlFor="inputPassword3" className="col-sm-4 control-label"><Dot />登录账户</label>
-//             <div className="col-sm-8">
-//               <input type="password" className="form-control" id="inputPassword3" placeholder="新密码" />
-//             </div>
-//           </div>
-//           <div className="form-group">
-//             <label htmlFor="inputPassword3" className="col-sm-4 control-label">登录密码</label>
-//             <div className="col-sm-8">
-//               <input type="password" className="form-control" id="inputPassword3" placeholder="新密码" />
-//             </div>
-//           </div>
-//           <div className="form-group">
-//             <label htmlFor="inputPassword3" className="col-sm-4 control-label"><Dot />账户性质</label>
-//             <div className="col-sm-8">
-//               <select className="form-control">
-//                 <option>请选择用户性质</option>
-//               </select>
-//             </div>
-//           </div>
-//           <div className="form-group">
-//             <label htmlFor="inputPassword3" className="col-sm-4 control-label"><Dot />角色</label>
-//             <div className="col-sm-8">
-//               <select className="form-control">
-//                 <option>请选择角色</option>
-//               </select>
-//             </div>
-//           </div>
-//           <div className="form-group">
-//             <label htmlFor="inputPassword3" className="col-sm-4 control-label">手机</label>
-//             <div className="col-sm-8">
-//               <input type="password" className="form-control" id="inputPassword3" placeholder="确认密码" />
-//             </div>
-//           </div>
-//           <div className="form-group">
-//             <label htmlFor="inputPassword3" className="col-sm-4 control-label">邮箱</label>
-//             <div className="col-sm-8">
-//               <input type="password" className="form-control" id="inputPassword3" placeholder="确认密码" />
-//             </div>
-//           </div>
-//           <div className="form-group" style={{position:'relative'}}>
-//             <label htmlFor="inputPassword3" className="col-sm-4 control-label">是否限制项目</label>
-//             <span style={{
-//               position:'absolute',
-//               bottom:'-22px',
-//               fontSize: '10px',
-//               left: '30px'
-//             }}>带<Dot />为必填项目</span>
-//             <div className="col-sm-8">
-//               <label className="radio-inline">
-//                 <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" /> 是
-//               </label>
-//               <label className="radio-inline">
-//                 <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" /> 否
-//               </label>
-//             </div>
-//           </div>
-//           <div className="form-group">
-//             <label htmlFor="inputPassword3" className="col-sm-4 control-label">角色</label>
-//             <div className="col-sm-8">
-//               <select className="form-control">
-//                 <option>项目名称</option>
-//               </select>
-//             </div>
-//           </div>
-//
-//           <div className="form-group">
-//             <div className="col-sm-offset-3 col-sm-9">
-//               <button type="submit" className="btn btn-primary">确认修改</button>
-//             </div>
-//           </div>
-//         </form>
-//       </div>
-//     )
-//   }
-// }
-// export default Add;

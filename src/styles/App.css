@@ -52,12 +52,12 @@ body,#app{
 }
 .centers{
   display: flex;
-justify-content: space-around;
+  justify-content: space-around;
 }
-.forms{
+/*.forms{
   width: 360px;
   margin: 0 auto;
-}
+}*/
 .h1{
   font-size: 24px;
   color: #696969;
@@ -67,37 +67,6 @@ justify-content: space-around;
   align-items: center;
   justify-content: center;
   margin-top: 0;
-}
-.code{
-  cursor: pointer;
-  box-sizing: border-box;
-  padding-right: 27px;
-}
-.incode{
-  padding-left: 25px
-}
-.code img{
-  width: 86px;
-  height: 36px;
-}
-.btnlog{
-  margin-top: 40px;
-}
-.login {
-  background: white;
-  border-radius: 10px;
-  width: 484px;
-  height: 353px;
-  margin: 0 auto;
-  padding-top: 40px;
-  box-sizing: border-box;
-}
-.logbtn {
-  width: 333px!important;
-  margin-top: 25px;
-}
-.login .form-group input{
-  text-indent: 8px;
 }
 
 /*头部*/
@@ -115,7 +84,6 @@ justify-content: space-around;
 .goback{
   cursor: pointer;
   font-size: 14px;
-
 }
 .usrs{
   padding-right: 30px;
@@ -155,53 +123,11 @@ justify-content: space-around;
   padding: 26px 0 10px;
 }
 
-/*侧边栏*/
-/*.sidebar{
-  padding-left: 0;
-}
-
-.sidebar .static{
-  padding-left: 42px;
-  position: relative;
-  font-size: 16px;
-  height: 60px;
-  line-height: 60px;
-  color: #6260bf;
-}
-.sidebar .static img{
-  vertical-align: text-bottom;
-  margin-right: 6px;
-}
-.sidebar .selection{
-  color: white;
-  padding-left: 52px;
-  position: relative;
-  height: 60px;
-  line-height: 60px;
-  cursor: pointer;
-}
-.selection a{
-  padding: 20px;
-  padding-right: 56px;
-}
-.active{
-  color: white;
-  background: #080b2f;
-}
-.center{
-  text-align: center;
-}
-.selection:hover{
-  color: white;
-  background: #080b2f;
-}*/
-
 .prolist_nav{
   height: 60px;
   text-align: center;
   line-height: 60px;
   padding: 0;
-  /*border-bottom: 1px solid #d3d3d3;*/
 }
 .prolist_nav a{
   color: #4a4a4a;
@@ -234,12 +160,6 @@ padding-top: 14px;
 box-sizing: border-box;
 border-bottom: 1px solid #e3e3e3;
 }
-/*.prolist{
-  margin-top: 20px
-}
-.prolist li{
-  height: 40px;
-}*/
 
 /*可编辑表格*/
 .border_line{
@@ -288,3 +208,20 @@ border-bottom: 1px solid #e3e3e3;
 .editable-add-btn {
   margin-bottom: 8px;
 }
+/*竖直表格*/
+table.cloumstable {
+  margin-top: 20px;
+ border: 1px solid #e3e3e3;
+ border-spacing: 0;
+}
+
+table.cloumstable tr {border-bottom: 1px solid #e3e3e3}
+
+table.cloumstable td{
+  border-right: 1px solid #e3e3e3;
+  border-bottom: 1px solid #e3e3e3;
+  padding: 5px;
+}
+
+table.cloumstable tr td:last-child{ border-right: 0 }
+table.cloumstable tr:last-child td{ border-bottom: 0 }

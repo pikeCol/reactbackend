@@ -1,6 +1,6 @@
 import 'core-js/fn/object/assign';
-import React from 'react';
 import ReactDOM from 'react-dom';
+import React from 'react';
 import App from './components/Main';
 import {
   BrowserRouter as Router,

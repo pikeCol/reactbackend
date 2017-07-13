@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { Table } from 'antd';
 
-const monthFormat = 'YYYY/MM';
+const monthFormat = 'YYYY';
 
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
@@ -55,7 +55,7 @@ class Report extends React.Component{
       <div>
         <Row >
           <Col span={4} offset={2}>
-            <DatePicker defaultValue={moment('2015/01', monthFormat)} format={monthFormat} />
+            <DatePicker defaultValue={moment('2015', monthFormat)} format={monthFormat} />
           </Col>
           <Col>
             <Button type="primary" >筛选</Button>
