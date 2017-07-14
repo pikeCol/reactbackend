@@ -27,25 +27,14 @@ import {
   Switch
 } from 'react-router-dom'
 
-// let indexicon = require('../../images/indexicon.png')
-// let touziicon = require('../../images/touziicon.png')
-// let accounticon = require('../../images/accounticon.png')
-// let personicon = require('../../images/personicon.png')
 
 const OldSchoolMenuLink = ({ label, to, activeOnlyWhenExact }) => (
   <Route path={to} exact={activeOnlyWhenExact} children={({ match }) => (
       <Link to={to}>
-        {label}
+        <span>{label}</span>
       </Link>
   )}/>
   )
-
-  // const StaticMenuLink = ({ label,imgsrc }) => (
-  //     <div className="static">
-  //       <img src={imgsrc} />
-  //       {label}
-  //     </div>
-  //   )
 
 class Menus extends React.Component{
   state={

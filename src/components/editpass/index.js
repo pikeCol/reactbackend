@@ -3,7 +3,7 @@ const FormItem = Form.Item
 // const Option = Select.Option
 // const AutoCompleteOption = AutoComplete.Option
 import React from 'react'
-
+import $ from 'jquery'
 
 class RegistrationForm extends React.Component {
   state = {
@@ -14,6 +14,22 @@ class RegistrationForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        let storage = window.localStorage
+        let oid =  storage.getItem("oid")
+        $.ajax({
+          url:'/account/updatePassword.do',
+          type: 'POST',
+          data:{
+            oid:oid,
+            oldPassword:values.oldPassword,
+            accountPassword:values.accountPassword
+          },
+          success:function(data){
+            if (data.restCode === 200 ) {
+              alert('success')
+            }
+          }
+        })
       }
     });
   }
@@ -23,8 +39,8 @@ class RegistrationForm extends React.Component {
   }
   checkPassword = (rule, value, callback) => {
     const form = this.props.form;
-    if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
+    if (value && value !== form.getFieldValue('accountPassword')) {
+      callback('两次输入的密码不一致!');
     } else {
       callback();
     }
@@ -49,8 +65,6 @@ class RegistrationForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    // const { autoCompleteResult } = this.state;
-
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -73,7 +87,6 @@ class RegistrationForm extends React.Component {
         }
       }
     };
-
     return (
       <Row >
         <Col span={10} offset={7} style={{paddingTop:'40px'}}>
@@ -83,7 +96,7 @@ class RegistrationForm extends React.Component {
            label="旧密码"
            hasFeedback
          >
-           {getFieldDecorator('oldpassword', {
+           {getFieldDecorator('oldPassword', {
              rules: [{
                required: true, message: 'Please input your password!'
              }, {
@@ -98,9 +111,9 @@ class RegistrationForm extends React.Component {
            label="新密码"
            hasFeedback
          >
-           {getFieldDecorator('newpassword', {
+           {getFieldDecorator('accountPassword', {
              rules: [{
-               required: true, message: 'Please input your password!'
+               required: true, message: '请输入密码!'
              }, {
                validator: this.checkConfirm
              }]
@@ -115,7 +128,7 @@ class RegistrationForm extends React.Component {
        >
          {getFieldDecorator('confirm', {
            rules: [{
-             required: true, message: 'Please confirm your password!'
+             required: true, message: '请确定密码!'
            }, {
              validator: this.checkPassword
            }]

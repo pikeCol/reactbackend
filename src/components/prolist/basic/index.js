@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table, Row, Col, Input, Button } from 'antd';
+import reqwest from 'reqwest';
 
 import EditableCell from '../../common/editablecell'
 
@@ -99,24 +100,46 @@ export default class Basic extends React.Component{
   }
   componentWillMount(){
     let that = this
-    fetch('../../../api/data.json')
-      .then((res) => res.json())
-       .then((res) => {
-         if (res.restCode==200) {
-           let data=[]
-           data[0]=res.data.project
-          //  data[0].key=res.data.project.oid
-           let dataPartents=res.data.projectPartents
-            // dataPartents.key=res.data.projectPartents.oid
-            that.setState({
-               data:{
-                 project:data,
-                 projectPartents:dataPartents
-               }
-            })
-         }
-       })
-       .catch((err) => console.error(err));
+    let oid = this.props.location.state.oid
+    let { projectPartents, project } = this.state.data
+    reqwest({
+      // url: '../../api/item.json',
+      url: '/project/showBaseInfo.do',
+      data: {
+        projectOid: oid
+      },
+    }).then((result) => {
+        console.log(result)
+        if (result.restCode ===200) {
+          project = result.data.project
+          projectPartents = result.data.projectPartents
+          this.setState({
+            data:{
+              project:[...project],
+              projectPartents:[...projectPartents]
+            }
+          })
+        }
+
+    });
+    // fetch('../../../api/data.json')
+    //   .then((res) => res.json())
+    //    .then((res) => {
+    //      if (res.restCode==200) {
+    //        let data=[]
+    //        data[0]=res.data.project
+    //       //  data[0].key=res.data.project.oid
+    //        let dataPartents=res.data.projectPartents
+    //         // dataPartents.key=res.data.projectPartents.oid
+    //         that.setState({
+    //            data:{
+    //              project:data,
+    //              projectPartents:dataPartents
+    //            }
+    //         })
+    //      }
+    //    })
+    //    .catch((err) => console.error(err));
   }
   render(){
     const { value, editable } = this.state;

@@ -17,7 +17,7 @@ class RegistrationForm extends React.Component {
     autoCompleteResult: []
   }
   componentWillReceiveProps (nextProps) {
-    let _postdata = nextProps.nickname
+    let _postdata = nextProps.nickname || {}
      this.setState({
        _postdata:_postdata
      })
@@ -29,9 +29,11 @@ class RegistrationForm extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
         let that = this
+        console.log(that.state._postdata.oid)
         $.ajax({
           type:"POST",
           data:{
+            oid:that.state.oid,
             accountName:values.accountName,
             roleOid:values.roleOid,
             name:values.name,
@@ -322,24 +324,24 @@ export default class Add extends React.Component{
   componentWillMount () {
     let {postdata} = this.state
     let that = this
-    $.ajax({
-      type:"POST",
-      url: '/account/getAccountDetail.do',
-      // url: '/getAccountDetail.json',
-      success:function(datas){
-        postdata = datas.data
-        that.setState({
-          postdata
-        })
-        console.log(that.state.postdata)
-        // if( datas.restCode === 200 ){
-        //   data = datas.data
-        //   that.setState({
-        //     data:data
-        //   })
-        // }
-      }
-    })
+    if ( this.props.location.state.oid ){
+      let oid = this.props.location.state.oid;
+      $.ajax({
+        type:"POST",
+        url: '/account/getAccountDetail.do',
+        data:{
+          oid: oid
+        },
+        // url: '/getAccountDetail.json',
+        success:function(datas){
+          postdata = datas.data
+          that.setState({
+            postdata
+          })
+        }
+      })
+    }
+
   }
 
   render(){

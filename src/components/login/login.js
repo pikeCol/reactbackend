@@ -30,6 +30,12 @@ export default class NormalLoginForm extends React.Component {
       		dataType:"json",
       		success:function(data){
       			if( data.restCode === 200 ){
+
+              // 保存到localstorage
+              let storage = window.localStorage
+              storage.setItem("accountName",data.data.accountName)
+              storage.setItem("oid",data.data.oid)
+              storage.setItem("status",data.data.status)
               that.setState({
                 islogin:true
               })

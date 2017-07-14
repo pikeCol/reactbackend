@@ -25,15 +25,33 @@ export default class Accoutmanage extends React.Component {
       dataIndex: 'createTime'
     },{
       title: '账户状态',
-      dataIndex: 'status'
+      dataIndex: 'status',
+      render:(text, record, index) => {
+        let status = this.state.data[index].status
+        return (
+          <p>
+            {
+              status>0?"启用": "禁止"
+            }
+          </p>
+        )
+      }
     }, {
       title: '操作',
       dataIndex: 'operation',
       render: (text, record, index) => {
+        let status = this.state.data[index].status
         return (
           <div className="editable-row-operations" style={{display:'flex',justifyContent:'space-around'}}>
-            <Link to={{pathname:'/menu/accoutmanage/add',state:this.state.newrole}}>编辑</Link>
-            <a onClick={() => this.stop(index)}>停用</a>
+            <Link to={{pathname:'/menu/accoutmanage/add',state:{oid:this.state.data[index].oid}}}>编辑</Link>
+            <Col span={6}>
+              {
+                status?
+                <a onClick={()=>this.stop(text, record, index)}>停用</a>
+                :
+                <a onClick={()=>this.start(text, record, index)}>启用</a>
+              }
+            </Col>
             <a onClick={() => this.onDelete(index)}>删除</a>
           </div>
         );
@@ -43,6 +61,48 @@ export default class Accoutmanage extends React.Component {
       data: [],
       newrole: false
     };
+  }
+  stop=(text, record, index)=>{
+    let that = this
+    let { data } = this.state
+    data[index].status  = 0
+    $.ajax({
+      type:"POST",
+      url: '/account/updateAccountStatus.do',
+      data:{
+        oid: this.state.data[index].oid,
+        status: 0
+      },
+      // url: '/data.json',
+      success:function(datas){
+        if( datas.restCode === 200 ){
+          that.setState({
+            data:data
+          })
+        }
+      }
+    })
+  }
+  start=(text, record, index)=>{
+    let that = this
+    let { data } = this.state
+    data[index].status  = 1
+    $.ajax({
+      type:"POST",
+      url: '/account/updateAccountStatus.do',
+      data:{
+        oid: this.state.data[index].oid,
+        status: 1
+      },
+      // url: '/data.json',
+      success:function(datas){
+        if( datas.restCode === 200 ){
+          that.setState({
+            data:data
+          })
+        }
+      }
+    })
   }
   newroles = () =>{
     this.setState({
@@ -75,8 +135,18 @@ export default class Accoutmanage extends React.Component {
 
   onDelete = (index) => {
     const data = [...this.state.data];
+    let that = this
     data.splice(index, 1);
-    this.setState({ data });
+    $.ajax({
+      type:"POST",
+      url: '/account/delAccount.do',
+      // url: '/data.json',
+      success:function(datas){
+        if( datas.restCode === 200 ){
+          that.setState({ data });
+        }
+      }
+    })
   }
   render() {
     const { data } = this.state;
@@ -85,7 +155,7 @@ export default class Accoutmanage extends React.Component {
 
     if ( this.state.newrole ) {
       return (
-        <Redirect to={'/menu/accoutmanage/add'} />
+        <Redirect to={{pathname:'/menu/accoutmanage/add',state:{oid:''}}} />
       )
     }
 

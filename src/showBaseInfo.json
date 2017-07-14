@@ -1,0 +1,53 @@
+{
+    "restCode": 200,
+    "desCode": "_success_",
+    "msg": "",
+    "data": {
+        "project": {
+            "oid": "25616",
+            "id": 1,
+            "templateOid": "1266",
+            "projectName": "哈哈哈",
+            "companyName": "1号店",
+            "mainBusiness": "手动的",
+            "regCapital": "dsfd",
+            "importantClause": "sfsd",
+            "remarke": "dfsd",
+            "contributedCapital": "12561e23e3ef",
+            "ourInvestors": "wew",
+            "ourRate": "10%",
+            "actualAmount": "wee",
+            "ourInvestmentTime": 1498701566000,
+            "boardNumber": 210521,
+            "ourBoardPerson": "dfgd",
+            "boardOfVisitorsNumber": 1521,
+            "ourBoardOfVisitorsPerson": "dfgfdgfg",
+            "actualController": "1512dgd",
+            "actualControllerContact": "dfdf",
+            "commonlyUsedPerson": "dgdfd",
+            "commonlyUsedContact": "dgdg",
+            "createBy": "dg",
+            "createTime": 1498615035000,
+            "updateBy": "dfdfd",
+            "updateTime": 1498615040000,
+            "delFlag": 0
+        },
+        "projectPartents": [
+            {
+                "oid": "123",
+                "projectOid": "25616",
+                "id": 1,
+                "name": "fwewe",
+                "investmentTime": 1496023195000,
+                "rate": "10%",
+                "subscribedCapital": "12efe",
+                "contributedCapital": "efe",
+                "createBy": "eefwe",
+                "createTime": 1497924032000,
+                "updateBy": "efe",
+                "updateTime": 1498788037000,
+                "delFlag": 0
+            }
+        ]
+    }
+}

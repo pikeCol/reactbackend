@@ -1,19 +1,10 @@
-import { Form, Input, Cascader, Select, Row, Col, Button, AutoComplete } from 'antd';
+import { Form, Input, Select, Row, Col, Button, AutoComplete } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
 import React from 'react';
+import $ from 'jquery'
 
-const residences = [{
-  value: '请选择',
-  label: '请选择'
-},{
-  value: '内部角色',
-  label: '内部角色'
-},{
-  value: '外部角色',
-  label: '外部角色'
-}];
 
 class RegistrationForm extends React.Component {
   state = {
@@ -22,9 +13,35 @@ class RegistrationForm extends React.Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
+    let oid = window.localStorage.getItem('oid')
+    let accountName = window.localStorage.getItem('accountName')
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
+        $.ajax({
+          type:"POST",
+          url: '/account/getAccountDetail.do',
+          data:{
+            oid:oid,
+            accountName:values,accountName,
+            roleOid:values.roleOid || null,
+            name:values.name|| null,
+            telephone:values.telephone|| null,
+            email:values.email|| null,
+            accountType:values.accountType|| null,
+          },
+          // url: '/getAccountDetail.json',
+          success:function(datas){
+            if (datas.restCode===200) {
+              alert('success')
+              window.localStorage.setItem('accountName',values.accountName)
+            }
+            // postdata = datas.data
+            // that.setState({
+            //   postdata
+            // })
+          }
+        })
       }
     });
   }
@@ -97,6 +114,8 @@ class RegistrationForm extends React.Component {
       <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
     ));
 
+    getFieldDecorator('accountName', { initialValue: [ ] })
+    let accountName = localStorage.getItem('accountName')
     return (
       <Row >
         <Col span={10} offset={7} style={{paddingTop:'40px'}}>
@@ -110,7 +129,7 @@ class RegistrationForm extends React.Component {
             )}
             hasFeedback
           >
-            {getFieldDecorator('nickname', {
+            {getFieldDecorator('name', {
               rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }]
             })(
               <Input />
@@ -121,32 +140,36 @@ class RegistrationForm extends React.Component {
             label="登录账户"
             hasFeedback
           >
-            {getFieldDecorator('text', {
+            {getFieldDecorator('accountName', {
               rules: [{
-                required: false, message: '请输入你的账户!'
+                required: true, message: '请输入你的账户!'
               }, {
                 validator: this.checkConfirm,
-              }]
+              }],
+              initialValue:accountName||"admin"
             })(
-              <Input type="text" placeholder="登录账户"/>
+              <Input type="text" placeholder="登录账户" disabled />
             )}
           </FormItem>
           <FormItem
             {...formItemLayout}
             label="角色"
           >
-            {getFieldDecorator('residence', {
-              initialValue: ['请选择'],
-              rules: [{ type: 'array', required: true, message: 'Please select your habitual residence!' }]
+            {getFieldDecorator('roleType', {
+              rules: [{ required: true, message: 'Please select your habitual residence!' }],
+              initialValue:"外部角色"
             })(
-              <Cascader options={residences} />
+              <Select placeholder="请选择" disabled>
+                <Option value="0">外部角色</Option>
+                <Option value="1">内部角色</Option>
+              </Select>
             )}
           </FormItem>
           <FormItem
             {...formItemLayout}
             label="手机"
           >
-            {getFieldDecorator('phone', {
+            {getFieldDecorator('telephone	', {
               rules: [{ required: false, message: 'Please input your phone number!' }]
             })(
               <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
