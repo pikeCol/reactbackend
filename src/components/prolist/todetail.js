@@ -20,7 +20,7 @@ class Todetail extends React.Component{
           render: (text, record, index) =>{
             let oid = this.state.data[index].oid
             return(
-              <div className="td_a"><Link to={{pathname:'/menu/prolist/basic',state:{oid:oid}}}>{text}</Link></div>
+              <div className="td_a"><Link to={{pathname:`/menu/prolist/basic`,state:{oid:oid}}}>{text}</Link></div>
             )
           }
         }, {
@@ -85,7 +85,6 @@ class Todetail extends React.Component{
       console.log('params:', params);
       this.setState({ loading: true });
       reqwest({
-        // url: '../../api/item.json',
         url: '/project/getProjects.do',
         method: 'POST',
         data: {
@@ -93,6 +92,11 @@ class Todetail extends React.Component{
           page: params.page || 1,
           rows: 10
         },
+        // url: '../../api/item.json',
+        // data: {
+        //    results: 10,
+        //    ...params,
+        //  },
         type: 'json'
       }).then((data) => {
         console.log(data)

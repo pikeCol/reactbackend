@@ -101,9 +101,10 @@ export default class Basic extends React.Component{
   componentWillMount(){
     let that = this
     let oid = this.props.location.state.oid
+    localStorage.setItem('projectOid',oid)
     let { projectPartents, project } = this.state.data
     reqwest({
-      // url: '../../api/item.json',
+      // url: '../../api/data.json',
       url: '/project/showBaseInfo.do',
       data: {
         projectOid: oid
@@ -111,35 +112,18 @@ export default class Basic extends React.Component{
     }).then((result) => {
         console.log(result)
         if (result.restCode ===200) {
-          project = result.data.project
+          project[0] = result.data.project
           projectPartents = result.data.projectPartents
-          this.setState({
+          that.setState({
             data:{
               project:[...project],
               projectPartents:[...projectPartents]
             }
           })
+          console.log(this.state.data.project)
         }
 
     });
-    // fetch('../../../api/data.json')
-    //   .then((res) => res.json())
-    //    .then((res) => {
-    //      if (res.restCode==200) {
-    //        let data=[]
-    //        data[0]=res.data.project
-    //       //  data[0].key=res.data.project.oid
-    //        let dataPartents=res.data.projectPartents
-    //         // dataPartents.key=res.data.projectPartents.oid
-    //         that.setState({
-    //            data:{
-    //              project:data,
-    //              projectPartents:dataPartents
-    //            }
-    //         })
-    //      }
-    //    })
-    //    .catch((err) => console.error(err));
   }
   render(){
     const { value, editable } = this.state;
