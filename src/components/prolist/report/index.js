@@ -5,7 +5,7 @@ const { MonthPicker } = DatePicker;
 import reqwest from 'reqwest';
 
 const dateFormat = 'YYYY';
-const monthFormat = 'YYYY-MM';
+const monthFormat = 'MM';
 
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
@@ -22,7 +22,7 @@ class Myedit extends React.Component{
       <div>
         {
           editable?
-          <DatePicker defaultValue={moment(text, dateFormat)} format={dateFormat} disabled/>
+          <DatePicker defaultValue={moment(text, dateFormat)} format={dateFormat}/>
           :
           <p>{text}</p>
         }
@@ -31,11 +31,60 @@ class Myedit extends React.Component{
   }
 }
 
+class Mycommentedit extends React.Component{
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    const text = this.props.text
+    const editable = this.props.editable
+    return(
+      <div>
+        {
+          editable?
+          <Input defaultValue={text}/>
+          :
+          <p>{text}</p>
+        }
+      </div>
+    )
+  }
+}
+
+
 class Myadd extends React.Component{
   render() {
     return(
       <div>
-        <DatePicker />
+        <DatePicker  format={dateFormat}/>
+      </div>
+    )
+  }
+}
+class Myaddmonth extends React.Component{
+  render() {
+    return(
+      <div>
+        <MonthPicker  defaultValue={moment('1', monthFormat)} format={monthFormat}/>
+      </div>
+    )
+  }
+}
+class Myeditmonth extends React.Component{
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    const text = this.props.text
+    const editable = this.props.editable
+    return(
+      <div>
+        {
+          editable?
+          <MonthPicker  defaultValue={moment(text, monthFormat)} format={monthFormat}/>
+          :
+          <p>{text}</p>
+        }
       </div>
     )
   }
@@ -53,25 +102,11 @@ class Report extends React.Component{
   }
   yearender=(text, record, index) =>{
     let {editable,addable} = this.state
-    // const myedit = (text) =>(
-    //   <div>
-    //     {
-    //       editable?
-    //       <DatePicker defaultValue={moment(text, dateFormat)} format={dateFormat}/>
-    //       :
-    //       <p>{text}</p>
-    //     }
-    //   </div>
-    // )
-    // const myadd = () =>(
-    //   <div>
-    //       <DatePicker />
-    //   </div>
-    // )
+    console.log(this.state.data[index].isedit)
     return(
       <div>
         {
-          addable?
+          this.state.data[index].isedit?
           <Myadd />
           :
           <Myedit
@@ -87,10 +122,13 @@ class Report extends React.Component{
     return(
       <div>
         {
-          editable?
-          <MonthPicker defaultValue={moment(text, 'MM')} />
+          this.state.data[index].isedit?
+          <Myaddmonth />
           :
-          <p>{text}</p>
+          <Myeditmonth
+            text={text}
+            editable={editable}
+           />
         }
       </div>
     )
@@ -100,10 +138,13 @@ class Report extends React.Component{
     return(
       <div>
         {
-          editable?
-          <Input defaultValue={text}/>
+          this.state.data[index].isedit?
+          <Input/>
           :
-          <p>{text}</p>
+          <Mycommentedit
+            text={text}
+            editable={editable}
+           />
         }
       </div>
     )
@@ -120,7 +161,8 @@ class Report extends React.Component{
       console.log(result)
       let { data, columns } = this.state
       if (result.restCode ===200 ) {
-         data = result.data.reportDatas
+        data = result.data.reportDatas
+         data.isedit = false
          // 获取表头信息
          let _cols = result.data.templateDetails
          for (let value of _cols) {
@@ -143,10 +185,26 @@ class Report extends React.Component{
   }
   handleAdd = () => {
     const { data, addable } = this.state;
-    const newData = data[0];
+    let newData = {}
+    for (var variable in data[0]) {
+      if (data[0].hasOwnProperty(variable)) {
+        newData[variable] = ''
+      }
+    }
+    // let newData = data[0];
+    newData.isedit = true;
     this.setState({
       data: [...data, newData],
       addable: true
+    });
+    // alert(this.state.data[1].editable)
+  }
+  handleCancel =() => {
+    const { data, addable } = this.state;
+    data.splice(data.length - 1,1)
+    this.setState({
+      data: [...data],
+      addable: false
     });
   }
   eidt = () =>{
@@ -155,7 +213,7 @@ class Report extends React.Component{
     })
   }
   render(){
-    const {editable}=this.state
+    const {editable, addable}=this.state
     return(
       <div>
         <Row >
@@ -167,17 +225,25 @@ class Report extends React.Component{
           </Col>
          </Row>
         <Row style={{paddingTop:'20px'}}>
-          <Col offset={18}>
+          <Col offset={16}>
             <Button type="primary" >导出所选报表</Button>
-            <Button type="primary" style={{margin:'0 10px'}} onClick={this.handleAdd}>添加报表</Button>
-            <Button type="primary" onClick={this.eidt}>
-              {
-                editable?
-                "取消编辑"
-                :
-                "编辑报表"
-              }
-            </Button>
+            {
+              addable?
+              <Button type="primary" style={{margin:'0 10px'}} onClick={this.handleCancel}>取消报表</Button>
+              :
+              <span>
+                <Button type="primary" style={{margin:'0 10px'}} onClick={this.handleAdd}>添加报表</Button>
+                <Button type="primary" onClick={this.eidt}>
+                  {
+                    editable?
+                    "取消编辑"
+                    :
+                    "编辑报表"
+                  }
+                </Button>
+              </span>
+            }
+
           </Col>
         </Row>
         <Row style={{paddingTop:'20px'}}>
@@ -196,6 +262,15 @@ class Report extends React.Component{
             editable?
             <Col offset={20} span={2}>
               <Button type="primary" >保存</Button>
+            </Col>
+            :''
+          }
+        </Row>
+        <Row style={{marginTop:'20px'}}>
+          {
+            addable?
+            <Col offset={20} span={2}>
+              <Button type="primary" >提交</Button>
             </Col>
             :''
           }

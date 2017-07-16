@@ -1,25 +1,76 @@
 import React from 'react';
-import { Row, Col, Input, Select,Button, DatePicker   } from 'antd';
+import { Row, Col, Input, Select,Button, DatePicker, Table  } from 'antd';
 const Option = Select.Option;
 
 import $ from  'jquery'
-const dateFormat = 'YYYY-MM-DD';
+const dateFormat = 'YYYY';
+
 
 import moment from 'moment';
+
+
+
 class Listtmp extends React.Component{
   state = {
     size: 'default',
-    tablehead:{
-      lv1:'报表年',
-      lv2:'报表月',
-      lv3:'总资产',
-      lv4:'净资产',
-      lv5:'实收资本',
-      lv6:'货币资本',
-      lv7:'营收资本',
-      lv8:'净利'
-    },
-    datas: [{
+    columns:[{
+      title:'报表年',
+      dataIndex:'lv1',
+      render: (text, record, index) => {
+        return(
+          this.state.data[index].editable?
+          <DatePicker defaultValue={moment(text, dateFormat)} format={dateFormat}/>
+          :
+          <p>{text}</p>
+        )
+      }
+    }, {
+      title:'报表月',
+      dataIndex:'lv2',
+      render: (text, record, index) => {
+        return(
+          this.state.data[index].editable?
+          <DatePicker defaultValue={moment(text, dateFormat)} format={dateFormat}/>
+          :
+          <p>{text}</p>
+        )
+      }
+    }, {
+      title:'总资产',
+      dataIndex:'lv3',
+      render: (text, record, index) => {
+        return(
+          this.state.data[index].editable?
+          <Input />
+          :
+          <p>{text}</p>
+        )
+      }
+    }, {
+      title:'净资产',
+      dataIndex:'lv4',
+      render: (text, record, index) => {
+        return(
+          this.state.data[index].editable?
+          <Input />
+          :
+          <p>{text}</p>
+        )
+      }
+    }, {
+      title:'实收资本',
+      dataIndex:'lv5'
+    }, {
+      title:'货币资本',
+      dataIndex:'lv6'
+    }, {
+      title:'营收资本',
+      dataIndex:'lv7'
+    }, {
+      title:'净利',
+      dataIndex:'lv8'
+    }],
+    data: [{
       lv1:'我是表体报表年',
       lv2:'报表月',
       lv3:'总资产',
@@ -27,7 +78,8 @@ class Listtmp extends React.Component{
       lv5:'实收资本',
       lv6:'货币资本',
       lv7:'营收资本',
-      lv8:'净利'
+      lv8:'净利',
+      editable:false
     }, {
       lv1:'我是表体报表2222年',
       lv2:'报表月',
@@ -36,64 +88,65 @@ class Listtmp extends React.Component{
       lv5:'实收资本',
       lv6:'货币资本',
       lv7:'营收资本',
-      lv8:'净利'
+      lv8:'净利',
+      editable:false
     }],
     htmls:''
   }
   componentWillMount() {
-    // const {tablehead} = this.state;
-    // let {htmls, datas}=this.state
-    // $.each(tablehead,function(index,value){
-    //
-    //   // if (index === "lv1" || index === "lv2") {
-    //   //   htmls.push(<tr><td><DatePicker defaultValue={moment('2015-06-06', dateFormat)} /></td></tr>)
-    //   //   return
-    //   // }
-    //   $.each(datas, function(item, items){
-    //     htmls.push(<tr>
-    //                 <td>{value}</td>
-    //                 <td>{items[index]}</td>
-    //               </tr>)
-    //   })
-    //
-    // })
-    //
-    // this.setState({
-    //   htmls:htmls
-    // })
 
   }
-  gettable = () =>{
-    const {tablehead} = this.state;
-    let {htmls, datas}=this.state
-    $.each(tablehead,function(index,value){
-
-      htmls += `<tr><td>${value}</td>`;
-      $.each(datas, function(item, items){
-        htmls += `<td>${items[index]}</td>`;
-      })
-      htmls += `</tr>`
-    })
-
-    console.log(htmls)
-    return {__html: htmls};
-  }
+  //
+  // gettable = () =>{
+  //   const {tablehead} = this.state;
+  //   let {htmls, datas}=this.state
+  //   $.each(tablehead,function(index,value){
+  //     htmls += `<tr><td>${value}</td>`;
+  //     $.each(datas, function(item, items){
+  //       htmls += `<td>${items[index]}</td>`;
+  //     })
+  //     htmls += `</tr>`
+  //   })
+  //   console.log(htmls)
+  //   return {__html: htmls};
+  // }
+  // adddatas =() => {
+  //   let { datas }=this.state
+  //   let newdata = {
+  //     lv1:`<span class="ant-calendar-picker"><div><input readonly="" value="2015" placeholder="请选择日期" class="ant-calendar-picker-input ant-input"><i class="anticon anticon-cross-circle ant-calendar-picker-clear"></i><span class="ant-calendar-picker-icon"></span></div></span>`,
+  //     lv2:`<span class="ant-calendar-picker"><div><input readonly="" value="06" placeholder="请选择日期" class="ant-calendar-picker-input ant-input"><i class="anticon anticon-cross-circle ant-calendar-picker-clear"></i><span class="ant-calendar-picker-icon"></span></div></span>`,
+  //     lv3:'总资产',
+  //     lv4:'净资产',
+  //     lv5:'实收资本',
+  //     lv6:'货币资本',
+  //     lv7:'营收资本',
+  //     lv8:'净利'
+  //   }
+  //   this.setState({
+  //     datas:[...datas, newdata]
+  //   })
+  // }
+  //
   adddatas =() => {
-    let { datas }=this.state
-    let newdata = {
-      lv1:`<span class="ant-calendar-picker"><div><input readonly="" value="2015" placeholder="请选择日期" class="ant-calendar-picker-input ant-input"><i class="anticon anticon-cross-circle ant-calendar-picker-clear"></i><span class="ant-calendar-picker-icon"></span></div></span>`,
-      lv2:`<span class="ant-calendar-picker"><div><input readonly="" value="06" placeholder="请选择日期" class="ant-calendar-picker-input ant-input"><i class="anticon anticon-cross-circle ant-calendar-picker-clear"></i><span class="ant-calendar-picker-icon"></span></div></span>`,
-      lv3:'总资产',
-      lv4:'净资产',
-      lv5:'实收资本',
-      lv6:'货币资本',
-      lv7:'营收资本',
-      lv8:'净利'
+    let { data }=this.state
+    let newdata={}
+    for (let variable of data) {
+      if( data.hasOwnProperty(variable) ) {
+        newdata[variable] = ''
+      }
     }
+    newdata.editable = true
 
     this.setState({
-      datas:[...datas, newdata]
-    })
+        data:[...data, newdata]
+      })
+  }
+  delete =() => {
+    let { data }=this.state
+    data.splice(data.length-1,1)
+    this.setState({
+        data:[...data]
+      })
   }
   render(){
     const { size } = this.state;
@@ -123,14 +176,19 @@ class Listtmp extends React.Component{
             <Button type="primary" onClick={this.adddatas}>添加</Button>
           </Col>
           <Col  span={4}>
-            <Button type="primary">删除</Button>
+            <Button type="primary" onClick={this.delete}>删除</Button>
           </Col>
         </Row>
-        <table  className="cloumstable" cellSpacing="0" cellPadding="0">
+        <Table
+           columns={this.state.columns}
+           dataSource={this.state.data}
+           bordered
+         />
+        {/* <table  className="cloumstable" cellSpacing="0" cellPadding="0">
           <tbody className="cloumsbody" dangerouslySetInnerHTML={this.gettable()}>
 
           </tbody>
-        </table>
+        </table> */}
         <Row>
           <Col offset={16}>
             <Button type="primary">保存</Button>

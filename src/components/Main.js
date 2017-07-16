@@ -19,7 +19,7 @@ class AppComponent extends React.Component {
       <div className="index container-fluid">
         <Switch>
           <Route exact path='/' component={Login}/>
-          <Route exact path='/login' component={Login}/>
+          <Route path='/login' component={Login}/>
           <Route path='/menu' component={Menus}/>
           <Route component={NoMatch}/>
         </Switch>
