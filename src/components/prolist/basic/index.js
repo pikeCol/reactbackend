@@ -100,7 +100,7 @@ export default class Basic extends React.Component{
   }
   componentWillMount(){
     let that = this
-    let oid = this.props.location.state.oid
+    let oid = this.props.location.state.oid? this.props.location.state.oid:localStorage.getItem('projectOid')
     localStorage.setItem('projectOid',oid)
     let { projectPartents, project } = this.state.data
     reqwest({

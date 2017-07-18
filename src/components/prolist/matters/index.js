@@ -23,14 +23,17 @@ class Metters extends React.Component{
 
     reqwest({
       url:'/project/showImportantEvent.do',
+      method:'POST',
       data:{
         projectOid:projectOid
       }
     }).then((result) =>{
       console.log(result)
       if( result.restCode === 200 ) {
-        data = result.rows
-        data.isedit = false
+        data = result.data
+        for (let variable of data) {
+          variable.isedit = false
+        }
         this.setState({
           data:[...data]
         })
@@ -41,14 +44,14 @@ class Metters extends React.Component{
      data:[],
      columns:[{
         title: '添加日期',
-        dataIndex: 'date',
+        dataIndex: 'createTime',
         render:(text, record, index) => {
           return (
             // <DatePicker defaultValue={moment(text, dateFormat)} disabled/>
             <div>
               {
                 this.state.data[index].isedit?
-                <DatePicker defaultValue={moment(text, dateFormat)}/>
+                <DatePicker defaultValue={moment("2017-07-04", dateFormat)}/>
                 :
                 <p>{text}</p>
               }
@@ -64,32 +67,23 @@ class Metters extends React.Component{
             <div>
               {
                 this.state.data[index].isedit?
-                <p>{text}</p>
+                <Input type="textarea"  autosize={{ minRows: 5, maxRows: 8 }} onChange={e =>this.textval(e, index)}/>
                 :
-                <Input type="textarea"  autosize={{ minRows: 5, maxRows: 8 }} onChange={() =>this.textval(e)}/>
+                <p>{text}</p>
               }
             </div>
           )
         }
       }],
-      addable:false
+      addable:false,
+      content:''
   }
-  // add = () => {
-  //   const { columns, data } = this.state;
-  //   const newData = {
-  //     date: ``,
-  //     content: ` Pasdsadrk Lane no.dfasdfasd`,
-  //   };
-  //   this.setState({
-  //     data: [...data, newData]
-  //   });
-  // }
   handleAdd = () => {
     const { data, addable } = this.state;
     let newData = {}
     for (var variable in data[0]) {
       if (data[0].hasOwnProperty(variable)) {
-        newData[variable] = ''
+        newData[variable] = data[0][variable]
       }
     }
     // let newData = data[0];
@@ -100,8 +94,40 @@ class Metters extends React.Component{
     });
     // alert(this.state.data[1].editable)
   }
-  textval =(e) =>{
+  save = () => {
+    let { data, addable, content } = this.state;
+    let projectOid = localStorage.getItem('projectOid')
+    reqwest({
+      url:'/project/editImportantEvent.do',
+      method:'POST',
+      data:{
+        projectOid:projectOid,
+        content:content
+      }
+    }).then((result) =>{
+      console.log(result)
+      if( result.restCode === 200 ) {
+        alert('success')
+        let len = data.length-1
+        data[len].isedit = false
+        this.setState({
+          data:[...data],
+          addable: false
+        });
+      }
+    })
+  }
+  textval =(e,index) =>{
     console.log(e.target.value)
+    let newval = e.target.value
+    let {data} = this.state
+    if (newval) {
+      data[index].content = newval
+      this.setState({
+        data:[...data]
+      })
+    }
+
   }
   handleCancel =() => {
     const { data, addable } = this.state;
@@ -132,6 +158,16 @@ class Metters extends React.Component{
            bordered
          />
         </div>
+        <Row>
+          <Col offset={18}>
+            {
+              addable?
+              <Button type="primary" onClick={this.save}>保存</Button>
+              :
+              ''
+            }
+          </Col>
+        </Row>
       </div>
     )
   }

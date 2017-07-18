@@ -1,287 +1,140 @@
-// Todetail.js
-// render(){
-//   return(
-//     <div>
-//       <div>
-//         <form className="form-inline">
-//           <div className="form-group">
-//             <label htmlFor="exampleInputName2">项目名称</label>
-//             <input type="text" className="form-control" id="exampleInputName2" placeholder="Jane Doe" />
-//           </div>
-//           <button type="submit" className="btn btn-default">查找</button>
-//         </form>
-//       </div>
-//       <div>
-//         <table className="table table-bordered">
-//           <tbody>
-//             <tr className="danger">
-//               <td>项目名称</td>
-//               <td>主营业务</td>
-//               <td>注册资本</td>
-//               <td>实缴资本</td>
-//               <td>我方投资方</td>
-//               <td>实投金额</td>
-//               <td>持有比例</td>
-//               <td>投资时间</td>
-//               <td>最新总资产</td>
-//               <td>最新净资产</td>
-//               <td>最新实收资本</td>
-//               <td>最新货币资金</td>
-//               <td>最新营收</td>
-//               <td>最新利润</td>
-//               <td>备注</td>
-//             </tr>
-//             <tr>
-//               <td>
-//                 <Link to={'/menu/prolist/basic'}>项目名称</Link>
-//               </td>
-//               <td>主营业务</td>
-//               <td>注册资本</td>
-//               <td>实缴资本</td>
-//               <td>我方投资方</td>
-//               <td>实投金额</td>
-//               <td>持有比例</td>
-//               <td>投资时间</td>
-//               <td>最新总资产</td>
-//               <td>最新净资产</td>
-//               <td>最新实收资本</td>
-//               <td>最新货币资金</td>
-//               <td>最新营收</td>
-//               <td>最新利润</td>
-//               <td>备注</td>
-//             </tr>
-//           </tbody>
-//         </table>
-//       </div>
-//     </div>
-//   )
-// }
-
-
-
-
-
-
-
-// const dataPartents = [{
-//   key: '20',
-//   name:'',
-//   investmentTime:'',
-//   rate:'',
-//   subscribedCapital:'',
-//   contributedCapital:''
-// }];
 //
-// const data = [{
-//   key: '1',
-//   companyName:'',
-//   mainBusiness:'',
-//   regCapital:'',
-//   contributedCapital:'',
-//   ourInvestors:'',
-//   ourRate:'',
-//   actualAmount:'',
-//   ourInvestmentTime:''
-// }];
-//
-
-// class Basic extends React.Component{
-//   state={
-//     edit:''
-//   }
-//   componentWillMount(){
-//     let urls=this.props.location.search;
-//     let _edit=urlParse(urls)
-//     let isedit=_edit.edit
-//     this.setState({
-//       edit:isedit
+// gettable = () =>{
+//   const {tablehead} = this.state;
+//   let {htmls, datas}=this.state
+//   $.each(tablehead,function(index,value){
+//     htmls += `<tr><td>${value}</td>`;
+//     $.each(datas, function(item, items){
+//       htmls += `<td>${items[index]}</td>`;
 //     })
-//   }
-//   render(){
-//     return(
-//       <div className="col-sm-10 " style={{ paddingTop: '12px'}}>
-//         <form className="form-horizontal">
-//           <div className="form-group">
-//             <label className="col-sm-2 control-label">目标名称</label>
-//             <div className="col-sm-6">
-//               <input className="form-control" />
-//             </div>
-//           </div>
-//           <div className="form-group">
-//             <label className="col-sm-4 col-sm-offset-1 control-label formlabel">公司简介</label>
-//             <table className="table table-bordered col-sm-10 col-sm-offset-1 center">
-//               <tbody>
-//                 <tr>
-//                   <td className="danger">
-//                     项目编码
-//                   </td>
-//                   <td>
-//                     1234124
-//                   </td>
-//                   <td className="danger">
-//                     公司名称
-//                   </td>
-//                   <td>
-//                     1234124
-//                   </td>
-//                 </tr>
-//                 <tr>
-//                   <td className="danger">
-//                     主营业务
-//                   </td>
-//                   <td>
-//                     1234124
-//                   </td>
-//                   <td className="danger">
-//                     注册资本
-//                   </td>
-//                   <td>
-//                     1234124
-//                   </td>
-//                 </tr>
-//               </tbody>
-//             </table>
-//           </div>
-//
-//           <div className="form-group">
-//             <label className="col-sm-4 col-sm-offset-1 control-label formlabel">股东结构</label>
-//             <table className="table table-bordered col-sm-10 col-sm-offset-1 center">
-//               <tbody>
-//                 <tr className="danger">
-//                   <td >
-//                     股东名称
-//                   </td>
-//                   <td>
-//                     投资时间
-//                   </td>
-//                   <td >
-//                     投缴资本
-//                   </td>
-//                   <td>
-//                     认缴资本
-//                   </td>
-//                 </tr>
-//                 <tr>
-//                   <td >
-//                     主营业务
-//                   </td>
-//                   <td>
-//                     1234124
-//                   </td>
-//                   <td>
-//                     注册资本
-//                   </td>
-//                   <td>
-//                     1234124
-//                   </td>
-//                 </tr>
-//               </tbody>
-//             </table>
-//           </div>
-//
-//           <div className="form-group">
-//             <label className="col-sm-4 control-label col-sm-offset-1 formlabel">董事会/监事会结构</label>
-//             <table className="table table-bordered col-sm-10 col-sm-offset-1 center">
-//               <tbody>
-//                 <tr className="danger">
-//                   <td >
-//                     股东名称
-//                   </td>
-//                   <td>
-//                     投资时间
-//                   </td>
-//                   <td >
-//                     投缴资本
-//                   </td>
-//                   <td>
-//                     认缴资本
-//                   </td>
-//                 </tr>
-//                 <tr>
-//                   <td >
-//                     主营业务
-//                   </td>
-//                   <td>
-//                     1234124
-//                   </td>
-//                   <td>
-//                     注册资本
-//                   </td>
-//                   <td>
-//                     1234124
-//                   </td>
-//                 </tr>
-//               </tbody>
-//             </table>
-//           </div>
-//
-//
-//           <div className="form-group">
-//             <label className="col-sm-4 col-sm-offset-1 control-label formlabel">联系信息</label>
-//             <table className="table table-bordered col-sm-10 col-sm-offset-1 center">
-//               <tbody>
-//                 <tr>
-//                   <td className="danger">
-//                     实际控制人
-//                   </td>
-//                   <td>
-//                     1234124
-//                   </td>
-//                   <td className="danger">
-//                     联系方式
-//                   </td>
-//                   <td>
-//                     1234124
-//                   </td>
-//                 </tr>
-//                 <tr>
-//                   <td className="danger">
-//                     常用联系人
-//                   </td>
-//                   <td>
-//                     1234124
-//                   </td>
-//                   <td className="danger">
-//                     联系方式
-//                   </td>
-//                   <td>
-//                     1234124
-//                   </td>
-//                 </tr>
-//                 <tr>
-//                   <td className="danger">
-//                     办公地址
-//                   </td>
-//                   <td colSpan="3">
-//                     1234124
-//                   </td>
-//                 </tr>
-//               </tbody>
-//             </table>
-//           </div>
-//
-//           <div className="form-group">
-//             <label className="col-sm-4 col-sm-offset-1 control-label formlabel">重要条款</label>
-//             <textarea placeholder="条款内容区域" className="col-sm-12 col-sm-offset-1 textbg" cols="30" rows="10"></textarea>
-//           </div>
-//
-//           <div className="form-group">
-//             <label className="col-sm-4 col-sm-offset-1 control-label formlabel">备注</label>
-//             <textarea placeholder="条款内容区域" className="col-sm-12 col-sm-offset-1 textbg" cols="30" rows="5"></textarea>
-//           </div>
-//
-//           <div className="center">
-//             <a
-//               href={`/menu/prolist?edit=${!this.state.edit}`}
-//               // onClick={this.hander}
-//               className="btn btn-primary" style={{
-//               padding: '6px 20px',
-//               marginTop: '24px'
-//             }}>{this.state.edit?'编辑':'确认修改'}</a>
-//           </div>
-//         </form>
-//       </div>
-//     )
-//   }
+//     htmls += `</tr>`
+//   })
+//   console.log(htmls)
+//   return {__html: htmls};
 // }
-// export default Basic;
+// adddatas =() => {
+//   let { datas }=this.state
+//   let newdata = {
+//     lv1:`<span class="ant-calendar-picker"><div><input readonly="" value="2015" placeholder="请选择日期" class="ant-calendar-picker-input ant-input"><i class="anticon anticon-cross-circle ant-calendar-picker-clear"></i><span class="ant-calendar-picker-icon"></span></div></span>`,
+//     lv2:`<span class="ant-calendar-picker"><div><input readonly="" value="06" placeholder="请选择日期" class="ant-calendar-picker-input ant-input"><i class="anticon anticon-cross-circle ant-calendar-picker-clear"></i><span class="ant-calendar-picker-icon"></span></div></span>`,
+//     lv3:'总资产',
+//     lv4:'净资产',
+//     lv5:'实收资本',
+//     lv6:'货币资本',
+//     lv7:'营收资本',
+//     lv8:'净利'
+//   }
+//   this.setState({
+//     datas:[...datas, newdata]
+//   })
+// }
+//
+
+
+
+
+
+data = result.data.reportDatas
+ data.isedit = false
+ // 获取表头信息
+ let _cols = result.data.templateDetails
+ for (let value of _cols) {
+    value.title = value.name;
+    value.dataIndex=value.valCode
+    value.render=this.usrender
+    if(value.valCode=='val1') {
+      value.render= this.yearender
+      console.log(value)
+      //  render: (text, record, index) => this.renderColumns(this.state.data, index, 'address', text),
+    }
+    if(value.valCode=='val2') {
+      value.render= this.monrender
+    }
+  }
+this.setState({
+  columns:[..._cols],
+  data:[...data]
+})
+
+
+yearender=(text, record, index) =>{
+  let {editable,addable} = this.state
+  let texts = text || '2017'
+  return(
+    <div>
+      {
+        this.state.data[index].isedit?
+        <Myadd text={texts}/>
+        :
+         <div>
+           {
+             editable?
+             <DatePicker defaultValue={moment(text, dateFormat)} format={dateFormat}/>
+             :
+             <p>{text}</p>
+           }
+         </div>
+      }
+    </div>
+  )
+}
+monrender=(text, record, index) =>{
+  let {editable,addable} = this.state
+  return(
+    <div>
+      {
+        this.state.data[index].isedit?
+        <MonthPicker  defaultValue={moment('1', monthFormat)} format={monthFormat}/>
+        :
+        <div>
+          {
+            editable?
+            <MonthPicker  defaultValue={moment(text, monthFormat)} format={monthFormat}/>
+            :
+            <p>{text}</p>
+          }
+        </div>
+      }
+    </div>
+  )
+}
+usrender=(text, record, index) =>{
+  let {editable,addable} = this.state
+  return(
+    <div>
+      {
+        this.state.data[index].isedit?
+        <EditableCell
+         value={text}
+         editable={this.state.data[index].isedit}
+         onChange={this.onCellChange(index, this.state.data[index].dataIndex)}
+       />
+        :
+        <p>{text}</p>
+
+      }
+    </div>
+  )
+}
+
+
+
+class Myedit extends React.Component{
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    const text = this.props.text
+    const editable = this.props.editable
+    return(
+      <div>
+        {
+          editable?
+          <DatePicker defaultValue={moment(text, dateFormat)} format={dateFormat}/>
+          :
+          <p>{text}</p>
+        }
+      </div>
+    )
+  }
+}

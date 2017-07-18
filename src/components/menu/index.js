@@ -8,6 +8,7 @@ import Rolemanage from '../rolemanage'
 import Newrole from '../rolemanage/newrole'
 import Editprofile from '../editprofile'
 import Listtmp from '../listtmp'
+import Listedit from '../listtmp/edit'
 
 
 import Accoutmanage from '../accoutmanage'
@@ -113,6 +114,7 @@ class Menus extends React.Component{
                   <Route path="/menu/rolemanage/newrole" component={Newrole}/>
                   <Route path="/menu/rolemanage" component={Rolemanage}/>
                   <Route path="/menu/editprofile" component={Editprofile}/>
+                  <Route path="/menu/listtmp/add" component={Listedit}/>
                   <Route path="/menu/listtmp" component={Listtmp}/>
                 </Switch>
               </div>

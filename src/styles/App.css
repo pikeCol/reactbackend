@@ -15,7 +15,9 @@ ul{
   font-size: 16px
 }
 
-
+.ant-table-placeholder {
+  opacity: 0
+}
 
 .login_wrap{
   width: 100%;

@@ -1,0 +1,61 @@
+{
+    "restCode": 200,
+    "desCode": "_successful_",
+    "msg": "",
+    "data": {
+        "template": [
+            {
+                "id": 1,
+                "oid": "971ac50f211c4dcdb830630f75728e9d",
+                "name": "测试",
+                "columnNum": 0,
+                "type": 1,
+                "createTime": 1499069091000,
+                "createBy": null,
+                "updateTime": "2017-07-03 16:04:51.0",
+                "updateBy": null,
+                "delFlg": null,
+                "tableHead": null
+            },
+            {
+                "id": 2,
+                "oid": "49c8ebbedda54af7aabd524a0041059a",
+                "name": "测试",
+                "columnNum": 0,
+                "type": 1,
+                "createTime": 1499069163000,
+                "createBy": null,
+                "updateTime": "2017-07-03 16:06:03.0",
+                "updateBy": null,
+                "delFlg": null,
+                "tableHead": null
+            },
+            {
+                "id": 3,
+                "oid": "4e493d4c7a6c44a7ab35dccee2311139",
+                "name": "测试",
+                "columnNum": 4,
+                "type": 1,
+                "createTime": 1499069202000,
+                "createBy": null,
+                "updateTime": "2017-07-03 16:06:42.0",
+                "updateBy": null,
+                "delFlg": null,
+                "tableHead": null
+            },
+            {
+                "id": 4,
+                "oid": "2daa2668a3eb4e8585cf7a35b6942795",
+                "name": "测试",
+                "columnNum": 4,
+                "type": 1,
+                "createTime": 1499069356000,
+                "createBy": null,
+                "updateTime": "2017-07-03 16:09:16.0",
+                "updateBy": null,
+                "delFlg": null,
+                "tableHead": null
+            }
+        ]
+    }
+}
