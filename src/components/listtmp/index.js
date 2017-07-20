@@ -4,13 +4,14 @@ const dateFormat = 'YYYY';
 
 import moment from 'moment';
 import reqwest from 'reqwest';
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 
 export default class Listtmp extends React.Component{
   constructor(props){
     super(props)
   }
   state={
+    pagination: {},
     columns:[{
       title: '模板名称',
       dataIndex: 'name'
@@ -21,10 +22,13 @@ export default class Listtmp extends React.Component{
       title: '操作',
       dataIndex: 'opreate',
       render: (text, record, index) => {
+        const {data} = this.state
+        let oid = data[index].oid
+        console.log(index,oid)
         return(
           <Row type="flex" justify="space-around" align="middle">
             <Col span={4}>
-              <a onClick={()=>this.edit(index)}>编辑</a>
+              <Link to={{pathname:'/menu/listtmp/edit', state:{oid:oid}}}>编辑</Link>
             </Col>
             <Col span={4}>
               <a onClick={() =>this.delt(index)}>删除</a>
@@ -33,38 +37,95 @@ export default class Listtmp extends React.Component{
         )
       }
     }],
+    loading: false,
     data: [],
-    params:{},
+    oid:'',
     add: false
   }
-  edit = (index) => {
-    let {data, params, add} = this.state
-    params.name = data[index].name
-    params.type = data[index].type
-    this.setState({
-      params:params,
-      add:true
-    })
-    console.log(this.state.params)
-  }
   delt = (index) => {
-    let {data} = this.state
-    data.splice(index, 1)
-    this.setState({
-      data:[...data]
-    })
-  }
-  componentWillMount() {
+    // /template/delete.do
     let {data} = this.state
     reqwest({
-      url:'../../api/temlist.json'
-    }).then((result)=>{
-      if (result.restCode === 200) {
-        let data = result.data.template
+      url:'/template/delete.do',
+      method: 'POST',
+      data: {
+        template: data[index].oid
+      }
+    }).then((result) =>{
+      if (result === 200) {
+        data.splice(index, 1)
         this.setState({
           data:[...data]
         })
       }
+    })
+  }
+  handleTableChange = (pagination, filters, sorter) => {
+    const page = { ...this.state.pagination };
+    console.log(pagination)
+    page.current = pagination.current;
+    this.setState({
+      pagination: page,
+    });
+    console.log(this.state.pagination)
+    this.fetch({
+      rows: pagination.pageSize,
+      page: pagination.current,
+    });
+  }
+  fetch = (params = {}) => {
+    console.log('params:', params);
+    this.setState({ loading: true });
+    reqwest({
+      // temlist
+      // url:'../../api/temlist.json',
+      url:'/template/list.do',
+      method:'POST',
+      data: {
+        rows:10,
+        ...params
+      }
+    }).then((result) => {
+      console.log(result)
+      const pagination = { ...this.state.pagination };
+      if (result.restCode === 200) {
+        // pagination.total = result.data.total
+        pagination.total = result.data.total;
+        let data = result.data.template
+        this.setState({
+          loading: false,
+          data:[...data],
+          pagination
+        })
+        console.log(this.state.pagination)
+      }
+      // this.setState({
+      //   loading: false,
+      //   data: data.results,
+      //   pagination,
+      // });
+    });
+  }
+  //
+  // componentWillMount() {
+  //   let {data} = this.state
+  //   reqwest({
+  //     // url:'../../api/temlist.json'
+  //     method:'POST',
+  //     url:'/template/list.do'
+  //   }).then((result)=>{
+  //     if (result.restCode === 200) {
+  //       let data = result.data.template
+  //       this.setState({
+  //         data:[...data]
+  //       })
+  //     }
+  //   })
+  // }
+  componentDidMount () {
+    this.fetch({
+      rows: 10,
+      page: 1,
     })
   }
   addmodule =() =>{
@@ -76,7 +137,7 @@ export default class Listtmp extends React.Component{
     const { size, add } = this.state;
     if (add) {
       return(
-        <Redirect to={{pathname:'/menu/listtmp/add',state:{params:this.state.params}}} />
+        <Redirect to={'/menu/listtmp/add'} />
       )
     }
     return(
@@ -90,6 +151,9 @@ export default class Listtmp extends React.Component{
           columns={this.state.columns}
           dataSource={this.state.data}
           bordered
+          pagination={this.state.pagination}
+          loading={this.state.loading}
+          onChange={this.handleTableChange}
          />
       </div>
     )

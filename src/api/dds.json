@@ -1,0 +1,115 @@
+{
+    "restCode": 200,
+    "desCode": "_successful_",
+    "msg": "",
+    "data": [
+        {
+            "id": 8,
+            "oid": "c8b719e1420a4d4e8a9d63243d83659d",
+            "roleName": "角色1",
+            "roleType": "1",
+            "status": 0,
+            "delFlag": 0,
+            "createBy": "",
+            "createTime": 1499221211000,
+            "updateBy": "",
+            "updateTime": 1499221211000
+        },
+        {
+            "id": 9,
+            "oid": "c6212872af61428b996a1ca6432a18a2",
+            "roleName": "角色2",
+            "roleType": "1",
+            "status": 0,
+            "delFlag": 0,
+            "createBy": "",
+            "createTime": 1499221214000,
+            "updateBy": "",
+            "updateTime": 1499221214000
+        },
+        {
+            "id": 10,
+            "oid": "a8651e3ad733444392242c4e7e641882",
+            "roleName": "角色3",
+            "roleType": "1",
+            "status": 0,
+            "delFlag": 0,
+            "createBy": "",
+            "createTime": 1499221216000,
+            "updateBy": "",
+            "updateTime": 1499221216000
+        },
+        {
+            "id": 11,
+            "oid": "f6d1024c6df84e86be427c824b4dcda8",
+            "roleName": "角色4",
+            "roleType": "1",
+            "status": 0,
+            "delFlag": 0,
+            "createBy": "",
+            "createTime": 1499221219000,
+            "updateBy": "",
+            "updateTime": 1499221219000
+        },
+        {
+            "id": 12,
+            "oid": "2bac7485e3c94bd799011abe5981e936",
+            "roleName": "角色5",
+            "roleType": "1",
+            "status": 0,
+            "delFlag": 0,
+            "createBy": "",
+            "createTime": 1499221222000,
+            "updateBy": "",
+            "updateTime": 1499221222000
+        },
+        {
+            "id": 13,
+            "oid": "1fd9637e36c1496bafa1a6ce8ea66c92",
+            "roleName": "角色6",
+            "roleType": "1",
+            "status": 0,
+            "delFlag": 0,
+            "createBy": "",
+            "createTime": 1499221225000,
+            "updateBy": "",
+            "updateTime": 1499221225000
+        },
+        {
+            "id": 14,
+            "oid": "71f097bc699b497290a18881ee8241ef",
+            "roleName": "角色7",
+            "roleType": "1",
+            "status": 0,
+            "delFlag": 0,
+            "createBy": "",
+            "createTime": 1499221228000,
+            "updateBy": "",
+            "updateTime": 1499221228000
+        },
+        {
+            "id": 15,
+            "oid": "6d0b6107d17d4ca8a26f89612cf62158",
+            "roleName": "角色8",
+            "roleType": "1",
+            "status": 0,
+            "delFlag": 0,
+            "createBy": "",
+            "createTime": 1499221231000,
+            "updateBy": "",
+            "updateTime": 1499221231000
+        },
+        {
+            "id": 16,
+            "oid": "cef4d68cbe334b79a7968a09f18ce426",
+            "roleName": "角色9",
+            "roleType": "1",
+            "status": 0,
+            "delFlag": 0,
+            "createBy": "",
+            "createTime": 1499221233000,
+            "updateBy": "",
+            "updateTime": 1499221233000
+        }
+    ]
+}

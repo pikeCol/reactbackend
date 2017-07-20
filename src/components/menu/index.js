@@ -2,13 +2,14 @@ import React from 'react';
 import First from '../first'
 import Prolist from '../prolist'
 import Todetail from '../prolist/todetail'
-import Second from '../second'
+import addProlist from '../second/'
 import Editpass from '../editpass'
 import Rolemanage from '../rolemanage'
 import Newrole from '../rolemanage/newrole'
 import Editprofile from '../editprofile'
 import Listtmp from '../listtmp'
 import Listedit from '../listtmp/edit'
+import Listadd from '../listtmp/add'
 
 
 import Accoutmanage from '../accoutmanage'
@@ -48,18 +49,11 @@ class Menus extends React.Component{
       usr:''
     }
   }
-  componentWillMount() {
-    let urls=this.props.location.search;
-    let usrs=urlParse(urls)
-    this.setState({
-      usr:usrs.usr
-    })
-  }
   render(){
     let isnone=this.props.location.pathname=='/menu' ? 'none':'block'
     return(
       <Layout>
-        <Headers names={this.state.usr} />
+        <Headers />
          <Layout>
           <Sider width={200} style={{ background: '#fff' }}>
             <Menu
@@ -107,14 +101,17 @@ class Menus extends React.Component{
                   <Route exact path="/menu" component={First}/>
                   <Route path="/menu/prolist/:basic" component={Prolist}/>
                   <Route path="/menu/prolist" component={Todetail}/>
-                  <Route path="/menu/second" component={Second}/>
+
+                  <Route path="/menu/addprolist/:basic" component={addProlist}/>
+                  {/* <Route path="/menu/addprolist" component={Second}/> */}
                   <Route path="/menu/editpass" component={Editpass}/>
                   <Route path="/menu/accoutmanage/add" component={Add}/>
                   <Route path="/menu/accoutmanage" component={Accoutmanage}/>
                   <Route path="/menu/rolemanage/newrole" component={Newrole}/>
                   <Route path="/menu/rolemanage" component={Rolemanage}/>
                   <Route path="/menu/editprofile" component={Editprofile}/>
-                  <Route path="/menu/listtmp/add" component={Listedit}/>
+                  <Route path="/menu/listtmp/add" component={Listadd}/>
+                  <Route path="/menu/listtmp/edit" component={Listedit}/>
                   <Route path="/menu/listtmp" component={Listtmp}/>
                 </Switch>
               </div>

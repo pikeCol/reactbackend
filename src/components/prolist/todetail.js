@@ -4,7 +4,7 @@ import reqwest from 'reqwest';
 
 import { Table, Row, Col, Input, Button } from 'antd';
 //    /project/getProjects.do 获取列表 page 和 rows
-
+import { Redirect } from 'react-router-dom'
 
 class Todetail extends React.Component{
   constructor(props){
@@ -66,7 +66,8 @@ class Todetail extends React.Component{
         }, {
           title: '备注',
           dataIndex: 'remarke'
-      }]
+      }],
+      add:false
     };
 
   handleTableChange = (pagination) => {
@@ -115,8 +116,10 @@ class Todetail extends React.Component{
     changes = (e) => {
       console.log(e.target.value)
     }
+
     render(){
-      const {columns} = this.state
+      const { columns, add } = this.state
+
       return(
         <div style={{padding:'0 20px'}}>
           <div className="border_line">
@@ -124,6 +127,11 @@ class Todetail extends React.Component{
               <Col span={3}>项目名称</Col>
               <Col span={6}><Input onChange={() => this.changes(e)}/></Col>
               <Col span={2}><Button type='primary'>搜索</Button></Col>
+              <Col span={2} offset={10}>
+                <Button type='primary'>
+                  <Link to={{pathname:`/menu/addprolist/basic`}}>添加</Link>
+                </Button>
+              </Col>
             </Row>
           </div>
           <Table

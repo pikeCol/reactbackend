@@ -14,7 +14,24 @@ class RegistrationForm extends React.Component {
     isconnect:'',
     value:1,
     confirmDirty: false,
-    autoCompleteResult: []
+    autoCompleteResult: [],
+    roledatas:[]
+  }
+  componentWillMount () {
+    var that = this
+    $.ajax({
+      type:"POST",
+      url: '/role/getRoleList.do',
+      // url: '../../../api/dds.json',
+      success:function(datas){
+        if ( datas.restCode == 200 ) {
+          const {roledatas} = that.state
+          that.setState({
+            roledatas:datas.data
+          })
+        }
+      }
+    })
   }
   componentWillReceiveProps (nextProps) {
     let _postdata = nextProps.nickname || {}
@@ -29,27 +46,46 @@ class RegistrationForm extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
         let that = this
-        console.log(that.state._postdata.oid)
+        let selectval = values['select-multiple'].length?values['select-multiple']:[];
+        // /account/findAccuntRepeat.do 账户存在
+
         $.ajax({
           type:"POST",
           data:{
-            oid:that.state.oid,
-            accountName:values.accountName,
-            roleOid:values.roleOid,
-            name:values.name,
-            telephone:values.telephone,
-            email:values.email,
-            accountType:values.accountType,
-            isLimit:values.isLimit,
-            projectList:values.projectList
+            accountName:values.accountName
           },
-          url: '/account/addAccount.do',
+          url: '/account/findAccuntRepeat.do',
           success:function(datas){
               if(datas.restCode===200){
-                alert('success')
+                // 如果账户可用
+                $.ajax({
+                  type:"POST",
+                  data:{
+                    oid:that.state.oid,
+                    accountName:values.accountName,
+                    roleOid:values.roleOid,
+                    name:values.name,
+                    telephone:values.telephone,
+                    email:values.email,
+                    accountType:values.accountType,
+                    isLimit:values['radio-group'],
+                    projectList:selectval.join()
+                  },
+                  url: '/account/addAccount.do',
+                  success:function(datas){
+                      if(datas.restCode===200){
+                        alert('success')
+                      }
+                  }
+                })
+
+              } else {
+                alert('账户存在')
               }
           }
         })
+
+
       }
     });
   }
@@ -69,6 +105,16 @@ class RegistrationForm extends React.Component {
     const form = this.props.form;
     if (value && this.state.confirmDirty) {
       form.validateFields(['confirm'], { force: true });
+
+    }
+    callback();
+  }
+  checkAccountName = (rule, value, callback) => {
+    const form = this.props.form;
+
+    if (value && this.state.confirmDirty) {
+      form.validateFields(['confirm'], { force: true });
+      alert(1)
     }
     callback();
   }
@@ -101,6 +147,13 @@ class RegistrationForm extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult } = this.state;
     console.log(this.state._postdata)
+    const children=[];
+    const {roledatas} = this.state
+
+    for (let i of roledatas) {
+      children.push(<Option value={i.oid}>{i.roleName}</Option>)
+    }
+
     getFieldDecorator('accountName', { initialValue: [ ] })
 
     const { accountName,name,accountPassword }=this.state._postdata
@@ -181,7 +234,7 @@ class RegistrationForm extends React.Component {
               rules: [{
                 required: true, message: '请输入你的账户!'
               }, {
-                validator: this.checkConfirm
+                validator: this.checkAccountName
               }],
               initialValue: accountName,
             })(
@@ -216,8 +269,8 @@ class RegistrationForm extends React.Component {
             ]
           })(
             <Select placeholder="请选择" onChange={this.countpro}>
-              <Option value="ousideaccount">外部账户</Option>
-              <Option value="insideaccount">内部账户</Option>
+              <Option value="1">外部账户</Option>
+              <Option value="0">内部账户</Option>
             </Select>
           )}
         </FormItem>
@@ -233,8 +286,9 @@ class RegistrationForm extends React.Component {
             ]
           })(
             <Select placeholder="请选择">
-              <Option value="outsiderole">外部角色</Option>
-              <Option value="insiderole">内部角色</Option>
+              {children}
+              {/* <Option value="outsiderole">外部角色</Option>
+              <Option value="insiderole">内部角色</Option> */}
             </Select>
           )}
         </FormItem>
@@ -340,6 +394,7 @@ export default class Add extends React.Component{
           })
         }
       })
+
     }
 
   }

@@ -67,6 +67,11 @@ class Report extends React.Component{
     }
     return (<Input defaultValue={text} onChange={(e)=>this.handleChange(e,data,index,key)}/>);
   }
+  // myrender = (text, record, index) => {
+  //   return(
+  //     this.inputColumns(this.state.data, index, 'val6', text)
+  //   )
+  // }
   handleChange = (e,data,index,key) => {
      let newval = e.target.value
      let datas = [...this.state.data]
@@ -79,6 +84,11 @@ class Report extends React.Component{
   }
 
   componentWillMount () {
+    let _add = localStorage.getItem('_add')
+    if ( _add ){
+      return
+    }
+
     let projectOid = localStorage.getItem('projectOid')
     let { data } = this.state
     reqwest({
@@ -89,15 +99,23 @@ class Report extends React.Component{
       // url:'../../../api/item0.json',
     }).then((result)=>{
       console.log(result)
+      // templateDetails
       data = result.data.reportDatas
+      // let templateDetails = result.data.reportDatas
        for (let variable of data) {
          variable.isedit = false
        }
        // 获取表头信息
-      // let _cols = result.data.templateDetails
-      // for (let value of _cols) {
-      //
-      // }
+      let _cols = result.data.templateDetails
+      var str = 'val';
+      if (_cols.length > 5) {
+        for (var count = 5; count < _cols.length; i++) {
+          let txt = str + count
+          _cols[count].title = _cols[count].title
+          _cols[count].dataIndex = _cols[count].valCode
+          _cols[count].render = ((text, record, index) => this.inputColumns(this.state.data, index, txt, text))
+        }
+      }
       this.setState({
         data:[...data]
       })
@@ -159,19 +177,6 @@ class Report extends React.Component{
     let index = data.length-1
      data[index].isedit = false
      let datas = data[index]
-    //  delete datas.isedit
-    // let count = 0
-    //  console.log(datas)
-    // //  计算对象长度
-    //  let arr = Object.keys(datas)
-    //  let len = arr.length, i = 0
-    // console.log(datas)
-    // let mydata = {}
-    // for (var i=1; i<51; i++ ) {
-    //   mydata["val"+i] = datas["val"+i]
-    // }
-    // mydata.projectOid = datas.templateOid
-    // mydata.templateOid = datas.templateOid
     reqwest({
       url:'/project/addReportData.do',
       method:'POST',

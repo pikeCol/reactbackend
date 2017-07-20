@@ -1,0 +1,129 @@
+{
+   "restCode": 200,
+   "desCode": "_successful_",
+   "msg": "",
+   "data": {
+       "template": {
+           "id": 5,
+           "oid": "ef127e9d900649b6a58c79c60c975f27",
+           "name": "模板1",
+           "columnNum": 9,
+           "type": 1,
+           "createTime": 1499825976000,
+           "createBy": null,
+           "updateTime": "2017-07-12 10:40:04.0",
+           "updateBy": null,
+           "delFlg": 0,
+           "tableHead": [
+               {
+                   "id": 15,
+                   "oid": "bf7335859d3c48e792e275b90b8f970d",
+                   "name": "报表年",
+                   "valCode": "val1",
+                   "templateOid": "ef127e9d900649b6a58c79c60c975f27",
+                   "createTime": 1499825976000,
+                   "createBy": null,
+                   "updateTime": "2017-07-12 10:19:36.0",
+                   "updateBy": null,
+                   "delFlg": null
+               },
+               {
+                   "id": 16,
+                   "oid": "bb7f8e37d36c4e578effc83443b04874",
+                   "name": "报表月",
+                   "valCode": "val2",
+                   "templateOid": "ef127e9d900649b6a58c79c60c975f27",
+                   "createTime": 1499825976000,
+                   "createBy": null,
+                   "updateTime": "2017-07-12 10:19:36.0",
+                   "updateBy": null,
+                   "delFlg": null
+               },
+               {
+                   "id": 17,
+                   "oid": "dec7215b1a50470d8b91ee82af523ee5",
+                   "name": "最新总资产",
+                   "valCode": "val3",
+                   "templateOid": "ef127e9d900649b6a58c79c60c975f27",
+                   "createTime": 1499825976000,
+                   "createBy": null,
+                   "updateTime": "2017-07-12 10:19:36.0",
+                   "updateBy": null,
+                   "delFlg": null
+               },
+               {
+                   "id": 18,
+                   "oid": "664f511a4c394faca207869f3f687717",
+                   "name": "最新净资产",
+                   "valCode": "val4",
+                   "templateOid": "ef127e9d900649b6a58c79c60c975f27",
+                   "createTime": 1499825976000,
+                   "createBy": null,
+                   "updateTime": "2017-07-12 10:19:36.0",
+                   "updateBy": null,
+                   "delFlg": null
+               },
+               {
+                   "id": 19,
+                   "oid": "f1a65f049beb4ded967bacc95e1fb1b2",
+                   "name": "最新实收资本",
+                   "valCode": "val5",
+                   "templateOid": "ef127e9d900649b6a58c79c60c975f27",
+                   "createTime": 1499825976000,
+                   "createBy": null,
+                   "updateTime": "2017-07-12 10:19:36.0",
+                   "updateBy": null,
+                   "delFlg": null
+               },
+               {
+                   "id": 20,
+                   "oid": "9ec3dbb3f5404c368c4660703a74b034",
+                   "name": "最新货币资金",
+                   "valCode": "val6",
+                   "templateOid": "ef127e9d900649b6a58c79c60c975f27",
+                   "createTime": 1499825976000,
+                   "createBy": null,
+                   "updateTime": "2017-07-12 10:19:36.0",
+                   "updateBy": null,
+                   "delFlg": null
+               },
+               {
+                   "id": 21,
+                   "oid": "46762f0449354759b8bb24a151257e97",
+                   "name": "最新营收",
+                   "valCode": "val7",
+                   "templateOid": "ef127e9d900649b6a58c79c60c975f27",
+                   "createTime": 1499826325000,
+                   "createBy": null,
+                   "updateTime": "2017-07-12 10:25:25.0",
+                   "updateBy": null,
+                   "delFlg": null
+               },
+               {
+                   "id": 22,
+                   "oid": "d07e19132f604cbbbaad1eb7b81e6694",
+                   "name": "最新净利",
+                   "valCode": "val8",
+                   "templateOid": "ef127e9d900649b6a58c79c60c975f27",
+                   "createTime": 1499826325000,
+                   "createBy": null,
+                   "updateTime": "2017-07-12 10:25:25.0",
+                   "updateBy": null,
+                   "delFlg": null
+               },
+               {
+                   "id": 23,
+                   "oid": "2ed0e667e38642d391d01067ea3b7fdb",
+                   "name": "最新毛利",
+                   "valCode": "val9",
+                   "templateOid": "ef127e9d900649b6a58c79c60c975f27",
+                   "createTime": 1499827204000,
+                   "createBy": null,
+                   "updateTime": "2017-07-12 10:40:04.0",
+                   "updateBy": null,
+                   "delFlg": null
+               }
+           ]
+       }
+   }
+}

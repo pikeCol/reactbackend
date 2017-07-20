@@ -1,0 +1,59 @@
+{
+    "restCode": 200,
+    "desCode": "_success_",
+    "msg": "",
+    "data": [
+        {
+            "id": null,
+            "oid": "971ac50f211c4dcdb830630f75728e9d",
+            "name": "测试",
+            "columnNum": 0,
+            "type": 1,
+            "createTime": null,
+            "createBy": null,
+            "updateTime": null,
+            "updateBy": null,
+            "delFlg": null,
+            "tableHead": null
+        },
+        {
+            "id": null,
+            "oid": "49c8ebbedda54af7aabd524a0041059a",
+            "name": "测试",
+            "columnNum": 0,
+            "type": 1,
+            "createTime": null,
+            "createBy": null,
+            "updateTime": null,
+            "updateBy": null,
+            "delFlg": null,
+            "tableHead": null
+        },
+        {
+            "id": null,
+            "oid": "4e493d4c7a6c44a7ab35dccee2311139",
+            "name": "测试",
+            "columnNum": 4,
+            "type": 1,
+            "createTime": null,
+            "createBy": null,
+            "updateTime": null,
+            "updateBy": null,
+            "delFlg": null,
+            "tableHead": null
+        },
+        {
+            "id": null,
+            "oid": "2daa2668a3eb4e8585cf7a35b6942795",
+            "name": "测试",
+            "columnNum": 4,
+            "type": 1,
+            "createTime": null,
+            "createBy": null,
+            "updateTime": null,
+            "updateBy": null,
+            "delFlg": null,
+            "tableHead": null
+        }
+    ]
+}

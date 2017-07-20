@@ -83,6 +83,10 @@ export default class Accoutmanage extends React.Component {
       }
     })
   }
+
+
+
+
   start=(text, record, index)=>{
     let that = this
     let { data } = this.state
@@ -167,7 +171,11 @@ export default class Accoutmanage extends React.Component {
            </Row>
          </div>
          <div style={{padding:'10px 20px'}}>
-           <Table bordered dataSource={data} columns={columns} />
+           <Table
+             dataSource={data}
+             columns={columns}
+             bordered
+           />
          </div>
        </div>
     )

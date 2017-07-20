@@ -1,0 +1,20 @@
+{
+    "restCode": 200,
+    "desCode": "_success_",
+    "msg": "",
+    "data": {
+        "oid": "123",
+        "projectOid": "25616",
+        "id": 1,
+        "name": "fwewe",
+        "investmentTime": 1496023195000,
+        "rate": "10%",
+        "subscribedCapital": "12efe",
+        "contributedCapital": "efe",
+        "createBy": "eefwe",
+        "createTime": 1497924032000,
+        "updateBy": "efe",
+        "updateTime": 1498788037000,
+        "delFlag": 0
+    }
+}

@@ -18,6 +18,7 @@ moment.locale('zh-cn');
 
 class Metters extends React.Component{
   componentWillMount() {
+
     let projectOid = localStorage.getItem('projectOid')
     let { data } = this.state
 

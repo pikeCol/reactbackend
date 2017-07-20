@@ -55,7 +55,9 @@ class Rolemanage extends React.Component{
     }],
     isnew:false,
     param:{},
-    data:[]
+    data:[],
+    loading:false,
+    pagination:{}
   }
   edit = (text, record, index) =>{
     let { param } = this.state
@@ -133,31 +135,56 @@ class Rolemanage extends React.Component{
       }
     })
   }
-  componentWillMount () {
 
-    let { data } = this.state
-
-    let that = this
-    $.ajax({
-      type:"POST",
-      url: '/role/getRoleList.do',
-      // url: '/data.json',
-      success:function(datas){
-        if( datas.restCode === 200 ){
-          data = datas.data
-          that.setState({
-            data:data
-          })
-        }
-      }
-    })
-
-  }
   newroles = (e) =>{
     this.setState({
       isnew: true
     })
   }
+  fetch (param={}) {
+    this.setState({ loading: true });
+    const pagination = { ...this.state.pagination };
+    var that = this
+    $.ajax({
+      type:"POST",
+      url: '/role/queryRoleList.do',
+      data: {
+        rows:10,
+        ...param
+      },
+      success:function(datas){
+          pagination.total = datas.total;
+           that.setState({
+             loading: false,
+             data: datas.rows,
+             pagination,
+           });
+          // data = datas.data
+          // that.setState({
+          //   data:data
+          // })
+      }
+    })
+  }
+  handleTableChange = (pagination) => {
+    const page = { ...this.state.pagination };
+    page.current = pagination.current;
+    this.setState({
+      pagination: page,
+    });
+    this.fetch({
+      rows: pagination.pageSize,
+      page: pagination.current
+    });
+  }
+  componentDidMount () {
+    this.fetch({
+      page:1,
+      rows:10
+    })
+  }
+
+
   render(){
     if(this.state.isnew) {
       return(
@@ -176,6 +203,9 @@ class Rolemanage extends React.Component{
           <Table
             columns={columns}
             dataSource={this.state.data}
+            pagination={this.state.pagination}
+            loading={this.state.loading}
+            onChange={this.handleTableChange}
             bordered
           />
         </div>
