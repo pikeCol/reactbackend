@@ -5,7 +5,7 @@
     "data": [
         {
             "oid": "5fd06e459aec4344bc5107d3533d508c",
-            "permissionName": "投资项目管理",
+            "permissionName": "投资项目管理1",
             "description": "投资项目管理",
             "permissionType": "0",
             "content": "",
@@ -13,11 +13,57 @@
             "page": null,
             "parentOid": "0",
             "isParent": null,
-            "checked": null
+            "checked": null,
+            "children":[{
+              "oid": "567890dyhjk4567ui56789",
+              "permissionName": "子节点1",
+              "description": "投资项目管理",
+              "permissionType": "0",
+              "content": "",
+              "iconSkin": "",
+              "page": null,
+              "parentOid": "5fd06e459aec4344bc5107d3533d508c",
+              "isParent": null,
+              "checked": null
+              }, {
+                "oid": "564567ui56789",
+                "permissionName": "子节点2",
+                "description": "投资项目管理",
+                "permissionType": "0",
+                "content": "",
+                "iconSkin": "",
+                "page": null,
+                "parentOid": "5fd06e459aec4344bc5107d3533d508c",
+                "isParent": null,
+                "checked": null,
+                "children":[{
+                  "oid": "567890ppp4567ui56789",
+                  "permissionName": "子节点09",
+                  "description": "投资项目管理",
+                  "permissionType": "0",
+                  "content": "",
+                  "iconSkin": "",
+                  "page": null,
+                  "parentOid": "5fd06e459aec4344bc5107d3533d508c",
+                  "isParent": null,
+                  "checked": true
+                  }, {
+                    "oid": "567890ppsdfasp4567ui56789",
+                    "permissionName": "子节点19",
+                    "description": "投资项目管理",
+                    "permissionType": "0",
+                    "content": "",
+                    "iconSkin": "",
+                    "page": null,
+                    "parentOid": "5fd06e459aec4344bc5107d3533d508c",
+                    "isParent": null,
+                    "checked": true
+                    }]
+                }]
         },
         {
             "oid": "567890eyuertyhjk4567ui56789",
-            "permissionName": "投资项目管理",
+            "permissionName": "投资项目管理2",
             "description": "投资项目管理",
             "permissionType": "0",
             "content": "",
@@ -25,79 +71,34 @@
             "page": null,
             "parentOid": "5fd06e459aec4344bc5107d3533d508c",
             "isParent": null,
-            "checked": null
-        },
-        {
-            "oid": "567890eyuertyhjk4567ui56789",
-            "permissionName": "投资项目管理",
-            "description": "投资项目管理",
-            "permissionType": "0",
-            "content": "",
-            "iconSkin": "",
-            "page": null,
-            "parentOid": "5fd06e459aec4344bc5107d3533d508c",
-            "isParent": null,
-            "checked": null
-        },
-        {
-            "oid": "257370ca0a4549f8b9084440f4cf5184",
-            "permissionName": "账户管理",
-            "description": "账户管理",
-            "permissionType": "0",
-            "content": "",
-            "iconSkin": "",
-            "page": null,
-            "parentOid": "0",
-            "isParent": null,
-            "checked": null
-        },
-        {
-            "oid": "5da2e5e64d48434280c3491c13cc72cf",
-            "permissionName": "项目列表",
-            "description": "项目列表",
-            "permissionType": "1",
-            "content": "",
-            "iconSkin": "",
-            "page": null,
-            "parentOid": "5fd06e459aec4344bc5107d3533d508c",
-            "isParent": null,
-            "checked": null
-        },
-        {
-            "oid": "8836d0253e67499b871f9632dbd759e9",
-            "permissionName": "项目模板管理",
-            "description": "项目模板管理",
-            "permissionType": "1",
-            "content": "",
-            "iconSkin": "",
-            "page": null,
-            "parentOid": "5fd06e459aec4344bc5107d3533d508c",
-            "isParent": null,
-            "checked": null
-        },
-        {
-            "oid": "3537600effc44bef863587be2a3fae8e",
-            "permissionName": "角色管理",
-            "description": "角色管理",
-            "permissionType": "1",
-            "content": "",
-            "iconSkin": "",
-            "page": null,
-            "parentOid": "257370ca0a4549f8b9084440f4cf5184",
-            "isParent": null,
-            "checked": null
-        },
-        {
-            "oid": "04ced83169444a2588ab4a71533a86e2",
-            "permissionName": "账户设置",
-            "description": "账户设置",
-            "permissionType": "1",
-            "content": "",
-            "iconSkin": "",
-            "page": null,
-            "parentOid": "257370ca0a4549f8b9084440f4cf5184",
-            "isParent": null,
-            "checked": null
+            "checked": null,
+            "children":[
+              {
+                  "oid": "567890eyuertyhjk4222567ui56789",
+                  "permissionName": "投资项目管理3",
+                  "description": "投资项目管理",
+                  "permissionType": "0",
+                  "content": "",
+                  "iconSkin": "",
+                  "page": null,
+                  "parentOid": "567890eyuertyhjk4567ui56789",
+                  "isParent": null,
+                  "checked": true
+              },
+              {
+                  "oid": "567890eyuertyhjk4dsfasdf22567ui56789",
+                  "permissionName": "投资项目管理3",
+                  "description": "投资项目管理",
+                  "permissionType": "0",
+                  "content": "",
+                  "iconSkin": "",
+                  "page": null,
+                  "parentOid": "567890eyuertyhjk4567ui56789",
+                  "isParent": null,
+                  "checked": null
+              }
+            ]
         }
+
     ]
 }

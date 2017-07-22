@@ -42,13 +42,13 @@ class Rolemanage extends React.Component{
               <Col span={6}>
                 {
                   status?
-                  <a onClick={()=>this.stop(text, record, index)}>停用</a>
+                  <a onClick={()=>this.stop(text, record, index)}>冻结</a>
                   :
                   <a onClick={()=>this.start(text, record, index)}>启用</a>
                 }
               </Col>
               <Col span={6}><a onClick={()=>this.delete(text, record, index)}>删除</a></Col>
-              <Col span={6}><a>修改密码</a></Col>
+              <Col span={6}><Link to={'/menu/editpass'}>修改密码</Link></Col>
             </Row>
           )
         }
@@ -120,10 +120,9 @@ class Rolemanage extends React.Component{
     data.splice(index, 1)
     $.ajax({
       type:"POST",
-      url: '/role/updateRoleStatus.do',
+      url: '/role/delRole.do',
       data:{
-        oid: this.state.data[index].oid,
-        status: 1
+        oid: this.state.data[index].oid
       },
       // url: '/data.json',
       success:function(datas){
@@ -188,7 +187,7 @@ class Rolemanage extends React.Component{
   render(){
     if(this.state.isnew) {
       return(
-        <Redirect to={{pathname:'/menu/rolemanage/newrole',state:this.state.param}} />
+        <Redirect to={{pathname:'/menu/rolemanage/edit',state:{param:this.state.param}}} />
       )
     }
     const {columns} = this.state
@@ -196,7 +195,11 @@ class Rolemanage extends React.Component{
       <div>
         <div className="border_line">
           <Row type="flex" align="middle" style={{height:'60px'}}>
-            <Col span={3} offset={18}><Button type="primary" onClick={this.newroles}>新建角色</Button></Col>
+            <Col span={3} offset={18}>
+              <Button type="primary">
+                <Link to={'/menu/rolemanage/newrole'}>新建角色</Link>
+              </Button>
+            </Col>
           </Row>
         </div>
         <div style={{padding:'10px 20px'}}>

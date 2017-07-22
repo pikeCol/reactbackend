@@ -229,7 +229,10 @@ table.cloumstable tr td:last-child{ border-right: 0 }
 table.cloumstable tr:last-child td{ border-bottom: 0 }
 
 
-
-.rc-tree-iconEle.rc-tree-icon__docu, .rc-tree-iconEle.rc-tree-icon__open{
-  display: none!important;
+.alert {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 44
 }

@@ -1,153 +1,189 @@
 import React from 'react';
-import { Table, Row, Col, Input, Button, Select } from 'antd';
+import { Table, Row, Col, Input, Button, Select, DatePicker } from 'antd';
 import reqwest from 'reqwest';
 const Option = Select.Option;
 
-import EditableCell from '../../common/editablecell'
+import Myalert from '../../common/alert'
+
+
+const  columnsPartents = [{
+        title: '董事会人数',
+        dataIndex: 'boardNumber',
+        render: (text, record, index) => text
+      }, {
+        title: '董事会我方委派人员',
+        dataIndex: 'ourBoardPerson',
+        render: (text, record, index) => text
+      }, {
+        title: '监事会人数',
+        dataIndex: 'boardOfVisitorsNumber',
+        render: (text, record, index) => text
+      }, {
+        title: '监事会我方委派人员',
+        dataIndex: 'ourBoardOfVisitorsPerson',
+        render: (text, record, index) => text
+      }]
 
 
 
 export default class Basic extends React.Component{
   state={
+    _Partents : [{
+        title: '股东姓名',
+        dataIndex: 'name',
+        render: (text, record, index) => {
+          return(
+            <div>
+            {
+              this.state.data.projectPartents[index].isedit?
+
+              <Input onChange={e => this.addinput(e, index, 'name')}/>
+              :
+              <p>{text}</p>
+            }
+            </div>
+          )
+        }
+      }, {
+        title: '投资时间',
+        dataIndex: 'investmentTime',
+        render: (text, record, index) => {
+          return(
+            <div>
+            {
+              this.state.data.projectPartents[index].isedit?
+              <DatePicker onChange={(date, dateString) =>this.datetime(date, dateString,'investmentTime', index)}/>
+              // <Input onChange={e => this.addinput(e, index, 'name')}/>
+              :
+              <p>{text}</p>
+            }
+            </div>
+          )
+        }
+      }, {
+        title: '持股比例',
+        dataIndex: 'rate',
+        render: (text, record, index) => {
+          return(
+            <div>
+            {
+              this.state.data.projectPartents[index].isedit?
+              <Input onChange={e => this.addinput(e, index, 'rate')}/>
+              :
+              <p>{text}</p>
+            }
+            </div>
+          )
+        }
+      }, {
+        title: '认缴资本',
+        dataIndex: 'subscribedCapital',
+        render: (text, record, index) => {
+          return(
+            <div>
+            {
+              this.state.data.projectPartents[index].isedit?
+              <Input onChange={e => this.addinput(e, index, 'subscribedCapital')}/>
+              :
+              <p>{text}</p>
+            }
+            </div>
+          )
+        }
+      }, {
+        title: '实缴资本',
+        dataIndex: 'contributedCapital',
+        render: (text, record, index) => {
+          return(
+            <div>
+            {
+              this.state.data.projectPartents[index].isedit?
+              <Input onChange={e => this.addinput(e, index, 'contributedCapital')}/>
+              :
+              <p>{text}</p>
+            }
+            </div>
+          )
+        }
+      }],
      columns: [{
         title: '项目编码',
         dataIndex: 'templateOid',
-        render:(text, record, index) => {
-          return(
-                <p>{text}</p>
-          )
-        }
+        render:(text, record, index) => <p>{text}</p>
       }, {
         title: '公司名称',
         dataIndex: 'companyName',
-        render:(text, record, index) => {
-          // localStorage.getItem('_add')=="true"?
-          return(
-                <p>{text}</p>
-          )
-        }
+        render:(text, record, index) => <p>{text}</p>
       }, {
         title: '主营业务',
         dataIndex: 'mainBusiness',
-        render:(text, record, index) => {
-          // localStorage.getItem('_add')=="true"?
-          return(
-                <p>{text}</p>
-          )
-        }
+        render:(text, record, index) => <p>{text}</p>
       }, {
         title: '注册资本',
         dataIndex: 'regCapital',
-        render:(text, record, index) => {
-          // localStorage.getItem('_add')=="true"?
-          return(
-                <p>{text}</p>
-          )
-        }
+        render:(text, record, index) => <p>{text}</p>
       },{
         title: '实缴资本',
         dataIndex: 'contributedCapital',
-        render:(text, record, index) => {
-          // localStorage.getItem('_add')=="true"?
-          return(
-                <p>{text}</p>
-          )
-        }
+        render:(text, record, index) => <p>{text}</p>
       },{
         title: '我方投资方',
         dataIndex: 'ourInvestors',
-        render:(text, record, index) => {
-          // localStorage.getItem('_add')=="true"?
-          return(
-                <p>{text}</p>
-          )
-        }
+        render:(text, record, index) => <p>{text}</p>
       },{
         title: '我方持股比例',
         dataIndex: 'ourRate',
-        render:(text, record, index) => {
-          // localStorage.getItem('_add')=="true"?
-          return(
-                <p>{text}</p>
-          )
-        }
+        render:(text, record, index) => <p>{text}</p>
       },{
         title: '实投金额',
         dataIndex: 'actualAmount',
-        render:(text, record, index) => {
-          // localStorage.getItem('_add')=="true"?
-          return(
-                <p>{text}</p>
-          )
-        }
+        render:(text, record, index) => <p>{text}</p>
       },{
         title: '我方投资时间',
         dataIndex: 'ourInvestmentTime',
-        render:(text, record, index) => {
-          // localStorage.getItem('_add')=="true"?
-          return(
-                <p>{text}</p>
-          )
-        }
+        render:(text, record, index) => <p>{text}</p>
     }],
     data:{
-      project:[],
+      project:{},
       projectPartents:[]
     },
-    columnsPartents : [{
-        title: '董事会人数',
-        dataIndex: 'boardNumber',
-        render: (text, record, index) => <EditableCell value={text}  isedit={this.state.editable}/>
-      }, {
-        title: '董事会我方委派人员',
-        dataIndex: 'ourBoardPerson',
-        render: (text, record, index) => <EditableCell value={text}  isedit={this.state.editable}/>
-      }, {
-        title: '监事会人数',
-        dataIndex: 'boardOfVisitorsNumber',
-        render: (text, record, index) => <EditableCell value={text}  isedit={this.state.editable}/>
-      }, {
-        title: '监事会我方委派人员',
-        dataIndex: 'ourBoardOfVisitorsPerson',
-        render: (text, record, index) => <EditableCell value={text} isedit={this.state.editable}/>
-      }],
     editable:false,
-    value:'dfka',
-    addoid:'',
-    opt:[],
-    nulldata:[{
-      'templateOid':'',
-      'companyName':'',
-      'mainBusiness':'',
-      'regCapital':'',
-      'contributedCapital':'',
-      'ourInvestors':'',
-      'ourRate':'',
-      'actualAmount':'',
-      'ourInvestmentTime':''
-    }],
-    mypost:{}
+    opt:[]
+  }
+  datetime = (date, dateString, key, index) => {
+    console.log(date, dateString, key)
+    const {data} = this.state
+    data.projectPartents[index][key] = dateString
+    this.setState({
+      data
+    })
+  }
+  addinput = (e, index, key) => {
+    const {data} = this.state
+    data.projectPartents[index][key] = e.target.value
+    this.setState({data})
   }
   inputchange = (e, names) => {
-    const {mypost} = this.state
-    mypost[names] = e.target.value
+    const {data} = this.state
+    console.log(data)
+    data.project[names] = e.target.value
     this.setState({
-      mypost
+      data
     })
   }
   handleAdd = () => {
     const { projectPartents, project } = this.state.data;
     const newData = {
-      key:'22',
-      "name":'22',
-      "investmentTime":'22',
-      "rate":'22',
-      "subscribedCapital":'22',
-      "contributedCapital":'22'
+      "name":'',
+      "investmentTime":'',
+      "rate":'',
+      "subscribedCapital":'',
+      "contributedCapital":''
     }
+    newData.isedit = true
     this.setState({
       data:{
-        project:[...project],
+        project:project,
         projectPartents:[...projectPartents,newData]
       }
     })
@@ -158,111 +194,71 @@ export default class Basic extends React.Component{
     projectPartents.splice(len-1, 1)
     this.setState({
       data:{
-        project:[...project],
+        project:project,
         projectPartents:projectPartents
       }
     })
   }
   edit = () => {
-    const { columnsPartents } = this.state;
+    // const { columnsPartents } = this.state;
     this.setState({
       editable: true,
-      columnsPartents: columnsPartents
+      // columnsPartents: columnsPartents
     });
   }
   save = () => {
     const { data  } = this.state
-    let _post = {}
-    for (var variable in data) {
-        if ( variable == 'project' ) {
-          _post = data.project
-        }
-    }
-    _post[0].projectPartents = data.projectPartents
-    console.log(_post[0])
+    console.log(data)
     reqwest({
       url:'/project/editBaseInfo.do',
-      data:_post[0],
+      data:JSON.stringify(data),
       method:'POST'
     }).then((result) => {
-      this.setState({
-        editable: true,
-        data
-      })
+      if (result.restCode ===200) {
+        Myalert.success('success', '保存成功')
+        this.setState({
+          editable: true,
+          data
+        })
+      }
+
     })
 
   }
   componentWillMount(){
 
-    // let _state =  this.props.location.state
-    // console.log(_state)
-    // let _add = _state?_state.add:localStorage.getItem('_add')
-    // if ( _add ){
-    //   localStorage.setItem('_add',true)
-      reqwest({
-        // url: '/project/chooseTemplate.do'
-        url: '../../api/tt.json'
-      }).then((result) => {
-          console.log(result)
-          if (result.restCode ===200) {
-            let { opt } = this.state
-            opt = result.data
-            this.setState({
-              opt:[...opt]
-            })
-          }
-      });
-    //   return
-    // }
-    //
-    // let oid =_state?_state.oid:localStorage.getItem('projectOid')
-    // localStorage.setItem('projectOid',oid)
-    // let { projectPartents, project, value, importantClause, remarke } = this.state.data
-    // reqwest({
-    //   url: '../../api/data.json',
-      // url: '/project/showBaseInfo.do',
-      // data: {
-      //   projectOid: oid
-      // },
-    // }).then((result) => {
-    //     console.log(result)
-    //     if (result.restCode ===200) {
-    //       project[0] = result.data.project
-    //       value = result.data.project.actualAmount
-    //       projectPartents = result.data.projectPartents
-    //       this.setState({
-    //         data:{
-    //           importantClause:result.data.project.importantClause,
-    //           remarke:result.data.project.remarke,
-    //           value:value,
-    //           project:[...project],
-    //           projectPartents:[...projectPartents]
-    //         }
-    //       })
-    //       localStorage.setItem('_add',false)
-    //       console.log(this.state.data.project)
-    //     }
-    // });
+    let _state =  this.props.location.state
+    console.log(_state)
+    let oid =_state?_state.oid:localStorage.getItem('projectOid')
+    localStorage.setItem('projectOid',oid)
 
+    let { projectPartents, project } = this.state.data
+
+    reqwest({
+      // url: '../../api/data.json',
+      url: '/project/showBaseInfo.do',
+      data: {
+        projectOid: oid
+      },
+    }).then((result) => {
+        console.log(result)
+        if (result.restCode ===200) {
+          project = result.data.project
+          projectPartents = result.data.projectPartents
+          this.setState({
+            data:{
+              project:project,
+              projectPartents:[...projectPartents]
+            }
+          })
+          console.log(this.state.data.project)
+        }
+    });
 
   }
-  handleChange = (value) => {
-    console.log(`Selected: ${value}`);
-    const {addoid} = this.state
-    this.setState({
-      addoid:value
-    })
-  }
-  importantClause = (e) => {
+  importantClause = (e,key) => {
     const { data } = this.state
-    data.project[0].importantClause = e.target.value
-    this.setState({
-      data
-    })
-  }
-  remarke = (e) => {
-    const { data } = this.state
-    data.project[0].remarke = e.target.value
+    data.project[key] = e.target.value
     this.setState({
       data
     })
@@ -277,33 +273,30 @@ export default class Basic extends React.Component{
       <div style={{paddingTop:'20px'}}>
         <Row>
           <Col span={2} offset={2}>
+            项目名称
+          </Col>
+          <Col span={4} >
+            <Input
+              value={this.state.data.project.projectName}
+              onChange={e => this.inputchange(e,'projectName')}
+            />
+          </Col>
+          <Col span={2} offset={2}>
             目标名称
           </Col>
           <Col span={6}>
-            {
-              // localStorage.getItem('_add')=="true"?
-              true?
-              <Select
-                size="default"
-                onChange={this.handleChange}
-                style={{ width: 200 }}
-              >
-                {children}
-              </Select>
-              :
               <div>
                 {
                   editable?
                   <div className="editable-cell-input-wrapper">
-                    <Input value={value} onChange={e => this.setState({value:e.target.value})}/>
+                    <Input value={this.state.data.project.templateName}  onChange={e =>this.importantClause(e, 'templateName')}/>
                   </div>
                   :
                   <div className="editable-cell-input-wrapper">
-                    {value || ' '}
+                    {this.state.data.project.templateName}
                   </div>
                 }
               </div>
-            }
           </Col>
         </Row>
         <Row>
@@ -311,13 +304,7 @@ export default class Basic extends React.Component{
             <h6>项目简介</h6>
           </Col>
           <Col span={20} offset={2}>
-            {
-              // localStorage.getItem('_add')=="true"?
-              true?
-              <Table columns={this.state.columns}  dataSource={this.state.nulldata} size="middle" pagination={false}  />
-              :
-              <Table columns={this.state.columns}  dataSource={this.state.data.project} size="middle" pagination={false}  />
-            }
+              <Table columns={this.state.columns}  dataSource={[this.state.data.project]} size="middle" pagination={false}  />
           </Col>
         </Row>
        <Row>
@@ -333,7 +320,7 @@ export default class Basic extends React.Component{
             :''
           }
         <Col span={20} offset={2}>
-           <Table columns={this.state.columnsPartents} dataSource={this.state.data.projectPartents} size="middle" pagination={false}  />
+           <Table columns={this.state._Partents} dataSource={this.state.data.projectPartents} size="middle" pagination={false}  />
         </Col>
       </Row>
       <Row>
@@ -341,7 +328,7 @@ export default class Basic extends React.Component{
          <h6>董事会/监事会结构</h6>
        </Col>
        <Col span={20} offset={2}>
-          <Table columns={this.state.columnsPartents} dataSource={this.state.data.projectPartents} size="middle" pagination={false}  />
+          <Table columns={columnsPartents} dataSource={[this.state.data.project]} size="middle" pagination={false}  />
        </Col>
      </Row>
      <Row>
@@ -349,7 +336,7 @@ export default class Basic extends React.Component{
         <h6>重要条款</h6>
       </Col>
       <Col span={20} offset={2}>
-        <Input type="textarea"  onChange={this.importantClause} autosize={{ minRows: 5, maxRows: 8 }} />
+        <Input type="textarea"  onChange={e =>this.importantClause(e, 'importantClause')} autosize={{ minRows: 5, maxRows: 8 }} />
       </Col>
       </Row>
       <Row>
@@ -357,7 +344,7 @@ export default class Basic extends React.Component{
          <h6>备注</h6>
        </Col>
        <Col span={20} offset={2}>
-         <Input type="textarea"  onChange={this.remarke} autosize={{ minRows: 5, maxRows: 8 }} />
+         <Input type="textarea"  onChange={e =>this.importantClause(e, 'remarke')} autosize={{ minRows: 5, maxRows: 8 }} />
        </Col>
       </Row>
       <Row type="flex" justify="center" style={{paddingTop:'30px'}}>

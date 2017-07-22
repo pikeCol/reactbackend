@@ -43,7 +43,7 @@ export default class Accoutmanage extends React.Component {
         let status = this.state.data[index].status
         return (
           <div className="editable-row-operations" style={{display:'flex',justifyContent:'space-around'}}>
-            <Link to={{pathname:'/menu/accoutmanage/add',state:{oid:this.state.data[index].oid}}}>编辑</Link>
+            <Link to={{pathname:'/menu/accoutmanage/edit',state:{oid:this.state.data[index].oid}}}>编辑</Link>
             <Col span={6}>
               {
                 status?
@@ -58,8 +58,7 @@ export default class Accoutmanage extends React.Component {
       },
     }];
     this.state = {
-      data: [],
-      newrole: false
+      data: []
     };
   }
   stop=(text, record, index)=>{
@@ -84,9 +83,6 @@ export default class Accoutmanage extends React.Component {
     })
   }
 
-
-
-
   start=(text, record, index)=>{
     let that = this
     let { data } = this.state
@@ -108,11 +104,7 @@ export default class Accoutmanage extends React.Component {
       }
     })
   }
-  newroles = () =>{
-    this.setState({
-      newrole: true
-    })
-  }
+
   componentWillMount () {
     let { data } = this.state
 
@@ -157,17 +149,12 @@ export default class Accoutmanage extends React.Component {
 
     const columns = this.columns;
 
-    if ( this.state.newrole ) {
-      return (
-        <Redirect to={{pathname:'/menu/accoutmanage/add',state:{oid:''}}} />
-      )
-    }
 
     return (
       <div>
          <div className="border_line">
            <Row type="flex" align="middle" style={{height:'60px'}}>
-             <Col span={3} offset={18}><Button type="primary" onClick={this.newroles}>添加账户</Button></Col>
+             <Col span={3} offset={18}><Button type="primary"><Link to={'/menu/accoutmanage/add'}>添加账户</Link></Button></Col>
            </Row>
          </div>
          <div style={{padding:'10px 20px'}}>

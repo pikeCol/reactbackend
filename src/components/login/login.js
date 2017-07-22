@@ -1,11 +1,10 @@
-import { Form, Icon, Input, Button, Checkbox, Row, Col } from 'antd';
+import { Form, Icon, Input, Button, Row, Col  } from 'antd';
 const FormItem = Form.Item;
 import React from 'react';
 import { Redirect } from 'react-router-dom'
 import $ from  'jquery'
 
-
-// let baseurl = 'http://192.168.0.209:8080'
+import Myalert from '../common/alert'
 
 export default class NormalLoginForm extends React.Component {
   state={
@@ -16,7 +15,6 @@ export default class NormalLoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-
         let url = '/sys/login.do'
         let that = this
         $.ajax({
@@ -30,16 +28,24 @@ export default class NormalLoginForm extends React.Component {
       		dataType:"json",
       		success:function(data){
       			if( data.restCode === 200 ){
-
               // 保存到localstorage
               let storage = window.localStorage
               storage.setItem("accountName",data.data.accountName)
               storage.setItem("oid",data.data.oid)
+              storage.setItem("roleOid",data.data.roleOid)
               storage.setItem("status",data.data.status)
+              storage.setItem("name",data.data.name)
+              storage.setItem("telephone",data.data.telephone)
+              storage.setItem("email",data.data.email)
+              storage.setItem("rootName",data.data.rootName)
               that.setState({
                 islogin:true
               })
+            } else {
+              Myalert.autoCloseError('Error', data.msg)
             }
+
+
       	  }
       	})
 
@@ -66,14 +72,14 @@ export default class NormalLoginForm extends React.Component {
 
   // 账号验证
   account = (rule, value, callback) => {
-    if( value.toString().length < 2) {
+    if( !value) {
       callback('请输入正确的账号')
     }
     callback()
   }
   // 密码验证
   password_validate = (rule, value, callback) => {
-    if( value.toString().length < 2) {
+    if( !value || value.toString().length < 3) {
       callback('请输入正确的密码')
     }
     callback()

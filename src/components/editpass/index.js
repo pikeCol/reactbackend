@@ -1,9 +1,10 @@
-import { Form, Input, Select, Row, Col, Button, AutoComplete } from 'antd'
+import { Form, Input, Row, Col, Button } from 'antd'
 const FormItem = Form.Item
-// const Option = Select.Option
-// const AutoCompleteOption = AutoComplete.Option
 import React from 'react'
 import $ from 'jquery'
+
+import Myalert from '../common/alert'
+
 
 class RegistrationForm extends React.Component {
   state = {
@@ -26,7 +27,9 @@ class RegistrationForm extends React.Component {
           },
           success:function(data){
             if (data.restCode === 200 ) {
-              alert('success')
+              Myalert.success('success', '修改成功')
+            } else {
+              Myalert.autoCloseError('Error', data.msg)
             }
           }
         })
@@ -98,7 +101,7 @@ class RegistrationForm extends React.Component {
          >
            {getFieldDecorator('oldPassword', {
              rules: [{
-               required: true, message: 'Please input your password!'
+               required: true, message: '请输入旧密码!'
              }, {
                validator: this.checkConfirm
              }]
@@ -113,7 +116,7 @@ class RegistrationForm extends React.Component {
          >
            {getFieldDecorator('accountPassword', {
              rules: [{
-               required: true, message: '请输入密码!'
+               required: true, message: '请输入新密码!'
              }, {
                validator: this.checkConfirm
              }]
@@ -128,7 +131,7 @@ class RegistrationForm extends React.Component {
        >
          {getFieldDecorator('confirm', {
            rules: [{
-             required: true, message: '请确定密码!'
+             required: true, message: '请确认密码!'
            }, {
              validator: this.checkPassword
            }]

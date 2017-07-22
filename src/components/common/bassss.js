@@ -1,3 +1,41 @@
+
+
+      // <div>
+      //   <div className="border_line">
+      //     <Row type="flex" align="middle" style={{height:'60px'}}>
+      //       <Col offset={1}>角色性质</Col>
+      //       <Col>
+      //         <Select defaultValue="请选择" style={{ width: 120 }} onChange={this.handleChange}>
+      //           <Option value="0">外部角色</Option>
+      //           <Option value="1">内部角色</Option>
+      //         </Select>
+      //       </Col>
+      //       <Col>角色名称</Col>
+      //       <Col>
+      //         <Input defaultValue={this.state.params.roleName}/>
+      //       </Col>
+      //     </Row>
+      //   </div>
+      //   <Row type="flex" justify="space-around" align="top" style={{paddingTop:'20px'}}>
+      //     <Col>
+      //       <Checkboxes titles="项目管理列表" plainOptions={this.state.plainOptions} defaultCheckedList={this.state.defaultCheckedList}/>
+      //     </Col>
+      //     <Col>
+      //       <Checkboxes titles="项目模板列表" plainOptions={this.state.moduleopt} defaultCheckedList={this.state.defaultModuleopt}/>
+      //     </Col>
+      //     <Col>
+      //       <Checkboxes titles="角色列表" plainOptions={this.state.rolelist} defaultCheckedList={this.state.defaultRolelist}/>
+      //     </Col>
+      //     <Col>
+      //       <Checkboxes titles="个人中心" plainOptions={this.state.personal} defaultCheckedList={this.state.defaultPersonal}/>
+      //     </Col>
+      //   </Row>
+      //   <Row style={{paddingTop:'40px'}}>
+      //     <Col offset={18}>
+      //       <Button type="primary">保存</Button>
+      //     </Col>
+      //   </Row>
+      // </div>
 //
 // gettable = () =>{
 //   const {tablehead} = this.state;

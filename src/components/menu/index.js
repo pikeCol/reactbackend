@@ -6,6 +6,7 @@ import addProlist from '../second/'
 import Editpass from '../editpass'
 import Rolemanage from '../rolemanage'
 import Newrole from '../rolemanage/newrole'
+import Roleedit from '../rolemanage/edit'
 import Editprofile from '../editprofile'
 import Listtmp from '../listtmp'
 import Listedit from '../listtmp/edit'
@@ -14,6 +15,8 @@ import Listadd from '../listtmp/add'
 
 import Accoutmanage from '../accoutmanage'
 import Add from '../accoutmanage/add'
+import Edit from '../accoutmanage/edit'
+
 import Headers from '../common/header'
 
 import {urlParse} from '../common/util'
@@ -106,8 +109,10 @@ class Menus extends React.Component{
                   {/* <Route path="/menu/addprolist" component={Second}/> */}
                   <Route path="/menu/editpass" component={Editpass}/>
                   <Route path="/menu/accoutmanage/add" component={Add}/>
+                  <Route path="/menu/accoutmanage/edit" component={Edit}/>
                   <Route path="/menu/accoutmanage" component={Accoutmanage}/>
                   <Route path="/menu/rolemanage/newrole" component={Newrole}/>
+                  <Route path="/menu/rolemanage/edit" component={Roleedit}/>
                   <Route path="/menu/rolemanage" component={Rolemanage}/>
                   <Route path="/menu/editprofile" component={Editprofile}/>
                   <Route path="/menu/listtmp/add" component={Listadd}/>

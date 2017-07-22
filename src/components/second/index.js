@@ -29,15 +29,15 @@ class addProlist extends React.Component{
       <div>
           <Row type="flex" justify="space-around" align="middle" style={{borderBottom:'1px solid #d3d3d3'}}>
             <ListlMenuLink label="基本信息" to="/menu/addprolist/basic" />
-            <ListlMenuLink label="报表信息"  to="/menu/addprolist/report" />
+            {/* <ListlMenuLink label="报表信息"  to="/menu/addprolist/report" />
             <ListlMenuLink label="重要事项通报"  to="/menu/addprolist/matters" />
-            <ListlMenuLink label="附加资料"  to="/menu/addprolist/infos" />
+            <ListlMenuLink label="附加资料"  to="/menu/addprolist/infos" /> */}
           </Row>
           <div style={{paddingTop:'20px'}}>
             <Route path="/menu/addprolist/basic" component={Basic}/>
-            <Route path="/menu/addprolist/infos" component={Infos}/>
+            {/* <Route path="/menu/addprolist/infos" component={Infos}/>
             <Route path="/menu/addprolist/matters" component={Matters}/>
-            <Route path="/menu/addprolist/report" component={Report}/>
+            <Route path="/menu/addprolist/report" component={Report}/> */}
           </div>
       </div>
     )

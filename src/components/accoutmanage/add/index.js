@@ -5,6 +5,8 @@ const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
 import React from 'react';
 
+import Myalert from '../../common/alert'
+
 class RegistrationForm extends React.Component {
   constructor(props){
     super(props)
@@ -18,11 +20,11 @@ class RegistrationForm extends React.Component {
     roledatas:[]
   }
   componentWillMount () {
+    // 獲取角色列表
     var that = this
     $.ajax({
       type:"POST",
       url: '/role/getRoleList.do',
-      // url: '../../../api/dds.json',
       success:function(datas){
         if ( datas.restCode == 200 ) {
           const {roledatas} = that.state
@@ -33,12 +35,12 @@ class RegistrationForm extends React.Component {
       }
     })
   }
-  componentWillReceiveProps (nextProps) {
-    let _postdata = nextProps.nickname || {}
-     this.setState({
-       _postdata:_postdata
-     })
-  }
+  // componentWillReceiveProps (nextProps) {
+  //   let _postdata = nextProps.nickname || {}
+  //    this.setState({
+  //      _postdata:_postdata
+  //    })
+  // }
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -46,9 +48,7 @@ class RegistrationForm extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
         let that = this
-        let selectval = values['select-multiple'].length?values['select-multiple']:[];
-        // /account/findAccuntRepeat.do 账户存在
-
+        let selectval = values['select-multiple']||[];
         $.ajax({
           type:"POST",
           data:{
@@ -74,13 +74,13 @@ class RegistrationForm extends React.Component {
                   url: '/account/addAccount.do',
                   success:function(datas){
                       if(datas.restCode===200){
-                        alert('success')
+                        Myalert.success('success', '创建成功')
                       }
                   }
                 })
 
               } else {
-                alert('账户存在')
+                Myalert.error('Error', '账户存在')
               }
           }
         })
@@ -93,19 +93,10 @@ class RegistrationForm extends React.Component {
     const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   }
-  checkPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
-    } else {
-      callback();
-    }
-  }
   checkConfirm = (rule, value, callback) => {
     const form = this.props.form;
     if (value && this.state.confirmDirty) {
       form.validateFields(['confirm'], { force: true });
-
     }
     callback();
   }
@@ -146,7 +137,7 @@ class RegistrationForm extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult } = this.state;
-    console.log(this.state._postdata)
+    // console.log(this.state._postdata)
     const children=[];
     const {roledatas} = this.state
 
@@ -156,7 +147,8 @@ class RegistrationForm extends React.Component {
 
     getFieldDecorator('accountName', { initialValue: [ ] })
 
-    const { accountName,name,accountPassword }=this.state._postdata
+    // const { accountName,name,accountPassword, accountType }=this.state._postdata
+
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -220,7 +212,7 @@ class RegistrationForm extends React.Component {
           >
             {getFieldDecorator('name', {
               rules: [{ required: true, message: 'Please input your nickname!', whitespace: true}],
-              initialValue: name
+              initialValue: ""
             })(
               <Input  />
             )}
@@ -236,7 +228,7 @@ class RegistrationForm extends React.Component {
               }, {
                 validator: this.checkAccountName
               }],
-              initialValue: accountName,
+              initialValue: "",
             })(
               <Input type="text" placeholder="登录账户"/>
             )}
@@ -252,7 +244,7 @@ class RegistrationForm extends React.Component {
               }, {
                 validator: this.checkConfirm
               }],
-              initialValue:accountPassword
+              initialValue:""
             })(
               <Input type="password" placeholder="初始密码"/>
             )}
@@ -266,7 +258,8 @@ class RegistrationForm extends React.Component {
           {getFieldDecorator('accountType', {
             rules: [
               { required: true, message: '请选择一个账户性质' }
-            ]
+            ],
+            initialValue:""
           })(
             <Select placeholder="请选择" onChange={this.countpro}>
               <Option value="1">外部账户</Option>
@@ -376,26 +369,26 @@ export default class Add extends React.Component{
     postdata:[]
   }
   componentWillMount () {
-    let {postdata} = this.state
-    let that = this
-    if ( this.props.location.state.oid ){
-      let oid = this.props.location.state.oid;
-      $.ajax({
-        type:"POST",
-        url: '/account/getAccountDetail.do',
-        data:{
-          oid: oid
-        },
-        // url: '/getAccountDetail.json',
-        success:function(datas){
-          postdata = datas.data
-          that.setState({
-            postdata
-          })
-        }
-      })
-
-    }
+    // let {postdata} = this.state
+    // let that = this
+    // if ( this.props.location.state.oid ){
+    //   let oid = this.props.location.state.oid;
+    //   $.ajax({
+    //     type:"POST",
+    //     url: '/account/getAccountDetail.do',
+    //     data:{
+    //       oid: oid
+    //     },
+    //     // url: '/getAccountDetail.json',
+    //     success:function(datas){
+    //       postdata = datas.data
+    //       that.setState({
+    //         postdata
+    //       })
+    //     }
+    //   })
+    //
+    // }
 
   }
 
@@ -404,7 +397,9 @@ export default class Add extends React.Component{
     console.log(postdata)
     return(
         <div>
-          <WrappedRegistrationForm  nickname={this.state.postdata} />
+          <WrappedRegistrationForm
+            // nickname={this.state.postdata}
+           />
         </div>
         )
 

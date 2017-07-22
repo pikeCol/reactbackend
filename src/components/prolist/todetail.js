@@ -12,6 +12,7 @@ class Todetail extends React.Component{
   }
   state = {
       data: [],
+      projectName:'',
       pagination: {},
       loading: false,
       columns:[{
@@ -89,15 +90,10 @@ class Todetail extends React.Component{
         url: '/project/getProjects.do',
         method: 'POST',
         data: {
-          projectName: '',
+          projectName: params.projectName || '',
           page: params.page || 1,
           rows: 10
         },
-        // url: '../../api/item.json',
-        // data: {
-        //    results: 10,
-        //    ...params,
-        //  },
         type: 'json'
       }).then((data) => {
         console.log(data)
@@ -113,10 +109,19 @@ class Todetail extends React.Component{
     componentDidMount() {
       this.fetch();
     }
-    changes = (e) => {
+    changes = (e,key) => {
       console.log(e.target.value)
+      this.setState({
+        projectName:e.target.value
+      })
     }
-
+    search = () => {
+      this.fetch({
+        projectName:this.state.projectName,
+        page:1,
+        row:10
+      })
+    }
     render(){
       const { columns, add } = this.state
 
@@ -125,8 +130,8 @@ class Todetail extends React.Component{
           <div className="border_line">
             <Row type="flex" align="middle" style={{height:'60px'}}>
               <Col span={3}>项目名称</Col>
-              <Col span={6}><Input onChange={() => this.changes(e)}/></Col>
-              <Col span={2}><Button type='primary'>搜索</Button></Col>
+              <Col span={6}><Input onChange={() => this.changes(e,'projectName')}/></Col>
+              <Col span={2}><Button type='primary' onClick={this.search}>搜索</Button></Col>
               <Col span={2} offset={10}>
                 <Button type='primary'>
                   <Link to={{pathname:`/menu/addprolist/basic`}}>添加</Link>

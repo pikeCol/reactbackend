@@ -5,6 +5,8 @@ const AutoCompleteOption = AutoComplete.Option;
 import React from 'react';
 import $ from 'jquery'
 
+import Myalert from '../common/alert'
+
 
 class RegistrationForm extends React.Component {
   state = {
@@ -14,17 +16,17 @@ class RegistrationForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     let oid = window.localStorage.getItem('oid')
-    let accountName = window.localStorage.getItem('accountName')
+    let roleOid = window.localStorage.getItem('roleOid')
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
         $.ajax({
           type:"POST",
-          url: '/account/getAccountDetail.do',
+          url: '/account/updateAccount.do',
           data:{
             oid:oid,
-            accountName:values,accountName,
-            roleOid:values.roleOid || null,
+            accountName:values.accountName,
+            roleOid:roleOid || null,
             name:values.name|| null,
             telephone:values.telephone|| null,
             email:values.email|| null,
@@ -33,7 +35,7 @@ class RegistrationForm extends React.Component {
           // url: '/getAccountDetail.json',
           success:function(datas){
             if (datas.restCode===200) {
-              alert('success')
+              Myalert.success('success', '修改成功')
               window.localStorage.setItem('accountName',values.accountName)
             }
             // postdata = datas.data
@@ -115,7 +117,15 @@ class RegistrationForm extends React.Component {
     ));
 
     getFieldDecorator('accountName', { initialValue: [ ] })
+    getFieldDecorator('_name', { initialValue: [ ] })
+    getFieldDecorator('telephone', { initialValue: [ ] })
+    getFieldDecorator('email', { initialValue: [ ] })
+    getFieldDecorator('rootName', { initialValue: [ ] })
     let accountName = localStorage.getItem('accountName')
+    let _name = localStorage.getItem('name')
+    let telephone = localStorage.getItem('telephone')
+    let email = localStorage.getItem('email')
+    let rootName = localStorage.getItem('rootName')
     return (
       <Row >
         <Col span={10} offset={7} style={{paddingTop:'40px'}}>
@@ -130,7 +140,8 @@ class RegistrationForm extends React.Component {
             hasFeedback
           >
             {getFieldDecorator('name', {
-              rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }]
+              rules: [{ required: true, message: '请输入你的姓名!', whitespace: true }],
+              initialValue:_name
             })(
               <Input />
             )}
@@ -146,7 +157,7 @@ class RegistrationForm extends React.Component {
               }, {
                 validator: this.checkConfirm,
               }],
-              initialValue:accountName||"admin"
+              initialValue:accountName||"admin1"
             })(
               <Input type="text" placeholder="登录账户" disabled />
             )}
@@ -157,7 +168,7 @@ class RegistrationForm extends React.Component {
           >
             {getFieldDecorator('roleType', {
               rules: [{ required: true, message: 'Please select your habitual residence!' }],
-              initialValue:"外部角色"
+              initialValue:rootName || ''
             })(
               <Select placeholder="请选择" disabled>
                 <Option value="0">外部角色</Option>
@@ -169,8 +180,9 @@ class RegistrationForm extends React.Component {
             {...formItemLayout}
             label="手机"
           >
-            {getFieldDecorator('telephone	', {
-              rules: [{ required: false, message: 'Please input your phone number!' }]
+            {getFieldDecorator('gtelephone	', {
+              rules: [{ required: false, message: '请输入你的手机号!' }],
+              initialValue:telephone || ''
             })(
               <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
             )}
@@ -184,9 +196,8 @@ class RegistrationForm extends React.Component {
             {getFieldDecorator('email', {
               rules: [{
                 type: 'email', message: 'The input is not valid E-mail!'
-              }, {
-                required: false, message: 'Please input your E-mail!'
               }],
+              initialValue:email
             })(
               <Input />
             )}

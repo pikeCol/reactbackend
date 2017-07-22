@@ -1,20 +1,13 @@
 import React from 'react';
-import { Table, Row, Col, Input, Button, Select } from 'antd';
+import { Table, Row, Col, Input, Button, Select, DatePicker } from 'antd';
 import reqwest from 'reqwest';
 const Option = Select.Option;
+
+import Myalert from '../../common/alert'
 
 export default class Basic extends React.Component{
   state={
      columns: [
-      //  {
-      //   title: '项目编码',
-      //   dataIndex: 'templateOid',
-      //   render:(text, record, index) => {
-      //     return(
-      //       <Input onChange={e => this.inputchange(e, 'templateOid')} />
-      //     )
-      //   }
-      // },
        {
         title: '公司名称',
         dataIndex: 'companyName',
@@ -78,7 +71,8 @@ export default class Basic extends React.Component{
         dataIndex: 'ourInvestmentTime',
         render:(text, record, index) => {
           return(
-            <Input onChange={e => this.inputchange(e, 'ourInvestmentTime')} />
+            // <Input onChange={e => this.inputchange(e, 'ourInvestmentTime')} />
+            <DatePicker onChange={(date, dateString) =>this.datetime(date, dateString,'ourInvestmentTime')}/>
           )
         }
     }],
@@ -105,7 +99,8 @@ export default class Basic extends React.Component{
       }, {
         title: '投资时间',
         dataIndex: 'investmentTime',
-        render: (text, record, index) => <Input onChange={e => this.baname(e,index,'investmentTime')} />
+        // <DatePicker onChange={(date, dateString) =>this.datetime(date, dateString,'investmentTime')}/>
+        render: (text, record, index) => <DatePicker onChange={(date, dateString) =>this.datetime(date, dateString,'investmentTime')}/>
       }, {
         title: '持股比例',
         dataIndex: 'rate',
@@ -150,14 +145,22 @@ export default class Basic extends React.Component{
       'ourInvestmentTime':''
     }],
     mypost:{
-      // projectPartents:[{
-      //   name:'',
-      //   investmentTime:'',
-      //   rate:'',
-      //   subscribedCapital:'',
-      //   contributedCapital:''
-      // }]
+      projectPartents:[{
+        name:'',
+        investmentTime:'',
+        rate:'',
+        subscribedCapital:'',
+        contributedCapital:''
+      }]
     }
+  }
+  datetime = (date, dateString, key) => {
+    console.log(date, dateString, key)
+    const {mypost} = this.state
+    mypost[key] = dateString
+    this.setState({
+      mypost
+    })
   }
   baname = (e,index,key) => {
     const {mypost} = this.state
@@ -211,17 +214,12 @@ export default class Basic extends React.Component{
   }
   onDelete = () => {
     const { _projectPartents, project } = this.state.data
-    const { mypost } = this.state;
-    let len = projectPartents.length
+    let len = _projectPartents.length
     _projectPartents.splice(len-1, 1)
-    mypost.projectPartents.splice(len-1, 1)
-    this.setState({
-      mypost
-    })
     this.setState({
       data:{
-        project:[...project],
-        _projectPartents:_projectPartents
+        project:project,
+        _projectPartents:[..._projectPartents]
       }
     })
   }
@@ -237,6 +235,9 @@ export default class Basic extends React.Component{
       }
     }).then((result) => {
       console.log(result)
+      if (result.restCode === 200 ) {
+        Myalert.success('success', '保存成功')
+      }
     })
 
   }
@@ -266,7 +267,13 @@ export default class Basic extends React.Component{
       <div style={{paddingTop:'20px'}}>
         <Row>
           <Col span={2} offset={2}>
-            目标名称
+            项目名称
+          </Col>
+          <Col span={4} >
+            <Input onChange={e => this.inputchange(e,'projectName')} />
+          </Col>
+          <Col span={2} offset={2}>
+            模板名称
           </Col>
           <Col span={6}>
               <Select
