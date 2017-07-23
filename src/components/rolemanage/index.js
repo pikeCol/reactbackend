@@ -3,7 +3,7 @@ import { Row, Col, Table, Button} from 'antd';
 import { Link, Redirect } from 'react-router-dom'
 
 import $ from  'jquery'
-
+import Myalert from '../common/alert'
 
 class Rolemanage extends React.Component{
   state={
@@ -86,6 +86,7 @@ class Rolemanage extends React.Component{
       // url: '/data.json',
       success:function(datas){
         if( datas.restCode === 200 ){
+          Myalert.success('success', '修改成功')
           that.setState({
             data:data
           })
@@ -107,6 +108,7 @@ class Rolemanage extends React.Component{
       // url: '/data.json',
       success:function(datas){
         if( datas.restCode === 200 ){
+          Myalert.success('success', '修改成功')
           that.setState({
             data:data
           })
@@ -127,6 +129,7 @@ class Rolemanage extends React.Component{
       // url: '/data.json',
       success:function(datas){
         if( datas.restCode === 200 ){
+          Myalert.success('success', '修改成功')
           that.setState({
             data:data
           })

@@ -2,6 +2,7 @@ import React from 'react';
 import { Table, Row, Col, Input, Button, Select, DatePicker } from 'antd';
 import reqwest from 'reqwest';
 const Option = Select.Option;
+import { Redirect } from 'react-router-dom'
 
 import Myalert from '../../common/alert'
 
@@ -152,7 +153,8 @@ export default class Basic extends React.Component{
         subscribedCapital:'',
         contributedCapital:''
       }]
-    }
+    },
+    redirect:false
   }
   datetime = (date, dateString, key) => {
     console.log(date, dateString, key)
@@ -237,6 +239,9 @@ export default class Basic extends React.Component{
       console.log(result)
       if (result.restCode === 200 ) {
         Myalert.success('success', '保存成功')
+        this.setState({
+          redirect:true
+        })
       }
     })
 
@@ -258,11 +263,18 @@ export default class Basic extends React.Component{
 
   }
   render(){
-    const { value, editable, opt } = this.state;
+    const { value, editable, opt, redirect } = this.state;
     const children = [];
     for (let variable of opt) {
       children.push(<Option key={variable.oid}>{variable.name}</Option>);
     }
+
+    if ( redirect ) {
+      return(
+        <Redirect to={'/menu/prolist'} />
+      )
+    }
+
     return(
       <div style={{paddingTop:'20px'}}>
         <Row>

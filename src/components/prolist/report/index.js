@@ -246,7 +246,11 @@ class Report extends React.Component{
       }
     })
   }
-
+  output = () => {
+    // let url = document.location.origin+'/attachment/download.do?oid='+value
+    // console.log(url)
+    // window.open(url)
+  }
   render(){
     const {editable, addable}=this.state
     return(
@@ -261,7 +265,7 @@ class Report extends React.Component{
          </Row>
         <Row style={{paddingTop:'20px'}}>
           <Col offset={16}>
-            <Button type="primary" >导出所选报表</Button>
+            <Button type="primary" onClick={this.output}>导出所选报表</Button>
             {
               addable?
               <Button type="primary" style={{margin:'0 10px'}} onClick={this.handleCancel}>取消报表</Button>
@@ -283,11 +287,6 @@ class Report extends React.Component{
         </Row>
         <Row style={{paddingTop:'20px'}}>
           <Col offset={2} span={20}>
-            {/* <table  className="cloumstable" cellSpacing="0" cellPadding="0">
-              <tbody className="cloumsbody" dangerouslySetInnerHTML={this.gettable()}>
-
-              </tbody>
-           </table> */}
            <Table
              columns={this.state.columns}
              dataSource={this.state.data}

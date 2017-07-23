@@ -1,9 +1,10 @@
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Button, AutoComplete, Radio   } from 'antd';
+import { Form, Input, Tooltip, Icon, Select, Row, Col, Button, AutoComplete, Radio   } from 'antd';
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
 import React from 'react';
+import { Redirect } from 'react-router-dom'
 
 import Myalert from '../common/alert'
 
@@ -12,6 +13,7 @@ class RegistrationForm extends React.Component {
     super(props)
   }
   state = {
+    redirect:false,
     _postdata:{},
     isconnect:'',
     value:1,
@@ -65,6 +67,9 @@ class RegistrationForm extends React.Component {
               url: '/account/addAccount.do',
               success:function(datas){
                   if(datas.restCode===200){
+                    that.setState({
+                      redirect:true,
+                    })
                     Myalert.success('success', '创建成功')
                   }
               }
@@ -89,13 +94,8 @@ class RegistrationForm extends React.Component {
 
     if (value && this.state.confirmDirty) {
       form.validateFields(['confirm'], { force: true });
-      alert(1)
     }
     callback();
-  }
-
-  onChange = (e) => {
-    console.log(e.target.value)
   }
 
   handleWebsiteChange = (value) => {
@@ -119,6 +119,13 @@ class RegistrationForm extends React.Component {
   }
 
   render() {
+
+    if (this.state.redirect) {
+      return(
+        <Redirect to={'/menu/accoutmanage'} />
+      )
+    }
+
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult } = this.state;
     console.log(this.state._postdata)
@@ -195,7 +202,7 @@ class RegistrationForm extends React.Component {
             hasFeedback
           >
             {getFieldDecorator('name', {
-              rules: [{ required: true, message: 'Please input your nickname!', whitespace: true}],
+              rules: [{ required: true, message: '请输入你的昵称!', whitespace: true}],
               initialValue:name
             })(
               <Input  />
@@ -224,7 +231,7 @@ class RegistrationForm extends React.Component {
           >
             {getFieldDecorator('accountPassword', {
               rules: [{
-                required: false, message: 'Please input your password!'
+                required: false, message: '请输入你的密码!'
               }, {
                 validator: this.checkConfirm
               }],
@@ -264,8 +271,6 @@ class RegistrationForm extends React.Component {
           })(
             <Select placeholder="请选择">
               {children}
-              {/* <Option value="outsiderole">外部角色</Option>
-              <Option value="insiderole">内部角色</Option> */}
             </Select>
           )}
         </FormItem>
@@ -290,7 +295,7 @@ class RegistrationForm extends React.Component {
             {getFieldDecorator('email', {
               rules: [{
                 type: 'email', message: 'The input is not valid E-mail!'
-              }]
+              }],
               initialValue: email
             })(
               <Input />
@@ -361,7 +366,7 @@ export default class Edit extends React.Component{
         type:"POST",
         url: '/account/getAccountDetail.do',
         data:{
-          oid: oid
+          oid: oid,
         },
         // url: '/getAccountDetail.json',
         success:function(datas){
@@ -378,7 +383,7 @@ export default class Edit extends React.Component{
 
   render(){
     const {postdata} = this.state
-    console.log(postdata)
+    // console.log(postdata)
     return(
         <div>
           <WrappedRegistrationForm  nickname={this.state.postdata} />

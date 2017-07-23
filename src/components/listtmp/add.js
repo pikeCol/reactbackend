@@ -8,10 +8,13 @@ import reqwest from 'reqwest';
 import $ from 'jquery';
 
 import moment from 'moment';
+import Redirect from 'react-router-dom'
+import Myalert from '../common/alert'
 
 
 export default class Listadd extends React.Component{
   state = {
+    redirect:false,
     tepname:'',
     type:'',
     size: 'default',
@@ -153,8 +156,9 @@ export default class Listadd extends React.Component{
       let index = data.length-1
       if (result.restCode === 200) {
         data[index].isedit = false
-        alert('success')
+        Myalert.success('success', '添加成功')
         this.setState({
+          redirect: true,
           data:[...data]
         })
       }
@@ -169,6 +173,13 @@ export default class Listadd extends React.Component{
   }
   render(){
     const { size, choosetype} = this.state;
+
+    if (this.state.redirect) {
+      return(
+        <Redirect to={'/menu/listtmp'} />
+      )
+    }
+
     return(
       <div style={{paddingLeft:'20px'}}>
         <Row type="flex" style={{marginTop:'40px'}}>

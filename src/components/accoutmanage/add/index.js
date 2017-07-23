@@ -6,12 +6,14 @@ const AutoCompleteOption = AutoComplete.Option;
 import React from 'react';
 
 import Myalert from '../../common/alert'
+import { Redirect } from 'react-router-dom'
 
 class RegistrationForm extends React.Component {
   constructor(props){
     super(props)
   }
   state = {
+    redirect:false,
     _postdata:{},
     isconnect:'',
     value:1,
@@ -109,11 +111,6 @@ class RegistrationForm extends React.Component {
     }
     callback();
   }
-
-  onChange = (e) => {
-    console.log(e.target.value)
-  }
-
   handleWebsiteChange = (value) => {
     let autoCompleteResult;
     if (!value) {
@@ -137,7 +134,6 @@ class RegistrationForm extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult } = this.state;
-    // console.log(this.state._postdata)
     const children=[];
     const {roledatas} = this.state
 
@@ -147,7 +143,6 @@ class RegistrationForm extends React.Component {
 
     getFieldDecorator('accountName', { initialValue: [ ] })
 
-    // const { accountName,name,accountPassword, accountType }=this.state._postdata
 
     const formItemLayout = {
       labelCol: {
@@ -193,8 +188,15 @@ class RegistrationForm extends React.Component {
     const websiteOptions = autoCompleteResult.map(website => (
       <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
     ));
+    if (this.state.redirect) {
+      return(
+        <Redirect to={'/menu/accoutmanage'}/>
+      )
+    }
 
     return (
+
+
       <Row >
         <Col span={10} offset={7} style={{paddingTop:'40px'}}>
         <Form onSubmit={this.handleSubmit}>
@@ -305,8 +307,6 @@ class RegistrationForm extends React.Component {
             {getFieldDecorator('email', {
               rules: [{
                 type: 'email', message: 'The input is not valid E-mail!'
-              }, {
-                required: false, message: 'Please input your E-mail!'
               }]
             })(
               <Input />

@@ -215,11 +215,19 @@ export default class Basic extends React.Component{
       method:'POST'
     }).then((result) => {
       if (result.restCode ===200) {
+        // isedit
+        for ( let variable of data.projectPartents) {
+          if (variable.isedit == true) {
+            variable.isedit = false
+          }
+        }
+
         Myalert.success('success', '保存成功')
         this.setState({
           editable: true,
           data
         })
+
       }
 
     })

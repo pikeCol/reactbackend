@@ -87,7 +87,7 @@ class Infos extends React.Component{
     return(
       <div>
         <Row className="nav_head " style={{marginBottom:'30px'}}>
-          <Col offset={20}>
+          <Col offset={16}>
             <Button type="primary" onClick={this.download}  style={{
               marginRight:'10px'
             }}> <span ><Icon type="download" /></span> 下载所选</Button>

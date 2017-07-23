@@ -6,6 +6,7 @@ import $ from 'jquery'
 import reqwest from 'reqwest'
 import Myalert from '../common/alert'
 
+import { Redirect } from 'react-router-dom'
 
 class Newrole extends React.Component{
   state = {
@@ -13,7 +14,8 @@ class Newrole extends React.Component{
     roleName:'',
     roleType:'',
     mypost: [],
-    defaultCheckedKeys:[]
+    defaultCheckedKeys:[],
+    redirect: false
   }
   save =() => {
     let { mypost, roleName, roleType } = this.state
@@ -39,6 +41,9 @@ class Newrole extends React.Component{
           console.log(result);
           if (result.restCode === 200) {
             Myalert.success('success', '创建成功')
+            this.setState({
+              redirect: true
+            })
           }
         })
       } else {
@@ -92,6 +97,12 @@ class Newrole extends React.Component{
      })
    }
   render(){
+
+    if ( this.state.redirect ) {
+      return(
+        <Redirect path={'/menu/rolemanage'} />
+      )
+    }
 
     const tree = data => data.map((item) => {
       if (item.children) {

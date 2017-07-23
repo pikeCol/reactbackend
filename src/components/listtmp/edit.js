@@ -7,10 +7,13 @@ const dateFormat = 'YYYY';
 import reqwest from 'reqwest';
 
 import moment from 'moment';
+import Myalert from '../common/alert'
+import { Redirect } from 'react-router-dom'
 
 
 class Listedit extends React.Component{
   state = {
+    redirect:false,
     type:'',
     size: 'default',
     columns:[{
@@ -81,9 +84,12 @@ class Listedit extends React.Component{
       let { data } = this.state
       if (result.restCode === 200) {
         data[index].isedit = false
+        Myalert.success('success', '编辑成功')
         this.setState({
+          redirect:true,
           data:[...data]
         })
+
       }
     })
   }
@@ -141,6 +147,13 @@ class Listedit extends React.Component{
   }
   render(){
     const { size, choosetype } = this.state;
+
+    if (this.state.redirect) {
+      return(
+        <Redirect to={'/menu/listtmp'} />
+      )
+    }
+
     // console.log(total)
     // const val = total.type
     return(

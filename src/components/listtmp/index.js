@@ -5,6 +5,7 @@ const dateFormat = 'YYYY';
 import moment from 'moment';
 import reqwest from 'reqwest';
 import { Redirect, Link } from 'react-router-dom'
+import Myalert from '../common/alert'
 
 export default class Listtmp extends React.Component{
   constructor(props){
@@ -54,6 +55,11 @@ export default class Listtmp extends React.Component{
     }).then((result) =>{
       if (result === 200) {
         data.splice(index, 1)
+        Myalert.success('success', '删除成功')
+        this.fetch({
+          rows: 10,
+          page: 1,
+        })
         this.setState({
           data:[...data]
         })
@@ -99,11 +105,6 @@ export default class Listtmp extends React.Component{
         })
         console.log(this.state.pagination)
       }
-      // this.setState({
-      //   loading: false,
-      //   data: data.results,
-      //   pagination,
-      // });
     });
   }
   //
