@@ -56,7 +56,8 @@ class Rolemanage extends React.Component{
     param:{},
     data:[],
     loading:false,
-    pagination:{}
+    pagination:{},
+    permissions:[]
   }
   edit = (text, record, index) =>{
     let { param } = this.state
@@ -70,6 +71,17 @@ class Rolemanage extends React.Component{
       isnew: true
     })
 
+  }
+  componentWillMount () {
+    let { permissions } = this.state
+    let permissionTitle = this.props.location.state.data
+    console.log(permissionTitle)
+    for (let variable of permissionTitle) {
+       permissions.push(variable.permissionName)
+    }
+    this.setState({
+      permissions
+    })
   }
   stop=(text, record, index)=>{
     let that = this
@@ -180,14 +192,15 @@ class Rolemanage extends React.Component{
     });
   }
   componentDidMount () {
-    this.fetch({
-      page:1,
-      rows:10
-    })
+    // this.fetch({
+    //   page:1,
+    //   rows:10
+    // })
   }
 
 
   render(){
+    console.log(this.state.permissions)
     if(this.state.isnew) {
       return(
         <Redirect to={{pathname:'/menu/rolemanage/edit',state:{param:this.state.param}}} />
@@ -197,13 +210,17 @@ class Rolemanage extends React.Component{
     return(
       <div>
         <div className="border_line">
-          <Row type="flex" align="middle" style={{height:'60px'}}>
-            <Col span={3} offset={18}>
-              <Button type="primary">
-                <Link to={'/menu/rolemanage/newrole'}>新建角色</Link>
-              </Button>
-            </Col>
-          </Row>
+          {
+            this.state.permissions.indexOf('新建角色')>0?
+              <Row type="flex" align="middle" style={{height:'60px'}}>
+                <Col span={3} offset={18}>
+                  <Button type="primary">
+                    <Link to={'/menu/rolemanage/newrole'}>新建角色</Link>
+                  </Button>
+                </Col>
+              </Row>
+              :''
+            }
         </div>
         <div style={{padding:'10px 20px'}}>
           <Table

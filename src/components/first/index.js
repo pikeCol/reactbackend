@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 class First extends React.Component{
   render(){
-    console.log(this.props.location)
+    // console.log(this.props.location)
     return(
       <div>
         <h1 style={{
