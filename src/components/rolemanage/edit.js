@@ -35,11 +35,9 @@ class Roleedit extends React.Component{
       console.log(result);
       if (result.restCode === 200) {
         Myalert.success('success', '编辑成功')
-        if ( this.state.redirect ) {
-          return(
-            <Redirect path={'/menu/rolemanage'} />
-          )
-        }
+        this.setState({
+          redirect:true
+        })
       }
     })
   }
@@ -118,7 +116,7 @@ class Roleedit extends React.Component{
 
     if ( this.state.redirect ) {
       return(
-        <Redirect path={'/menu/rolemanage'} />
+        <Redirect to={'/menu/rolemanage'} />
       )
     }
 

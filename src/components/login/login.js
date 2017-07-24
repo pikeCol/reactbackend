@@ -28,6 +28,15 @@ export default class NormalLoginForm extends React.Component {
       		dataType:"json",
       		success:function(data){
       			if( data.restCode === 200 ){
+
+              // sys/getMenu.do  请求权限
+              $.ajax({
+                url:'sys/getMenu.do',
+                method:'POST',
+                success: function(res){
+                  console.log(res);
+                }
+              })
               // 保存到localstorage
               let storage = window.localStorage
               storage.setItem("accountName",data.data.accountName)
@@ -41,6 +50,8 @@ export default class NormalLoginForm extends React.Component {
               that.setState({
                 islogin:true
               })
+
+
             } else {
               Myalert.autoCloseError('Error', data.msg)
             }

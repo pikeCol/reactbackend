@@ -173,14 +173,17 @@ export default class Basic extends React.Component{
   }
   handleAdd = () => {
     const { projectPartents, project } = this.state.data;
+    let _state =  this.props.location.state
+    let oid =_state?_state.oid:localStorage.getItem('projectOid')
     const newData = {
       "name":'',
       "investmentTime":'',
       "rate":'',
       "subscribedCapital":'',
-      "contributedCapital":''
+      "contributedCapital":'',
+      "projectOid":oid,
+      isedit:true
     }
-    newData.isedit = true
     this.setState({
       data:{
         project:project,
@@ -208,11 +211,17 @@ export default class Basic extends React.Component{
   }
   save = () => {
     const { data  } = this.state
-    console.log(data)
+    let _pro = {}
+    _pro = data.project
+    _pro.projectPartents = data.projectPartents
+    console.log(_pro)
     reqwest({
       url:'/project/editBaseInfo.do',
-      data:JSON.stringify(data),
-      method:'POST'
+      data:JSON.stringify(_pro),
+      method:'POST',
+      headers:{
+          'Content-Type':'application/json;charset=UTF-8'
+      }
     }).then((result) => {
       if (result.restCode ===200) {
         // isedit

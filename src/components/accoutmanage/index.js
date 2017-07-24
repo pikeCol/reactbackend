@@ -3,6 +3,7 @@ import { Redirect, Link } from 'react-router-dom'
 
 import { Table, Input, Popconfirm, Row, Col, Button } from 'antd';
 import $ from  'jquery'
+import Myalert from '../common/alert'
 
 
 export default class Accoutmanage extends React.Component {
@@ -10,13 +11,13 @@ export default class Accoutmanage extends React.Component {
     super(props);
     this.columns = [{
       title: '姓名',
-      dataIndex: 'accountName'
+      dataIndex: 'name'
     }, {
       title: '角色',
       dataIndex: 'roleName'
     }, {
       title: '登录账户',
-      dataIndex: 'address'
+      dataIndex: 'accountName'
     },{
       title: '关联项目',
       dataIndex: 'isLimit'
@@ -31,7 +32,7 @@ export default class Accoutmanage extends React.Component {
         return (
           <p>
             {
-              status>0?"启用": "禁止"
+              status>0?"冻结": "启用"
             }
           </p>
         )
@@ -47,7 +48,7 @@ export default class Accoutmanage extends React.Component {
             <Col span={6}>
               {
                 status?
-                <a onClick={()=>this.stop(text, record, index)}>停用</a>
+                <a onClick={()=>this.stop(text, record, index)}>冻结</a>
                 :
                 <a onClick={()=>this.start(text, record, index)}>启用</a>
               }
@@ -130,15 +131,20 @@ export default class Accoutmanage extends React.Component {
   }
 
   onDelete = (index) => {
-    const data = [...this.state.data];
+    // const data = [...this.state.data];
+    const { data } = this.state
     let that = this
-    data.splice(index, 1);
+    let oid = data[index].oid
     $.ajax({
       type:"POST",
       url: '/account/delAccount.do',
-      // url: '/data.json',
+      data: {
+        oid: oid
+      },
       success:function(datas){
         if( datas.restCode === 200 ){
+          Myalert.success('success', '删除成功')
+          data.splice(index, 1);
           that.setState({ data });
         }
       }

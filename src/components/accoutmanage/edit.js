@@ -54,9 +54,9 @@ class RegistrationForm extends React.Component {
             $.ajax({
               type:"POST",
               data:{
-                oid:that.state.oid,
+                oid:that.state._postdata.oid,
                 accountName:values.accountName,
-                roleOid:values.roleOid,
+                roleOid:values.selectrole,
                 name:values.name,
                 telephone:values.telephone,
                 email:values.email,
@@ -64,7 +64,7 @@ class RegistrationForm extends React.Component {
                 isLimit:values['radio-group'],
                 projectList:selectval.join()
               },
-              url: '/account/addAccount.do',
+              url: '/account/updateAccount.do',
               success:function(datas){
                   if(datas.restCode===200){
                     that.setState({
@@ -138,7 +138,7 @@ class RegistrationForm extends React.Component {
 
     getFieldDecorator('accountName', { initialValue: [ ] })
 
-    const { accountName,name,accountPassword, accountType,telephone, email }=this.state._postdata
+    const { accountName,name,accountPassword, accountType,telephone, email, roleOid }=this.state._postdata
 
     const formItemLayout = {
       labelCol: {
@@ -267,7 +267,8 @@ class RegistrationForm extends React.Component {
           {getFieldDecorator('selectrole', {
             rules: [
               { required: true, message: '请选择一个角色性质' }
-            ]
+            ],
+            initialValue:roleOid
           })(
             <Select placeholder="请选择">
               {children}

@@ -100,7 +100,7 @@ class Newrole extends React.Component{
 
     if ( this.state.redirect ) {
       return(
-        <Redirect path={'/menu/rolemanage'} />
+        <Redirect to={'/menu/rolemanage'} />
       )
     }
 

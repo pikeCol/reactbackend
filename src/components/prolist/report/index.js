@@ -3,12 +3,11 @@ import { DatePicker, Button, Row, Col,Input,Icon,Table } from 'antd';
 import moment from 'moment';
 const { MonthPicker } = DatePicker;
 import reqwest from 'reqwest';
-
 const dateFormat = 'YYYY';
 const monthFormat = 'MM';
-
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
+import Myalert from '../../common/alert'
 
 class Report extends React.Component{
   state={
@@ -39,7 +38,8 @@ class Report extends React.Component{
       render:(text, record, index) => this.inputColumns(this.state.data, index, 'val6', text)
     }],
     editable: false,
-    addable:false
+    addable:false,
+    year:''
   }
   renderColumns(data, index, key, text) {
     const { isedit } = data[index];
@@ -84,11 +84,6 @@ class Report extends React.Component{
   }
 
   componentWillMount () {
-    let _add = localStorage.getItem('_add')
-    if ( _add ){
-      return
-    }
-
     let projectOid = localStorage.getItem('projectOid')
     let { data } = this.state
     reqwest({
@@ -109,7 +104,7 @@ class Report extends React.Component{
       let _cols = result.data.templateDetails
       var str = 'val';
       if (_cols.length > 5) {
-        for (var count = 5; count < _cols.length; i++) {
+        for (var count = 5; count < _cols.length; count++) {
           let txt = str + count
           _cols[count].title = _cols[count].title
           _cols[count].dataIndex = _cols[count].valCode
@@ -119,6 +114,41 @@ class Report extends React.Component{
       this.setState({
         data:[...data]
       })
+    })
+  }
+  filter = () => {
+    let projectOid = localStorage.getItem('projectOid')
+    let { year, data } = this.state
+    reqwest({
+      url:'/project/filterReportData.do',
+      data: {
+        projectOid:projectOid,
+        year:year || '2017'
+      }
+    }).then((result) => {
+
+      console.log(result)
+      // templateDetails
+      data = result.data.reportDatas
+      // let templateDetails = result.data.reportDatas
+       for (let variable of data) {
+         variable.isedit = false
+       }
+       // 获取表头信息
+      let _cols = result.data.templateDetails
+      var str = 'val';
+      if (_cols.length > 5) {
+        for (var count = 5; count < _cols.length; count++) {
+          let txt = str + count
+          _cols[count].title = _cols[count].title
+          _cols[count].dataIndex = _cols[count].valCode
+          _cols[count].render = ((text, record, index) => this.inputColumns(this.state.data, index, txt, text))
+        }
+      }
+      this.setState({
+        data:[...data]
+      })
+
     })
   }
   handleAdd = () => {
@@ -238,7 +268,7 @@ class Report extends React.Component{
     }).then((result) =>{
       console.log(result)
       if(result.restCode === 200) {
-        alert('success')
+        Myalert.success('success', '添加成功')
         this.setState({
           data:[...data],
           addable:false
@@ -247,9 +277,17 @@ class Report extends React.Component{
     })
   }
   output = () => {
-    // let url = document.location.origin+'/attachment/download.do?oid='+value
-    // console.log(url)
-    // window.open(url)
+    let projectOid = localStorage.getItem('projectOid')
+    const {year} = this.setState
+    let url = document.location.origin+'/project/export.do?projectOid='+projectOid+'&year='+year
+    console.log(url)
+    window.open(url)
+  }
+
+  select = (date, datastring) => {
+    this.setState({
+      year:datastring
+    })
   }
   render(){
     const {editable, addable}=this.state
@@ -257,10 +295,10 @@ class Report extends React.Component{
       <div>
         <Row >
           <Col span={4} offset={2}>
-            <DatePicker defaultValue={moment('2015', dateFormat)} format={dateFormat} />
+            <DatePicker defaultValue={moment('2017', dateFormat)} format={dateFormat} onChange={this.select}/>
           </Col>
           <Col>
-            <Button type="primary" >筛选</Button>
+            <Button type="primary" onClick={this.filter}>筛选</Button>
           </Col>
          </Row>
         <Row style={{paddingTop:'20px'}}>

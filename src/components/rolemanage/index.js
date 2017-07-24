@@ -21,7 +21,7 @@ class Rolemanage extends React.Component{
           return (
             <p>
               {
-                status>0?"启用": "禁止"
+                status>0?"冻结": "启用"
               }
             </p>
           )
@@ -47,8 +47,7 @@ class Rolemanage extends React.Component{
                   <a onClick={()=>this.start(text, record, index)}>启用</a>
                 }
               </Col>
-              <Col span={6}><a onClick={()=>this.delete(text, record, index)}>删除</a></Col>
-              <Col span={6}><Link to={'/menu/editpass'}>修改密码</Link></Col>
+              {/* <Col span={6}><a onClick={()=>this.delete(text, record, index)}>删除</a></Col> */}
             </Row>
           )
         }
@@ -116,27 +115,28 @@ class Rolemanage extends React.Component{
       }
     })
   }
-  delete=(text, record, index)=>{
-    let that = this
-    let { data } = this.state
-    data.splice(index, 1)
-    $.ajax({
-      type:"POST",
-      url: '/role/delRole.do',
-      data:{
-        oid: this.state.data[index].oid
-      },
-      // url: '/data.json',
-      success:function(datas){
-        if( datas.restCode === 200 ){
-          Myalert.success('success', '修改成功')
-          that.setState({
-            data:data
-          })
-        }
-      }
-    })
-  }
+  // delete=(text, record, index)=>{
+  //   let that = this
+  //   let { data } = this.state
+  //   let oid = this.state.data[index].oid
+  //   $.ajax({
+  //     type:"POST",
+  //     url: '/role/delRole.do',
+  //     data:{
+  //       oid: oid
+  //     },
+  //     // url: '/data.json',
+  //     success:function(datas){
+  //       if( datas.restCode === 200 ){
+  //         Myalert.success('success', '修改成功')
+  //         data.splice(index, 1)
+  //         that.setState({
+  //           data:data
+  //         })
+  //       }
+  //     }
+  //   })
+  // }
 
   newroles = (e) =>{
     this.setState({

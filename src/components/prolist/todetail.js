@@ -130,7 +130,7 @@ class Todetail extends React.Component{
           <div className="border_line">
             <Row type="flex" align="middle" style={{height:'60px'}}>
               <Col span={3}>项目名称</Col>
-              <Col span={6}><Input onChange={() => this.changes(e,'projectName')}/></Col>
+              <Col span={6}><Input onChange={(e) => this.changes(e,'projectName')}/></Col>
               <Col span={2}><Button type='primary' onClick={this.search}>搜索</Button></Col>
               <Col span={2} offset={10}>
                 <Button type='primary'>

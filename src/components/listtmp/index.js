@@ -31,9 +31,9 @@ export default class Listtmp extends React.Component{
             <Col span={4}>
               <Link to={{pathname:'/menu/listtmp/edit', state:{oid:oid}}}>编辑</Link>
             </Col>
-            <Col span={4}>
+            {/* <Col span={4}>
               <a onClick={() =>this.delt(index)}>删除</a>
-            </Col>
+            </Col> */}
           </Row>
         )
       }

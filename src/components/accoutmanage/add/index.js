@@ -17,6 +17,7 @@ class RegistrationForm extends React.Component {
     _postdata:{},
     isconnect:'',
     value:1,
+    roleOid:'',
     confirmDirty: false,
     autoCompleteResult: [],
     roledatas:[]
@@ -51,6 +52,8 @@ class RegistrationForm extends React.Component {
         console.log('Received values of form: ', values);
         let that = this
         let selectval = values['select-multiple']||[];
+        const { roleOid } = this.state
+        console.log(roleOid)
         $.ajax({
           type:"POST",
           data:{
@@ -65,9 +68,9 @@ class RegistrationForm extends React.Component {
                   data:{
                     oid:that.state.oid,
                     accountName:values.accountName,
-                    roleOid:values.roleOid,
+                    roleOid:roleOid,
                     name:values.name,
-                    telephone:values.telephone,
+                    telephone:values.phone,
                     email:values.email,
                     accountType:values.accountType,
                     isLimit:values['radio-group'],
@@ -77,6 +80,9 @@ class RegistrationForm extends React.Component {
                   success:function(datas){
                       if(datas.restCode===200){
                         Myalert.success('success', '创建成功')
+                        that.setState({
+                          redirect:true
+                        })
                       }
                   }
                 })
@@ -95,13 +101,13 @@ class RegistrationForm extends React.Component {
     const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   }
-  checkConfirm = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
-    }
-    callback();
-  }
+  // checkConfirm = (rule, value, callback) => {
+  //   const form = this.props.form;
+  //   if (value && this.state.confirmDirty) {
+  //     form.validateFields(['confirm'], { force: true });
+  //   }
+  //   callback();
+  // }
   checkAccountName = (rule, value, callback) => {
     const form = this.props.form;
 
@@ -130,7 +136,11 @@ class RegistrationForm extends React.Component {
       isconnect:e.target.value
     })
   }
-
+  selectrole = (val) => {
+    this.setState({
+      roleOid:val
+    })
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult } = this.state;
@@ -242,13 +252,13 @@ class RegistrationForm extends React.Component {
           >
             {getFieldDecorator('accountPassword', {
               rules: [{
-                required: false, message: 'Please input your password!'
+                required: false, message: ''
               }, {
-                validator: this.checkConfirm
+                // validator: this.checkConfirm
               }],
               initialValue:""
             })(
-              <Input type="password" placeholder="初始密码"/>
+              <Input type="password" placeholder="初始密码" disabled/>
             )}
           </FormItem>
 
@@ -280,7 +290,7 @@ class RegistrationForm extends React.Component {
               { required: true, message: '请选择一个角色性质' }
             ]
           })(
-            <Select placeholder="请选择">
+            <Select placeholder="请选择" onChange={this.selectrole}>
               {children}
               {/* <Option value="outsiderole">外部角色</Option>
               <Option value="insiderole">内部角色</Option> */}

@@ -5,6 +5,7 @@ import moment from 'moment';
 const dateFormat = 'YYYY-MM-dd';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
+import Myalert from '../../common/alert'
 
 // http://xx.com/project/editImportantEvent.do
 // 参数
@@ -108,7 +109,7 @@ class Metters extends React.Component{
     }).then((result) =>{
       console.log(result)
       if( result.restCode === 200 ) {
-        alert('success')
+        Myalert.success('success', '添加成功')
         let len = data.length-1
         data[len].isedit = false
         this.setState({

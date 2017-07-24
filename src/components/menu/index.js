@@ -24,7 +24,7 @@ import {urlParse} from '../common/util'
 import { Layout, Menu, Icon } from 'antd';
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
-
+import reqwest from 'reqwest';
 
 import {
   Route,
@@ -33,24 +33,33 @@ import {
 } from 'react-router-dom'
 
 
-const OldSchoolMenuLink = ({ label, to, activeOnlyWhenExact }) => (
+const OldSchoolMenuLink = ({ label, to, activeOnlyWhenExact, datas }) => (
   <Route path={to} exact={activeOnlyWhenExact} children={({ match }) => (
-      <Link to={to}>
+      <Link to={{pathname:to,state:{data:datas}}}>
         <span>{label}</span>
       </Link>
   )}/>
   )
 
 class Menus extends React.Component{
-  state={
-    show:true
-  }
   constructor(props){
     super(props)
     this.state={
       show:true,
       usr:''
     }
+  }
+  componentWillMount () {
+    // sys/getMenu.do  请求权限
+    reqwest({
+      url:'/sys/getMenu.do',
+      method:'POST',
+    }).then((res) => {
+      console.log(res)
+      if ( res.restCode === 200 ) {
+
+      }
+    })
   }
   render(){
     let isnone=this.props.location.pathname=='/menu' ? 'none':'block'
@@ -67,7 +76,7 @@ class Menus extends React.Component{
             >
               <SubMenu key="sub1" title={<span><Icon type="menu-unfold" />首页</span>}>
                 <Menu.Item key="1">
-                    <OldSchoolMenuLink activeOnlyWhenExact={true}  to="/menu" label="首页"/>
+                    <OldSchoolMenuLink activeOnlyWhenExact={true}  to="/menu" label="首页" datas={{'mm':'dd'}} />
                 </Menu.Item>
               </SubMenu>
               <SubMenu key="sub2" title={<span><Icon type="laptop" />投资项目管理</span>}>
@@ -104,9 +113,8 @@ class Menus extends React.Component{
                   <Route exact path="/menu" component={First}/>
                   <Route path="/menu/prolist/:basic" component={Prolist}/>
                   <Route path="/menu/prolist" component={Todetail}/>
-
                   <Route path="/menu/addprolist/:basic" component={addProlist}/>
-                  {/* <Route path="/menu/addprolist" component={Second}/> */}
+
                   <Route path="/menu/editpass" component={Editpass}/>
                   <Route path="/menu/accoutmanage/add" component={Add}/>
                   <Route path="/menu/accoutmanage/edit" component={Edit}/>
