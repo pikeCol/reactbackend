@@ -19,12 +19,12 @@ import Edit from '../accoutmanage/edit'
 
 import Headers from '../common/header'
 
-import {urlParse} from '../common/util'
-
 import { Layout, Menu, Icon } from 'antd';
 const { SubMenu } = Menu;
 const { Content, Sider } = Layout;
 import reqwest from 'reqwest';
+
+import globalPemission from '../common/permission'
 
 import {
   Route,
@@ -54,9 +54,8 @@ class Menus extends React.Component{
     let {menudata} = this.state
     // sys/getMenu.do  请求权限
     reqwest({
-      // url:'/sys/getMenu.do',
-      url:'../../api/data0.json'
-      // method:'POST',
+      url:'/sys/getMenu.do',
+      method:'POST',
     }).then((res) => {
       console.log(res)
       if ( res.restCode === 200 ) {
@@ -69,28 +68,17 @@ class Menus extends React.Component{
   }
   render(){
     let isnone=this.props.location.pathname=='/menu' ? 'none':'block'
-    const obj={
-      "/menu/prolist/:basic":`Prolist`,
-      "/menu/prolist":`Todetail`,
-      "/menu/addprolist/:basic":`addProlist`,
-      "/menu/editpass":`Editpass`,
-      "/menu/accoutmanage/add":`Add`,
-      "/menu/editprofile":`Editprofile`,
-      "/menu/rolemanage/newrole":`Newrole`,
-      "/menu/rolemanage/edit":`Roleedit`,
-      "/menu/rolemanage":`Rolemanage`
-    }
-    // let _obj={}
-    let routers = []
 
     const { menudata } = this.state;
 
     // 循环菜单栏
     const menunode = menuchildren  => menuchildren.map((item) => {
-      // 获取路由
-      if (obj[item.content]) {
-        // _obj[item.content] = obj[item.content]
-        routers.push(<Route path={`${obj[item.content]}`} component={`${obj[item.content]}`}/>)
+      if (item.children) {
+        for (let variable of item.children) {
+          if (globalPemission.indexOf(variable.permissionName)<0){
+            globalPemission.push(variable.permissionName)
+          }
+        }
       }
       return(
         <Menu.Item key={item.oid}>
@@ -112,7 +100,6 @@ class Menus extends React.Component{
     //     routers.push(<Route path={variable} component={_obj[variable]}/>)
     //   }
     // }
-    // console.log(routers)
     return(
       <Layout>
         <Headers />
@@ -164,11 +151,9 @@ class Menus extends React.Component{
             <div className="maincontainer">
             <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
               <div className="main_wrap">
-
                 <Switch>
                   <Route exact path="/menu" component={First}/>
-                {routers}
-                  {/* <Route path="/menu/prolist/:basic" component={Prolist}/>
+                  <Route path="/menu/prolist/:basic" component={Prolist}/>
                   <Route path="/menu/prolist" component={Todetail}/>
                   <Route path="/menu/addprolist/:basic" component={addProlist}/>
 
@@ -186,7 +171,7 @@ class Menus extends React.Component{
 
                   <Route path="/menu/listtmp/add" component={Listadd}/>
                   <Route path="/menu/listtmp/edit" component={Listedit}/>
-                  <Route path="/menu/listtmp" component={Listtmp}/> */}
+                  <Route path="/menu/listtmp" component={Listtmp}/>
                 </Switch>
               </div>
             </Content>

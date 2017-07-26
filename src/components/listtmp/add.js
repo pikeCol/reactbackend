@@ -8,7 +8,7 @@ import reqwest from 'reqwest';
 import $ from 'jquery';
 
 import moment from 'moment';
-import Redirect from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import Myalert from '../common/alert'
 
 
@@ -140,6 +140,7 @@ export default class Listadd extends React.Component{
     for (var variable of datas) {
         pushdata.push(variable.name)
     }
+    let that = this
     console.log(pushdata)
     $.ajax({
       url:'/template/add.do',
@@ -157,7 +158,7 @@ export default class Listadd extends React.Component{
       if (result.restCode === 200) {
         data[index].isedit = false
         Myalert.success('success', '添加成功')
-        this.setState({
+        that.setState({
           redirect: true,
           data:[...data]
         })
@@ -187,7 +188,7 @@ export default class Listadd extends React.Component{
           <Col span={6}><Input placeholder="Basic usage" onChange={this.nameChang}/></Col>
         </Row>
         <Row type="flex" style={{marginTop:'40px',margiLeft:'20px'}}>
-          <Col span={4} style={{lineHeight:'28px'}}>模板名称</Col>
+          <Col span={4} style={{lineHeight:'28px'}}>报表模板</Col>
           <Col span={4}>表报性质</Col>
           <Col span={4}>
             <Select

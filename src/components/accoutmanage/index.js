@@ -4,7 +4,7 @@ import { Redirect, Link } from 'react-router-dom'
 import { Table, Input, Popconfirm, Row, Col, Button } from 'antd';
 import $ from  'jquery'
 import Myalert from '../common/alert'
-
+import globalPemission from '../common/permission'
 
 export default class Accoutmanage extends React.Component {
   constructor(props) {
@@ -20,7 +20,17 @@ export default class Accoutmanage extends React.Component {
       dataIndex: 'accountName'
     },{
       title: '关联项目',
-      dataIndex: 'isLimit'
+      dataIndex: 'isLimit',
+      render:(text, record, index) => {
+        let isLimit = this.state.data[index].isLimit
+        return (
+          <p>
+            {
+              isLimit>0?"关联项目": "不关联项目"
+            }
+          </p>
+        )
+      }
     },{
       title: '创建时间',
       dataIndex: 'createTime'
@@ -44,16 +54,28 @@ export default class Accoutmanage extends React.Component {
         let status = this.state.data[index].status
         return (
           <div className="editable-row-operations" style={{display:'flex',justifyContent:'space-around'}}>
-            <Link to={{pathname:'/menu/accoutmanage/edit',state:{oid:this.state.data[index].oid}}}>编辑</Link>
-            <Col span={6}>
-              {
-                status?
-                <a onClick={()=>this.stop(text, record, index)}>冻结</a>
-                :
-                <a onClick={()=>this.start(text, record, index)}>启用</a>
-              }
-            </Col>
-            <a onClick={() => this.onDelete(index)}>删除</a>
+            {
+             globalPemission.indexOf("账户编辑")>=0?
+              <Link to={{pathname:'/menu/accoutmanage/edit',state:{oid:this.state.data[index].oid}}}>编辑</Link>
+              :''
+            }
+            {
+             globalPemission.indexOf("账户停用")>=0?
+              <Col span={6}>
+                {
+                  status>0?
+                  <a onClick={()=>this.start(text, record, index)}>启用</a>
+                  :
+                  <a onClick={()=>this.stop(text, record, index)}>冻结</a>
+                }
+              </Col>
+              :''
+            }
+            {
+             globalPemission.indexOf("账户删除")>=0?
+              <a onClick={() => this.onDelete(index)}>删除</a>
+              :''
+            }
           </div>
         );
       },
@@ -65,17 +87,18 @@ export default class Accoutmanage extends React.Component {
   stop=(text, record, index)=>{
     let that = this
     let { data } = this.state
-    data[index].status  = 0
+    data[index].status  = 1
     $.ajax({
       type:"POST",
       url: '/account/updateAccountStatus.do',
       data:{
         oid: this.state.data[index].oid,
-        status: 0
+        status: 1
       },
       // url: '/data.json',
       success:function(datas){
         if( datas.restCode === 200 ){
+          Myalert.success('success', '修改成功')
           that.setState({
             data:data
           })
@@ -87,13 +110,13 @@ export default class Accoutmanage extends React.Component {
   start=(text, record, index)=>{
     let that = this
     let { data } = this.state
-    data[index].status  = 1
+    data[index].status  = 0
     $.ajax({
       type:"POST",
       url: '/account/updateAccountStatus.do',
       data:{
         oid: this.state.data[index].oid,
-        status: 1
+        status: 0
       },
       // url: '/data.json',
       success:function(datas){
@@ -117,7 +140,6 @@ export default class Accoutmanage extends React.Component {
         page:1,
         rows:10
       },
-      // url: '/account.json',
       success:function(datas){
         console.log(datas)
         data = datas.rows
@@ -160,7 +182,11 @@ export default class Accoutmanage extends React.Component {
       <div>
          <div className="border_line">
            <Row type="flex" align="middle" style={{height:'60px'}}>
-             <Col span={3} offset={18}><Button type="primary"><Link to={'/menu/accoutmanage/add'}>添加账户</Link></Button></Col>
+             {
+              globalPemission.indexOf("账户添加")>=0?
+               <Col span={3} offset={18}><Button type="primary"><Link to={'/menu/accoutmanage/add'}>添加账户</Link></Button></Col>
+               :''
+             }
            </Row>
          </div>
          <div style={{padding:'10px 20px'}}>

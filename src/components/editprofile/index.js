@@ -10,9 +10,16 @@ import Myalert from '../common/alert'
 
 class RegistrationForm extends React.Component {
   state = {
+    mydetail:{},
     confirmDirty: false,
     autoCompleteResult: []
   };
+  componentWillReceiveProps (nextProps) {
+    let _postdata = nextProps.mydetail || {}
+     this.setState({
+       mydetail:_postdata
+     })
+  }
   handleSubmit = (e) => {
     e.preventDefault();
     let oid = window.localStorage.getItem('oid')
@@ -28,7 +35,7 @@ class RegistrationForm extends React.Component {
             accountName:values.accountName,
             roleOid:roleOid || null,
             name:values.name|| null,
-            telephone:values.telephone|| null,
+            telephone:values.gtelephone|| null,
             email:values.email|| null,
             accountType:values.accountType|| null,
           },
@@ -38,10 +45,6 @@ class RegistrationForm extends React.Component {
               Myalert.success('success', '修改成功')
               window.localStorage.setItem('accountName',values.accountName)
             }
-            // postdata = datas.data
-            // that.setState({
-            //   postdata
-            // })
           }
         })
       }
@@ -121,11 +124,13 @@ class RegistrationForm extends React.Component {
     getFieldDecorator('telephone', { initialValue: [ ] })
     getFieldDecorator('email', { initialValue: [ ] })
     getFieldDecorator('rootName', { initialValue: [ ] })
-    let accountName = localStorage.getItem('accountName')
-    let _name = localStorage.getItem('name')
-    let telephone = localStorage.getItem('telephone')
-    let email = localStorage.getItem('email')
-    let rootName = localStorage.getItem('rootName')
+    let {accountName,
+        name,
+        telephone,
+        email,
+        rootName,
+        roleName
+      } = this.state.mydetail
     return (
       <Row >
         <Col span={10} offset={7} style={{paddingTop:'40px'}}>
@@ -141,7 +146,7 @@ class RegistrationForm extends React.Component {
           >
             {getFieldDecorator('name', {
               rules: [{ required: true, message: '请输入你的姓名!', whitespace: true }],
-              initialValue:_name
+              initialValue:name
             })(
               <Input />
             )}
@@ -157,7 +162,7 @@ class RegistrationForm extends React.Component {
               }, {
                 validator: this.checkConfirm,
               }],
-              initialValue:accountName||"admin1"
+              initialValue:accountName||"admin"
             })(
               <Input type="text" placeholder="登录账户" disabled />
             )}
@@ -168,7 +173,7 @@ class RegistrationForm extends React.Component {
           >
             {getFieldDecorator('roleType', {
               rules: [{ required: true, message: 'Please select your habitual residence!' }],
-              initialValue:rootName || ''
+              initialValue:rootName || roleName
             })(
               <Select placeholder="请选择" disabled>
                 <Option value="0">外部角色</Option>
@@ -216,9 +221,30 @@ class RegistrationForm extends React.Component {
 const WrappedRegistrationForm = Form.create()(RegistrationForm);
 
 class Editprofile extends React.Component{
+  state={
+    details:{}
+  }
+  componentWillMount () {
+    let oid = window.localStorage.getItem('oid')
+    console.log(oid)
+    let that = this
+    $.ajax({
+      url:'/account/getAccountDetail.do',
+      method:'POST',
+      data:{
+        oid:oid
+      },
+      success:function(res) {
+        console.log(res)
+        that.setState({
+          details:res.data
+        })
+      }
+    })
+  }
   render(){
     return(
-      <WrappedRegistrationForm />
+      <WrappedRegistrationForm mydetail={this.state.details}/>
     )
   }
 }

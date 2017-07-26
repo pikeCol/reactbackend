@@ -12,14 +12,21 @@ class Newrole extends React.Component{
   state = {
     data:[],
     roleName:'',
-    roleType:'',
+    // roleType:'',
     mypost: [],
     defaultCheckedKeys:[],
     redirect: false
   }
   save =() => {
-    let { mypost, roleName, roleType } = this.state
-
+    let { mypost, roleName } = this.state
+    if (!roleType) {
+      Myalert.error('Error','请选择角色性质')
+      return
+    }
+    if (!roleName) {
+      Myalert.error('Error','请输入角色名')
+      return
+    }
     reqwest({
       url:'/role/findRoleRepeat.do',
       method:'POST',
@@ -34,7 +41,7 @@ class Newrole extends React.Component{
           method:'POST',
           data: {
             roleName:roleName,
-            roleType:roleType,
+            // roleType:roleType,
             pemissionOids:mypost.join()
           }
         }).then((result) => {
@@ -86,11 +93,11 @@ class Newrole extends React.Component{
       mypost
     })
    }
-   handleChange = (val) => {
-     this.setState({
-       roleType:val
-     })
-   }
+  //  handleChange = (val) => {
+  //    this.setState({
+  //      roleType:val
+  //    })
+  //  }
    handleinput  = (e) => {
      this.setState({
        roleName:e.target.value
@@ -115,21 +122,21 @@ class Newrole extends React.Component{
       return <TreeNode key={item.oid} isLeaf={true} title={item.permissionName} />;
     });
 
-    const { roleName, roleType } = this.state
+    const { roleName } = this.state
       return(
         <div>
           <div className="border_line">
            <Row type="flex" align="middle" style={{height:'60px'}}>
-             <Col offset={1}>角色性质</Col>
+             {/* <Col offset={1}>角色性质</Col>
              <Col>
                <Select defaultValue="请选择" style={{ width: 120 }} onChange={this.handleChange}>
                  <Option value="0">外部角色</Option>
                  <Option value="1">内部角色</Option>
                </Select>
-             </Col>
-             <Col>角色名称</Col>
+             </Col> */}
+             <Col offset={1}>角色名称</Col>
              <Col>
-               <Input defaultValue={roleName} onChange={this.handleinput}/>
+               <Input defaultValue={roleName||' '} onChange={this.handleinput}/>
              </Col>
            </Row>
           </div>

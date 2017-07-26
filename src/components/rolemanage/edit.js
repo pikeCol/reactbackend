@@ -141,7 +141,7 @@ class Roleedit extends React.Component{
              <Col>
                {
                  roleType?
-                 <Select value={roleType} style={{ width: 120 }} onChange={this.handleChange}>
+                 <Select defaultValue={roleType} style={{ width: 120 }} onChange={this.handleChange}>
                    <Option value="0">外部角色</Option>
                    <Option value="1">内部角色</Option>
                  </Select>

@@ -4,6 +4,7 @@ import { Link, Redirect } from 'react-router-dom'
 
 import $ from  'jquery'
 import Myalert from '../common/alert'
+import globalPemission from '../common/permission'
 
 class Rolemanage extends React.Component{
   state={
@@ -12,7 +13,17 @@ class Rolemanage extends React.Component{
         dataIndex: 'roleName'
       },{
         title:'角色性质',
-        dataIndex: 'roleType'
+        dataIndex: 'roleType',
+        render: (index) => {
+          let roleType = this.state.data[index].roleType
+          return(
+            <div>
+              {
+                roleType==0?'外部性质':'内部性质'
+              }
+            </div>
+          )
+        }
       },{
         title:'角色状态',
         dataIndex: 'status',
@@ -37,17 +48,32 @@ class Rolemanage extends React.Component{
           return (
             <Row   type="flex"  align="middle">
               <Col span={6}>
-                <a onClick={()=>this.edit(text, record, index)}>编辑</a>
+                {
+                    globalPemission.indexOf('角色编辑')>=0?
+                    <a onClick={()=>this.edit(text, record, index)}>编辑</a>
+                    :''
+                }
               </Col>
               <Col span={6}>
                 {
-                  status?
-                  <a onClick={()=>this.stop(text, record, index)}>冻结</a>
-                  :
-                  <a onClick={()=>this.start(text, record, index)}>启用</a>
+                  globalPemission.indexOf('角色停用')>=0?
+                  <span>
+                    {
+                      status>0?
+                      <a onClick={()=>this.start(text, record, index)}>启用</a>
+                      :
+                      <a onClick={()=>this.stop(text, record, index)}>冻结</a>
+                    }
+                  </span>
+                  :''
                 }
               </Col>
-              {/* <Col span={6}><a onClick={()=>this.delete(text, record, index)}>删除</a></Col> */}
+              {
+                  globalPemission.indexOf('角色删除')>=0?
+                  <Col span={6}><a onClick={()=>this.delete(text, record, index)}>删除</a></Col>
+                  :
+                  ''
+              }
             </Row>
           )
         }
@@ -56,8 +82,7 @@ class Rolemanage extends React.Component{
     param:{},
     data:[],
     loading:false,
-    pagination:{},
-    permissions:[]
+    pagination:{}
   }
   edit = (text, record, index) =>{
     let { param } = this.state
@@ -72,43 +97,10 @@ class Rolemanage extends React.Component{
     })
 
   }
-  componentWillMount () {
-    let { permissions } = this.state
-    let permissionTitle = this.props.location.state.data
-    console.log(permissionTitle)
-    for (let variable of permissionTitle) {
-       permissions.push(variable.permissionName)
-    }
-    this.setState({
-      permissions
-    })
-  }
   stop=(text, record, index)=>{
     let that = this
     let { data } = this.state
     data[index].status  = 0
-    $.ajax({
-      type:"POST",
-      url: '/role/updateRoleStatus.do',
-      data:{
-        oid: this.state.data[index].oid,
-        status: 0
-      },
-      // url: '/data.json',
-      success:function(datas){
-        if( datas.restCode === 200 ){
-          Myalert.success('success', '修改成功')
-          that.setState({
-            data:data
-          })
-        }
-      }
-    })
-  }
-  start=(text, record, index)=>{
-    let that = this
-    let { data } = this.state
-    data[index].status  = 1
     $.ajax({
       type:"POST",
       url: '/role/updateRoleStatus.do',
@@ -127,28 +119,48 @@ class Rolemanage extends React.Component{
       }
     })
   }
-  // delete=(text, record, index)=>{
-  //   let that = this
-  //   let { data } = this.state
-  //   let oid = this.state.data[index].oid
-  //   $.ajax({
-  //     type:"POST",
-  //     url: '/role/delRole.do',
-  //     data:{
-  //       oid: oid
-  //     },
-  //     // url: '/data.json',
-  //     success:function(datas){
-  //       if( datas.restCode === 200 ){
-  //         Myalert.success('success', '修改成功')
-  //         data.splice(index, 1)
-  //         that.setState({
-  //           data:data
-  //         })
-  //       }
-  //     }
-  //   })
-  // }
+  start=(text, record, index)=>{
+    let that = this
+    let { data } = this.state
+    data[index].status  = 0
+    $.ajax({
+      type:"POST",
+      url: '/role/updateRoleStatus.do',
+      data:{
+        oid: this.state.data[index].oid,
+        status: 0
+      },
+      success:function(datas){
+        if( datas.restCode === 200 ){
+          Myalert.success('success', '修改成功')
+          that.setState({
+            data:data
+          })
+        }
+      }
+    })
+  }
+  delete=(text, record, index)=>{
+    let that = this
+    let { data } = this.state
+    let oid = this.state.data[index].oid
+    $.ajax({
+      type:"POST",
+      url: '/role/delRole.do',
+      data:{
+        oid: oid
+      },
+      success:function(datas){
+        if( datas.restCode === 200 ){
+          Myalert.success('success', '修改成功')
+          data.splice(index, 1)
+          that.setState({
+            data:data
+          })
+        }
+      }
+    })
+  }
 
   newroles = (e) =>{
     this.setState({
@@ -192,15 +204,15 @@ class Rolemanage extends React.Component{
     });
   }
   componentDidMount () {
-    // this.fetch({
-    //   page:1,
-    //   rows:10
-    // })
+    this.fetch({
+      page:1,
+      rows:10
+    })
   }
 
 
   render(){
-    console.log(this.state.permissions)
+    // console.log(globalPemission)
     if(this.state.isnew) {
       return(
         <Redirect to={{pathname:'/menu/rolemanage/edit',state:{param:this.state.param}}} />
@@ -211,7 +223,7 @@ class Rolemanage extends React.Component{
       <div>
         <div className="border_line">
           {
-            this.state.permissions.indexOf('新建角色')>0?
+            globalPemission.indexOf('角色添加')>=0?
               <Row type="flex" align="middle" style={{height:'60px'}}>
                 <Col span={3} offset={18}>
                   <Button type="primary">

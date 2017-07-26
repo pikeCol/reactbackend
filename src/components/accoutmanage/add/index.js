@@ -129,6 +129,15 @@ class RegistrationForm extends React.Component {
 
   countpro = (value)=>{
     console.log(value)
+    if ( value == 1) {
+      this.props.form.setFieldsValue({
+        'radio-group': `1`,
+      });
+
+    }
+    if ( value == 0) {
+
+    }
   }
 
   changeradio = (e)=> {
@@ -292,8 +301,6 @@ class RegistrationForm extends React.Component {
           })(
             <Select placeholder="请选择" onChange={this.selectrole}>
               {children}
-              {/* <Option value="outsiderole">外部角色</Option>
-              <Option value="insiderole">内部角色</Option> */}
             </Select>
           )}
         </FormItem>
@@ -342,7 +349,7 @@ class RegistrationForm extends React.Component {
              label=""
            >
              {getFieldDecorator('select-multiple')(
-               <Select mode="multiple" placeholder="请选择项目">
+               <Select mode="multiple" placeholder="请选择项目" disabled>
                  <Option value="12345">12345 人众项目</Option>
                  <Option value="12344">12344 浙银资产</Option>
                </Select>

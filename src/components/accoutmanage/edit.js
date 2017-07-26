@@ -26,7 +26,6 @@ class RegistrationForm extends React.Component {
     $.ajax({
       type:"POST",
       url: '/role/getRoleList.do',
-      // url: '../../../api/dds.json',
       success:function(datas){
         if ( datas.restCode == 200 ) {
           const {roledatas} = that.state
@@ -138,7 +137,7 @@ class RegistrationForm extends React.Component {
 
     getFieldDecorator('accountName', { initialValue: [ ] })
 
-    const { accountName,name,accountPassword, accountType,telephone, email, roleOid }=this.state._postdata
+    const { accountName,name,accountPassword, accountType,telephone, email, roleOid, roleName, isLimit }=this.state._postdata
 
     const formItemLayout = {
       labelCol: {
@@ -250,11 +249,11 @@ class RegistrationForm extends React.Component {
             rules: [
               { required: true, message: '请选择一个账户性质' }
             ],
-            initialValue:accountType
+            initialValue:`${accountType}`
           })(
-            <Select placeholder="请选择" onChange={this.countpro}>
-              <Option value="1">外部账户</Option>
-              <Option value="0">内部账户</Option>
+            <Select  onChange={this.countpro}>
+              <Option value="0">外部账户</Option>
+              <Option value="1">内部账户</Option>
             </Select>
           )}
         </FormItem>
@@ -268,7 +267,7 @@ class RegistrationForm extends React.Component {
             rules: [
               { required: true, message: '请选择一个角色性质' }
             ],
-            initialValue:roleOid
+            initialValue:roleName
           })(
             <Select placeholder="请选择">
               {children}
@@ -307,7 +306,9 @@ class RegistrationForm extends React.Component {
              {...formItemLayout}
              label="是否关联项目"
            >
-           {getFieldDecorator('radio-group')(
+           {getFieldDecorator('radio-group', {
+             initialValue:`${isLimit}`
+           })(
              <RadioGroup onChange={this.changeradio}>
                <Radio value="1">是</Radio>
                <Radio value="0">否</Radio>

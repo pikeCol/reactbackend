@@ -5,6 +5,8 @@ import reqwest from 'reqwest';
 import { Table, Row, Col, Input, Button } from 'antd';
 //    /project/getProjects.do 获取列表 page 和 rows
 import { Redirect } from 'react-router-dom'
+import globalPemission from '../common/permission'
+
 
 class Todetail extends React.Component{
   constructor(props){
@@ -20,8 +22,16 @@ class Todetail extends React.Component{
           dataIndex: 'projectName',
           render: (text, record, index) =>{
             let oid = this.state.data[index].oid
+            console.log(this.state.permissions)
             return(
-              <div className="td_a"><Link to={{pathname:`/menu/prolist/basic`,state:{oid:oid}}}>{text}</Link></div>
+              <div className="td_a">
+                {
+                globalPemission.indexOf("列表详情")>=0?
+                  <Link to={{pathname:`/menu/prolist/basic`,state:{oid:oid}}}>{text}</Link>
+                  :
+                  <p>{text}</p>
+                }
+              </div>
             )
           }
         }, {
@@ -133,9 +143,14 @@ class Todetail extends React.Component{
               <Col span={6}><Input onChange={(e) => this.changes(e,'projectName')}/></Col>
               <Col span={2}><Button type='primary' onClick={this.search}>搜索</Button></Col>
               <Col span={2} offset={10}>
-                <Button type='primary'>
-                  <Link to={{pathname:`/menu/addprolist/basic`}}>添加</Link>
-                </Button>
+                {
+                globalPemission.indexOf('列表添加')>0?
+                  <Button type='primary'>
+                    <Link to={{pathname:`/menu/addprolist/basic`}}>添加</Link>
+                  </Button>
+                  :
+                  ''
+                }
               </Col>
             </Row>
           </div>

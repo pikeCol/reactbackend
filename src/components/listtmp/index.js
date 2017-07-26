@@ -7,11 +7,15 @@ import reqwest from 'reqwest';
 import { Redirect, Link } from 'react-router-dom'
 import Myalert from '../common/alert'
 
+import globalPemission from '../common/permission'
+
+
 export default class Listtmp extends React.Component{
   constructor(props){
     super(props)
   }
   state={
+    permissions:[],
     pagination: {},
     columns:[{
       title: '模板名称',
@@ -28,9 +32,13 @@ export default class Listtmp extends React.Component{
         console.log(index,oid)
         return(
           <Row type="flex" justify="space-around" align="middle">
-            <Col span={4}>
-              <Link to={{pathname:'/menu/listtmp/edit', state:{oid:oid}}}>编辑</Link>
-            </Col>
+            {
+              globalPemission.indexOf('模板编辑')>=0?
+              <Col span={4}>
+                <Link to={{pathname:'/menu/listtmp/edit', state:{oid:oid}}}>编辑</Link>
+              </Col>
+              :''
+            }
             {/* <Col span={4}>
               <a onClick={() =>this.delt(index)}>删除</a>
             </Col> */}
@@ -107,22 +115,7 @@ export default class Listtmp extends React.Component{
       }
     });
   }
-  //
-  // componentWillMount() {
-  //   let {data} = this.state
-  //   reqwest({
-  //     // url:'../../api/temlist.json'
-  //     method:'POST',
-  //     url:'/template/list.do'
-  //   }).then((result)=>{
-  //     if (result.restCode === 200) {
-  //       let data = result.data.template
-  //       this.setState({
-  //         data:[...data]
-  //       })
-  //     }
-  //   })
-  // }
+
   componentDidMount () {
     this.fetch({
       rows: 10,
@@ -144,9 +137,13 @@ export default class Listtmp extends React.Component{
     return(
       <div style={{paddingTop:'40px'}}>
         <Row style={{paddingBottom:'40px'}}>
-          <Col offset={20}>
-            <Button type="primary" onClick={this.addmodule}>添加</Button>
-          </Col>
+          {
+            globalPemission.indexOf('模板添加')>=0?
+            <Col offset={20}>
+              <Button type="primary" onClick={this.addmodule}>添加</Button>
+            </Col>
+            :''
+          }
         </Row>
         <Table
           columns={this.state.columns}

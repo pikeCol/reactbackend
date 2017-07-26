@@ -1,7 +1,7 @@
 import React from 'react';
-import { DatePicker, Button, Row, Col,Input,Icon,Table } from 'antd';
+import { DatePicker, Button, Row, Col, Input, Table } from 'antd';
 import moment from 'moment';
-const { MonthPicker } = DatePicker;
+// const { MonthPicker } = DatePicker;
 import reqwest from 'reqwest';
 const dateFormat = 'YYYY';
 const monthFormat = 'MM';
@@ -56,7 +56,7 @@ class Report extends React.Component{
   inputColumns = (data, index, key, text) => {
     const { isedit } = data[index];
     const { editable } = this.state;
-    console.log(editable)
+    // console.log(editable)
     if (editable) {
       return (
         <Input defaultValue={text} onChange={(e)=>this.handleChange(e,data,index,key)}/>
@@ -93,7 +93,7 @@ class Report extends React.Component{
       }
       // url:'../../../api/item0.json',
     }).then((result)=>{
-      console.log(result)
+      // console.log(result)
       // templateDetails
       data = result.data.reportDatas
       // let templateDetails = result.data.reportDatas
@@ -127,7 +127,7 @@ class Report extends React.Component{
       }
     }).then((result) => {
 
-      console.log(result)
+      // console.log(result)
       // templateDetails
       data = result.data.reportDatas
       // let templateDetails = result.data.reportDatas
@@ -152,7 +152,7 @@ class Report extends React.Component{
     })
   }
   handleAdd = () => {
-    const { data, addable } = this.state;
+    const { data } = this.state;
     let newData = {}
     for (var variable in data[0]) {
       if (data[0].hasOwnProperty(variable)) {
@@ -169,7 +169,7 @@ class Report extends React.Component{
     // alert(this.state.data[1].editable)
   }
   handleCancel =() => {
-    const { data, addable } = this.state;
+    const { data } = this.state;
     data.splice(data.length - 1,1)
     this.setState({
       data: [...data],
@@ -280,7 +280,7 @@ class Report extends React.Component{
     let projectOid = localStorage.getItem('projectOid')
     const {year} = this.setState
     let url = document.location.origin+'/project/export.do?projectOid='+projectOid+'&year='+year
-    console.log(url)
+    // console.log(url)
     window.open(url)
   }
 
@@ -313,9 +313,9 @@ class Report extends React.Component{
                 <Button type="primary" onClick={this.eidt}>
                   {
                     editable?
-                    "取消编辑"
+                    '取消编辑'
                     :
-                    "编辑报表"
+                    '编辑报表'
                   }
                 </Button>
               </span>

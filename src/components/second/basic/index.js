@@ -12,7 +12,7 @@ export default class Basic extends React.Component{
        {
         title: '公司名称',
         dataIndex: 'companyName',
-        render:(text, record, index) => {
+        render:() => {
           return(
             <Input onChange={e => this.inputchange(e, 'companyName')} />
           )
@@ -20,7 +20,7 @@ export default class Basic extends React.Component{
       }, {
         title: '主营业务',
         dataIndex: 'mainBusiness',
-        render:(text, record, index) => {
+        render:() => {
           // localStorage.getItem('_add')=="true"?
           return(
             <Input onChange={e => this.inputchange(e, 'mainBusiness')} />
@@ -29,7 +29,7 @@ export default class Basic extends React.Component{
       }, {
         title: '注册资本',
         dataIndex: 'regCapital',
-        render:(text, record, index) => {
+        render:() => {
           return(
             <Input onChange={e => this.inputchange(e, 'regCapital')} />
           )
@@ -37,7 +37,7 @@ export default class Basic extends React.Component{
       },{
         title: '实缴资本',
         dataIndex: 'contributedCapital',
-        render:(text, record, index) => {
+        render:() => {
           return(
             <Input onChange={e => this.inputchange(e, 'contributedCapital')} />
           )
@@ -45,7 +45,7 @@ export default class Basic extends React.Component{
       },{
         title: '我方投资方',
         dataIndex: 'ourInvestors',
-        render:(text, record, index) => {
+        render:() => {
           // localStorage.getItem('_add')=="true"?
           return(
               <Input onChange={e => this.inputchange(e, 'ourInvestors')} />
@@ -54,7 +54,7 @@ export default class Basic extends React.Component{
       },{
         title: '我方持股比例',
         dataIndex: 'ourRate',
-        render:(text, record, index) => {
+        render:() => {
           return(
               <Input onChange={e => this.inputchange(e, 'ourRate')} />
           )
@@ -62,7 +62,7 @@ export default class Basic extends React.Component{
       },{
         title: '实投金额',
         dataIndex: 'actualAmount',
-        render:(text, record, index) => {
+        render:() => {
           return(
                 <Input onChange={e => this.inputchange(e, 'actualAmount')} />
           )
@@ -70,7 +70,7 @@ export default class Basic extends React.Component{
       },{
         title: '我方投资时间',
         dataIndex: 'ourInvestmentTime',
-        render:(text, record, index) => {
+        render:() => {
           return(
             // <Input onChange={e => this.inputchange(e, 'ourInvestmentTime')} />
             <DatePicker onChange={(date, dateString) =>this.datetime(date, dateString,'ourInvestmentTime')}/>
@@ -81,7 +81,7 @@ export default class Basic extends React.Component{
       boardNumber:'',
       ourBoardPerson:'',
       boardOfVisitorsNumber:'',
-      ourBoardOfVisitorsPerson:'',
+      ourBoardOfVisitorsPerson:''
     }],
     data:{
       project:[],
@@ -101,7 +101,7 @@ export default class Basic extends React.Component{
         title: '投资时间',
         dataIndex: 'investmentTime',
         // <DatePicker onChange={(date, dateString) =>this.datetime(date, dateString,'investmentTime')}/>
-        render: (text, record, index) => <DatePicker onChange={(date, dateString) =>this.datetime(date, dateString,'investmentTime')}/>
+        render: () => <DatePicker onChange={(date, dateString) =>this.datetime(date, dateString,'investmentTime')}/>
       }, {
         title: '持股比例',
         dataIndex: 'rate',
@@ -118,19 +118,19 @@ export default class Basic extends React.Component{
       columnsPartents : [{
         title: '董事会人数',
         dataIndex: 'boardNumber',
-        render: (text, record, index) => <Input  onChange={e => this.inputchange(e,'boardNumber')}/>
+        render: () => <Input  onChange={e => this.inputchange(e,'boardNumber')}/>
       }, {
         title: '董事会我方委派人员',
         dataIndex: 'ourBoardPerson',
-        render: (text, record, index) => <Input  onChange={e => this.inputchange(e,'ourBoardPerson')}/>
+        render: () => <Input  onChange={e => this.inputchange(e,'ourBoardPerson')}/>
       }, {
         title: '监事会人数',
         dataIndex: 'boardOfVisitorsNumber',
-        render: (text, record, index) => <Input  onChange={e => this.inputchange(e,'boardOfVisitorsNumber')}/>
+        render: () => <Input  onChange={e => this.inputchange(e,'boardOfVisitorsNumber')}/>
       }, {
         title: '监事会我方委派人员',
         dataIndex: 'ourBoardOfVisitorsPerson',
-        render: (text, record, index) => <Input  onChange={e => this.inputchange(e,'ourBoardOfVisitorsPerson')}/>
+        render: () => <Input  onChange={e => this.inputchange(e,'ourBoardOfVisitorsPerson')}/>
       }],
     addoid:'',
     opt:[],
@@ -157,7 +157,7 @@ export default class Basic extends React.Component{
     redirect:false
   }
   datetime = (date, dateString, key) => {
-    console.log(date, dateString, key)
+    // console.log(date, dateString, key)
     const {mypost} = this.state
     mypost[key] = dateString
     this.setState({
@@ -177,7 +177,7 @@ export default class Basic extends React.Component{
     this.setState({
       mypost
     })
-    console.log(this.state.mypost)
+    // console.log(this.state.mypost)
   }
   inputchange = (e, names) => {
     const {mypost} = this.state
@@ -185,23 +185,23 @@ export default class Basic extends React.Component{
     this.setState({
       mypost
     })
-    console.log(this.state.mypost)
+    // console.log(this.state.mypost)
   }
   handleAdd = () => {
     const { _projectPartents, project } = this.state.data;
     const { mypost } = this.state;
     let _my = mypost
-    let _my2 = _my.projectPartents
-    console.log(_my)
+    // let _my2 = _my.projectPartents
+    // console.log(_my)
     const newData = {
-      "name":'',
-      "investmentTime":'',
-      "rate":'',
-      "subscribedCapital":'',
-      "contributedCapital":''
+      'name':'',
+      'investmentTime':'',
+      'rate':'',
+      'subscribedCapital':'',
+      'contributedCapital':''
     }
     _my.projectPartents.push(newData)
-    console.log(_my)
+    // console.log(_my)
     this.setState({
       mypost:{
         ..._my
@@ -236,7 +236,7 @@ export default class Basic extends React.Component{
         'Content-Type':'application/json;charset=UTF-8'
       }
     }).then((result) => {
-      console.log(result)
+      // console.log(result)
       if (result.restCode === 200 ) {
         Myalert.success('success', '保存成功')
         this.setState({
@@ -263,7 +263,7 @@ export default class Basic extends React.Component{
 
   }
   render(){
-    const { value, editable, opt, redirect } = this.state;
+    const { opt, redirect } = this.state;
     const children = [];
     for (let variable of opt) {
       children.push(<Option key={variable.oid}>{variable.name}</Option>);

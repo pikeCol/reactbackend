@@ -9,19 +9,19 @@ import Myalert from '../../common/alert'
 const  columnsPartents = [{
         title: '董事会人数',
         dataIndex: 'boardNumber',
-        render: (text, record, index) => text
+        render: (text) => text
       }, {
         title: '董事会我方委派人员',
         dataIndex: 'ourBoardPerson',
-        render: (text, record, index) => text
+        render: (text) => text
       }, {
         title: '监事会人数',
         dataIndex: 'boardOfVisitorsNumber',
-        render: (text, record, index) => text
+        render: (text) => text
       }, {
         title: '监事会我方委派人员',
         dataIndex: 'ourBoardOfVisitorsPerson',
-        render: (text, record, index) => text
+        render: (text) => text
       }]
 
 
@@ -109,39 +109,138 @@ export default class Basic extends React.Component{
      columns: [{
         title: '项目编码',
         dataIndex: 'templateOid',
-        render:(text, record, index) => <p>{text}</p>
+        render:(text) => {
+          return(
+            <div>
+              {
+                this.state.editable?
+                <Input onChange={e => this.importantClause(e, 'templateOid')}/>
+                :
+                <p>{text}</p>
+              }
+            </div>
+          )
+        }
       }, {
         title: '公司名称',
         dataIndex: 'companyName',
-        render:(text, record, index) => <p>{text}</p>
+        render:(text) => {
+          return(
+            <div>
+              {
+                this.state.editable?
+                <Input onChange={e => this.importantClause(e, 'companyName')}/>
+                :
+                <p>{text}</p>
+              }
+            </div>
+          )
+        }
       }, {
         title: '主营业务',
         dataIndex: 'mainBusiness',
-        render:(text, record, index) => <p>{text}</p>
+        render:(text) => {
+          return(
+            <div>
+              {
+                this.state.editable?
+                <Input onChange={e => this.importantClause(e, 'mainBusiness')}/>
+                :
+                <p>{text}</p>
+              }
+            </div>
+          )
+        }
       }, {
         title: '注册资本',
         dataIndex: 'regCapital',
-        render:(text, record, index) => <p>{text}</p>
+        render:(text) => {
+          return(
+            <div>
+              {
+                this.state.editable?
+                <Input onChange={e => this.importantClause(e, 'regCapital')}/>
+                :
+                <p>{text}</p>
+              }
+            </div>
+          )
+        }
       },{
         title: '实缴资本',
         dataIndex: 'contributedCapital',
-        render:(text, record, index) => <p>{text}</p>
+        render:(text) => {
+          return(
+            <div>
+              {
+                this.state.editable?
+                <Input onChange={e => this.importantClause(e, 'contributedCapital')}/>
+                :
+                <p>{text}</p>
+              }
+            </div>
+          )
+        }
       },{
         title: '我方投资方',
         dataIndex: 'ourInvestors',
-        render:(text, record, index) => <p>{text}</p>
+        render:(text) => {
+          return(
+            <div>
+              {
+                this.state.editable?
+                <Input onChange={e => this.importantClause(e, 'ourInvestors')}/>
+                :
+                <p>{text}</p>
+              }
+            </div>
+          )
+        }
       },{
         title: '我方持股比例',
         dataIndex: 'ourRate',
-        render:(text, record, index) => <p>{text}</p>
+        render:(text) => {
+          return(
+            <div>
+              {
+                this.state.editable?
+                <Input onChange={e => this.importantClause(e, 'ourRate')}/>
+                :
+                <p>{text}</p>
+              }
+            </div>
+          )
+        }
       },{
         title: '实投金额',
         dataIndex: 'actualAmount',
-        render:(text, record, index) => <p>{text}</p>
+        render:(text) => {
+          return(
+            <div>
+              {
+                this.state.editable?
+                <Input onChange={e => this.importantClause(e, 'actualAmount')}/>
+                :
+                <p>{text}</p>
+              }
+            </div>
+          )
+        }
       },{
         title: '我方投资时间',
         dataIndex: 'ourInvestmentTime',
-        render:(text, record, index) => <p>{text}</p>
+        render:(text) => {
+          return(
+            <div>
+              {
+                this.state.editable?
+                <DatePicker onChange={(date, dateString) =>this.protime(date, dateString,'ourInvestmentTime')}/>
+                :
+                <p>{text}</p>
+              }
+            </div>
+          )
+        }
     }],
     data:{
       project:{},
@@ -150,8 +249,14 @@ export default class Basic extends React.Component{
     editable:false,
     opt:[]
   }
+  protime = (date, dateString,key) => {
+    const {data} = this.state
+    data.project[key] = dateString
+    this.setState({
+      data
+    })
+  }
   datetime = (date, dateString, key, index) => {
-    console.log(date, dateString, key)
     const {data} = this.state
     data.projectPartents[index][key] = dateString
     this.setState({
@@ -165,7 +270,7 @@ export default class Basic extends React.Component{
   }
   inputchange = (e, names) => {
     const {data} = this.state
-    console.log(data)
+    // console.log(data)
     data.project[names] = e.target.value
     this.setState({
       data
@@ -176,12 +281,12 @@ export default class Basic extends React.Component{
     let _state =  this.props.location.state
     let oid =_state?_state.oid:localStorage.getItem('projectOid')
     const newData = {
-      "name":'',
-      "investmentTime":'',
-      "rate":'',
-      "subscribedCapital":'',
-      "contributedCapital":'',
-      "projectOid":oid,
+      'name':'',
+      'investmentTime':'',
+      'rate':'',
+      'subscribedCapital':'',
+      'contributedCapital':'',
+      'projectOid':oid,
       isedit:true
     }
     this.setState({
@@ -205,7 +310,7 @@ export default class Basic extends React.Component{
   edit = () => {
     // const { columnsPartents } = this.state;
     this.setState({
-      editable: true,
+      editable: true
       // columnsPartents: columnsPartents
     });
   }
@@ -245,7 +350,7 @@ export default class Basic extends React.Component{
   componentWillMount(){
 
     let _state =  this.props.location.state
-    console.log(_state)
+    // console.log(_state)
     let oid =_state?_state.oid:localStorage.getItem('projectOid')
     localStorage.setItem('projectOid',oid)
 
@@ -256,7 +361,7 @@ export default class Basic extends React.Component{
       url: '/project/showBaseInfo.do',
       data: {
         projectOid: oid
-      },
+      }
     }).then((result) => {
         console.log(result)
         if (result.restCode ===200) {
@@ -281,7 +386,7 @@ export default class Basic extends React.Component{
     })
   }
   render(){
-    const { value, editable, opt } = this.state;
+    const {  editable, opt } = this.state;
     const children = [];
     for (let variable of opt) {
       children.push(<Option key={variable.oid}>{variable.name}</Option>);
@@ -299,14 +404,14 @@ export default class Basic extends React.Component{
             />
           </Col>
           <Col span={2} offset={2}>
-            目标名称
+            模板名称
           </Col>
           <Col span={6}>
               <div>
                 {
                   editable?
                   <div className="editable-cell-input-wrapper">
-                    <Input value={this.state.data.project.templateName}  onChange={e =>this.importantClause(e, 'templateName')}/>
+                    <Input value={this.state.data.project.templateName}  disabled/>
                   </div>
                   :
                   <div className="editable-cell-input-wrapper">

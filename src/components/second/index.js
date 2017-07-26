@@ -1,8 +1,8 @@
 import React from 'react';
 import Basic from './basic'
-import Infos from './infos'
-import Matters from './matters'
-import Report from './report'
+// import Infos from './infos'
+// import Matters from './matters'
+// import Report from './report'
 import BottomLine from '../common/bottomline'
 
 import {
