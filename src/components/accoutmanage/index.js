@@ -55,12 +55,12 @@ export default class Accoutmanage extends React.Component {
         return (
           <div className="editable-row-operations" style={{display:'flex',justifyContent:'space-around'}}>
             {
-             globalPemission.indexOf("账户编辑")>=0?
+             globalPemission.indexOf("editAccount")>=0?
               <Link to={{pathname:'/menu/accoutmanage/edit',state:{oid:this.state.data[index].oid}}}>编辑</Link>
               :''
             }
             {
-             globalPemission.indexOf("账户停用")>=0?
+             globalPemission.indexOf("stopAccount")>=0?
               <Col span={6}>
                 {
                   status>0?
@@ -72,7 +72,7 @@ export default class Accoutmanage extends React.Component {
               :''
             }
             {
-             globalPemission.indexOf("账户删除")>=0?
+             globalPemission.indexOf("delAccount")>=0?
               <a onClick={() => this.onDelete(index)}>删除</a>
               :''
             }
@@ -81,13 +81,32 @@ export default class Accoutmanage extends React.Component {
       },
     }];
     this.state = {
-      data: []
+      data: [],
+      loading:false,
+      pagination:{}
     };
+  }
+  handleTableChange = (pagination) => {
+    const page = { ...this.state.pagination };
+    page.current = pagination.current;
+    this.setState({
+      pagination: page,
+    });
+    this.fetch({
+      rows: pagination.pageSize,
+      page: pagination.current
+    });
+  }
+  componentDidMount () {
+    this.fetch({
+      page:1,
+      rows:10
+    })
   }
   stop=(text, record, index)=>{
     let that = this
     let { data } = this.state
-    data[index].status  = 1
+    // data[index].status  = 1
     $.ajax({
       type:"POST",
       url: '/account/updateAccountStatus.do',
@@ -95,22 +114,41 @@ export default class Accoutmanage extends React.Component {
         oid: this.state.data[index].oid,
         status: 1
       },
-      // url: '/data.json',
       success:function(datas){
         if( datas.restCode === 200 ){
           Myalert.success('success', '修改成功')
-          that.setState({
-            data:data
+          that.fetch({
+            page:1,
+            rows:10
           })
         }
       }
     })
   }
-
+  onDelete = (index) => {
+      const { data } = this.state
+      let that = this
+      let oid = data[index].oid
+      $.ajax({
+        type:"POST",
+        url: '/account/delAccount.do',
+        data: {
+          oid: oid
+        },
+        success:function(datas){
+          if( datas.restCode === 200 ){
+            that.fetch({
+              page:1,
+              rows:10
+            })
+            Myalert.success('success', '删除成功')
+          }
+        }
+      })
+    }
   start=(text, record, index)=>{
     let that = this
     let { data } = this.state
-    data[index].status  = 0
     $.ajax({
       type:"POST",
       url: '/account/updateAccountStatus.do',
@@ -121,57 +159,37 @@ export default class Accoutmanage extends React.Component {
       // url: '/data.json',
       success:function(datas){
         if( datas.restCode === 200 ){
-          that.setState({
-            data:data
+          that.fetch({
+            page:1,
+            rows:10
           })
+          Myalert.success('success', '修改成功')
         }
       }
     })
   }
-
-  componentWillMount () {
-    let { data } = this.state
-
-    let that = this
+  fetch (param={}) {
+    this.setState({ loading: true });
+    const pagination = { ...this.state.pagination };
+    var that = this
     $.ajax({
       type:"POST",
       url: '/account/getAccounts.do',
-      data:{
-        page:1,
-        rows:10
-      },
-      success:function(datas){
-        console.log(datas)
-        data = datas.rows
-        that.setState({
-          data:data
-        })
-        console.log(that.state.data)
-      }
-    })
-
-  }
-
-  onDelete = (index) => {
-    // const data = [...this.state.data];
-    const { data } = this.state
-    let that = this
-    let oid = data[index].oid
-    $.ajax({
-      type:"POST",
-      url: '/account/delAccount.do',
       data: {
-        oid: oid
+        rows:10,
+        ...param
       },
       success:function(datas){
-        if( datas.restCode === 200 ){
-          Myalert.success('success', '删除成功')
-          data.splice(index, 1);
-          that.setState({ data });
-        }
+        pagination.total = datas.total;
+         that.setState({
+           loading: false,
+           data: datas.rows,
+           pagination,
+         });
       }
     })
   }
+
   render() {
     const { data } = this.state;
 
@@ -183,7 +201,7 @@ export default class Accoutmanage extends React.Component {
          <div className="border_line">
            <Row type="flex" align="middle" style={{height:'60px'}}>
              {
-              globalPemission.indexOf("账户添加")>=0?
+              globalPemission.indexOf("addAccount")>=0?
                <Col span={3} offset={18}><Button type="primary"><Link to={'/menu/accoutmanage/add'}>添加账户</Link></Button></Col>
                :''
              }
@@ -193,6 +211,9 @@ export default class Accoutmanage extends React.Component {
            <Table
              dataSource={data}
              columns={columns}
+             pagination={this.state.pagination}
+             loading={this.state.loading}
+             onChange={this.handleTableChange}
              bordered
            />
          </div>

@@ -4,6 +4,7 @@ import reqwest from 'reqwest';
 import { Radio } from 'antd';
 const RadioGroup = Radio.Group;
 
+import globalPemission from '../../common/permission'
 
 class Infos extends React.Component{
   constructor(props) {
@@ -88,12 +89,19 @@ class Infos extends React.Component{
       <div>
         <Row className="nav_head " style={{marginBottom:'30px'}}>
           <Col offset={16}>
-            <Button type="primary" onClick={this.download}  style={{
-              marginRight:'10px'
-            }}> <span ><Icon type="download" /></span> 下载所选</Button>
-            <Upload {...this.state.myprops}>
-              <Button type="primary"><span><Icon type="upload" /></span>上传资料</Button>
-            </Upload>
+            {
+              globalPemission.indexOf('download')>=0?
+              <Button type="primary" onClick={this.download}  style={{
+                marginRight:'10px'
+              }}> <span ><Icon type="download" /></span> 下载所选
+            </Button>:''
+            }
+            {
+              globalPemission.indexOf('upload')>=0?
+              <Upload {...this.state.myprops}>
+                <Button type="primary"><span><Icon type="upload" /></span>上传资料</Button>
+              </Upload>:''
+            }
           </Col>
         </Row>
         <RadioGroup onChange={ this.onChange}>

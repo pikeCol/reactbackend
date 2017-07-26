@@ -4,6 +4,7 @@ import reqwest from 'reqwest';
 const Option = Select.Option;
 
 import Myalert from '../../common/alert'
+import globalPemission from '../../common/permission'
 
 
 const  columnsPartents = [{
@@ -469,14 +470,18 @@ export default class Basic extends React.Component{
          <Input type="textarea"  onChange={e =>this.importantClause(e, 'remarke')} autosize={{ minRows: 5, maxRows: 8 }} />
        </Col>
       </Row>
-      <Row type="flex" justify="center" style={{paddingTop:'30px'}}>
-        {
-          this.state.editable?
-          <Button type="primary" onClick={this.save}>保存</Button>
-          :
-          <Button type="primary" onClick={this.edit}>编辑</Button>
-        }
-      </Row>
+      {
+        globalPemission.indexOf('editProject')>=0?
+        <Row type="flex" justify="center" style={{paddingTop:'30px'}}>
+          {
+            this.state.editable?
+            <Button type="primary" onClick={this.save}>保存</Button>
+            :
+            <Button type="primary" onClick={this.edit}>编辑</Button>
+          }
+        </Row>
+        :''
+      }
       </div>
     )
   }

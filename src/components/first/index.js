@@ -8,7 +8,7 @@ class First extends React.Component{
       <div>
         <h1 style={{
           paddingTop:'200px',
-          color:'#151515',
+          color:'#0099ff',
           fontSize:'36px',
           textAlign:'center',
           marginBottom:'40px'

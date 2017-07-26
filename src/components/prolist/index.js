@@ -5,6 +5,9 @@ import Matters from './matters'
 import Report from './report'
 import BottomLine from '../common/bottomline'
 
+import globalPemission from '../common/permission'
+
+
 import {
   Route,
   Link
@@ -25,13 +28,31 @@ const ListlMenuLink = ({ label, to, activeOnlyWhenExact }) => (
 
 class Prolist extends React.Component{
   render(){
+    // basic: ":basic"
+    console.log(this.props.match.param)
     return(
       <div>
           <Row type="flex" justify="space-around" align="middle" style={{borderBottom:'1px solid #d3d3d3'}}>
-            <ListlMenuLink label="基本信息" to="/menu/prolist/basic" />
-            <ListlMenuLink label="报表信息"  to="/menu/prolist/report" />
-            <ListlMenuLink label="重要事项通报"  to="/menu/prolist/matters" />
-            <ListlMenuLink label="附加资料"  to="/menu/prolist/infos" />
+            {
+              globalPemission.indexOf('projectDetail')>=0?
+              <ListlMenuLink label="基本信息" to="/menu/prolist/basic" />
+              :''
+            }
+            {
+              globalPemission.indexOf('reportDetail')>=0?
+              <ListlMenuLink label="报表信息"  to="/menu/prolist/report" />
+              :''
+            }
+            {
+              globalPemission.indexOf('importantItem')>=0?
+              <ListlMenuLink label="重要事项通报"  to="/menu/prolist/matters" />
+              :''
+            }
+            {
+              globalPemission.indexOf('projectDetail')>=0?
+              <ListlMenuLink label="附加资料"  to="/menu/prolist/infos" />
+              :''
+            }
           </Row>
           <div style={{paddingTop:'20px'}}>
             <Route path="/menu/prolist/basic" component={Basic}/>

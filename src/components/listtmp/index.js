@@ -33,7 +33,7 @@ export default class Listtmp extends React.Component{
         return(
           <Row type="flex" justify="space-around" align="middle">
             {
-              globalPemission.indexOf('模板编辑')>=0?
+              globalPemission.indexOf('editTemp')>=0?
               <Col span={4}>
                 <Link to={{pathname:'/menu/listtmp/edit', state:{oid:oid}}}>编辑</Link>
               </Col>
@@ -138,7 +138,7 @@ export default class Listtmp extends React.Component{
       <div style={{paddingTop:'40px'}}>
         <Row style={{paddingBottom:'40px'}}>
           {
-            globalPemission.indexOf('模板添加')>=0?
+            globalPemission.indexOf('addTemp')>=0?
             <Col offset={20}>
               <Button type="primary" onClick={this.addmodule}>添加</Button>
             </Col>

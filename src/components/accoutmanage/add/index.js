@@ -20,7 +20,12 @@ class RegistrationForm extends React.Component {
     roleOid:'',
     confirmDirty: false,
     autoCompleteResult: [],
-    roledatas:[]
+    roledatas:[],
+    projectdata:[],
+    optionsWithDisabled: [
+      { label: '是', value: '1' },
+      { label: '否', value: '0', disabled: false }
+    ]
   }
   componentWillMount () {
     // 獲取角色列表
@@ -37,13 +42,19 @@ class RegistrationForm extends React.Component {
         }
       }
     })
+
+    $.ajax({
+      type:"POST",
+      url: '/project/getAllProjects.do',
+      success:function(res){
+          const {projectdata} = that.state
+          that.setState({
+            projectdata:[...res]
+          })
+      }
+    })
+
   }
-  // componentWillReceiveProps (nextProps) {
-  //   let _postdata = nextProps.nickname || {}
-  //    this.setState({
-  //      _postdata:_postdata
-  //    })
-  // }
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -101,19 +112,11 @@ class RegistrationForm extends React.Component {
     const value = e.target.value;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   }
-  // checkConfirm = (rule, value, callback) => {
-  //   const form = this.props.form;
-  //   if (value && this.state.confirmDirty) {
-  //     form.validateFields(['confirm'], { force: true });
-  //   }
-  //   callback();
-  // }
   checkAccountName = (rule, value, callback) => {
     const form = this.props.form;
 
     if (value && this.state.confirmDirty) {
       form.validateFields(['confirm'], { force: true });
-      alert(1)
     }
     callback();
   }
@@ -128,16 +131,21 @@ class RegistrationForm extends React.Component {
   }
 
   countpro = (value)=>{
+    let { optionsWithDisabled } = this.state
     console.log(value)
     if ( value == 1) {
+      optionsWithDisabled[1].disabled = true
       this.props.form.setFieldsValue({
-        'radio-group': `1`,
-      });
-
+         'radio-group': `1`,
+       });
+    } else {
+      optionsWithDisabled[1].disabled = false
     }
-    if ( value == 0) {
+    this.setState({
+      optionsWithDisabled,
+      isconnect:'1'
+    })
 
-    }
   }
 
   changeradio = (e)=> {
@@ -153,11 +161,14 @@ class RegistrationForm extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult } = this.state;
-    const children=[];
-    const {roledatas} = this.state
+    const children=[],allproject=[];
+    const {roledatas, projectdata} = this.state
 
     for (let i of roledatas) {
       children.push(<Option value={i.oid}>{i.roleName}</Option>)
+    }
+    for (let j of projectdata) {
+      allproject.push(<Option key={j.id} value={j.oid}>{j.projectName}</Option>)
     }
 
     getFieldDecorator('accountName', { initialValue: [ ] })
@@ -214,8 +225,6 @@ class RegistrationForm extends React.Component {
     }
 
     return (
-
-
       <Row >
         <Col span={10} offset={7} style={{paddingTop:'40px'}}>
         <Form onSubmit={this.handleSubmit}>
@@ -232,7 +241,7 @@ class RegistrationForm extends React.Component {
             hasFeedback
           >
             {getFieldDecorator('name', {
-              rules: [{ required: true, message: 'Please input your nickname!', whitespace: true}],
+              rules: [{ required: true, message: '请输入你的姓名!', whitespace: true}],
               initialValue: ""
             })(
               <Input  />
@@ -262,8 +271,6 @@ class RegistrationForm extends React.Component {
             {getFieldDecorator('accountPassword', {
               rules: [{
                 required: false, message: ''
-              }, {
-                // validator: this.checkConfirm
               }],
               initialValue:""
             })(
@@ -334,39 +341,36 @@ class RegistrationForm extends React.Component {
              {...formItemLayout}
              label="是否关联项目"
            >
-           {getFieldDecorator('radio-group')(
-             <RadioGroup onChange={this.changeradio}>
-               <Radio value="1">是</Radio>
-               <Radio value="0">否</Radio>
-             </RadioGroup>
+           {getFieldDecorator('radio-group',{
+             rules : [{required : this.props.form.getFieldValue('accountType')>0, message : '请选择项目!'}]
+           })(
+             <RadioGroup onChange={this.changeradio}  options={this.state.optionsWithDisabled} />
            )}
          </FormItem>
 
          {
            this.state.isconnect>0?
            <FormItem
-             {...formItemLayout2}
-             label=""
-           >
-             {getFieldDecorator('select-multiple')(
-               <Select mode="multiple" placeholder="请选择项目" disabled>
-                 <Option value="12345">12345 人众项目</Option>
-                 <Option value="12344">12344 浙银资产</Option>
-               </Select>
-             )}
-           </FormItem>
-           :
-           <FormItem
              {...formItemLayout}
              label="请配置关联项目"
-           >
-             {getFieldDecorator('select-multiple')(
-               <Select mode="multiple" placeholder="请选择项目">
-                 <Option value="12345">12345 人众项目</Option>
-                 <Option value="12344">12344 浙银资产</Option>
-               </Select>
-             )}
-           </FormItem>
+             >
+               {getFieldDecorator('select-multiple', {
+                 rules : [{required : this.props.form.getFieldValue('accountType')>0, message : '请选择项目!'}]
+               })(
+                 <Select mode="multiple" placeholder="请选择项目">
+                   {allproject}
+                 </Select>
+               )}
+             </FormItem>
+           :''
+          //  <FormItem
+          //    {...formItemLayout2}
+          //    label=""
+          //  >
+          //    {getFieldDecorator('select-multiple')(
+          //      <Input disabled/>
+          //    )}
+          //  </FormItem>
          }
           <FormItem {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" size="large">保存</Button>
@@ -385,29 +389,9 @@ export default class Add extends React.Component{
   state={
     postdata:[]
   }
-  componentWillMount () {
-    // let {postdata} = this.state
-    // let that = this
-    // if ( this.props.location.state.oid ){
-    //   let oid = this.props.location.state.oid;
-    //   $.ajax({
-    //     type:"POST",
-    //     url: '/account/getAccountDetail.do',
-    //     data:{
-    //       oid: oid
-    //     },
-    //     // url: '/getAccountDetail.json',
-    //     success:function(datas){
-    //       postdata = datas.data
-    //       that.setState({
-    //         postdata
-    //       })
-    //     }
-    //   })
-    //
-    // }
-
-  }
+  // componentWillMount () {
+  //
+  // }
 
   render(){
     const {postdata} = this.state

@@ -19,7 +19,16 @@ class RegistrationForm extends React.Component {
     value:1,
     confirmDirty: false,
     autoCompleteResult: [],
-    roledatas:[]
+    roledatas:[],
+    projectdata:[],
+    optionsWithDisabled: [
+      { label: '是', value: '1' },
+      { label: '否', value: '0', disabled: false }
+    ],
+    optionsWithDisabled2: [
+      { label: '是', value: '1' },
+      { label: '否', value: '0', disabled: true }
+    ]
   }
   componentWillMount () {
     var that = this
@@ -33,6 +42,17 @@ class RegistrationForm extends React.Component {
             roledatas:datas.data
           })
         }
+      }
+    })
+
+    $.ajax({
+      type:"POST",
+      url: '/project/getAllProjects.do',
+      success:function(res){
+          const {projectdata} = that.state
+          that.setState({
+            projectdata:[...res]
+          })
       }
     })
   }
@@ -107,18 +127,25 @@ class RegistrationForm extends React.Component {
     this.setState({ autoCompleteResult });
   }
 
-  countpro = (value)=>{
-    console.log(value)
-  }
-
-  changeradio = (e)=> {
+  prochange = (e,key) => {
+    let {_postdata} = this.state
+    _postdata[key] =  e
     this.setState({
-      isconnect:e.target.value
+      _postdata
     })
   }
-
+  changeradio = (e)=> {
+    let {_postdata} = this.state
+    console.log( e.target.value )
+    _postdata.isLimit = e.target.value
+    this.setState({
+      _postdata
+    })
+  }
+  mychanges = (e) => {
+    console.log(e)
+  }
   render() {
-
     if (this.state.redirect) {
       return(
         <Redirect to={'/menu/accoutmanage'} />
@@ -128,17 +155,19 @@ class RegistrationForm extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult } = this.state;
     console.log(this.state._postdata)
-    const children=[];
-    const {roledatas} = this.state
+    const children=[],allproject=[];
+    const {roledatas,projectdata} = this.state
 
     for (let i of roledatas) {
-      children.push(<Option value={i.oid}>{i.roleName}</Option>)
+      children.push(<Option key={i.id.toString()} value={i.oid}>{i.roleName}</Option>)
     }
-
+    for (let j of projectdata) {
+      allproject.push(<Option key={j.id.toString()} value={j.oid}>{j.projectName}</Option>)
+    }
     getFieldDecorator('accountName', { initialValue: [ ] })
 
-    const { accountName,name,accountPassword, accountType,telephone, email, roleOid, roleName, isLimit }=this.state._postdata
-
+    const { accountName,name,accountPassword, accountType,telephone, email, roleOid, roleName, isLimit, projectList }=this.state._postdata
+    console.log(projectList)
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -247,13 +276,13 @@ class RegistrationForm extends React.Component {
           >
           {getFieldDecorator('accountType', {
             rules: [
-              { required: true, message: '请选择一个账户性质' }
+              { required: true, message: '请选择一个账户性质'}
             ],
             initialValue:`${accountType}`
           })(
-            <Select  onChange={this.countpro}>
-              <Option value="0">外部账户</Option>
-              <Option value="1">内部账户</Option>
+            <Select  disabled>
+              <Option value="1">外部账户</Option>
+              <Option value="0">内部账户</Option>
             </Select>
           )}
         </FormItem>
@@ -267,9 +296,9 @@ class RegistrationForm extends React.Component {
             rules: [
               { required: true, message: '请选择一个角色性质' }
             ],
-            initialValue:roleName
+            initialValue:roleOid
           })(
-            <Select placeholder="请选择">
+            <Select placeholder="请选择" onChange={this.mychanges}>
               {children}
             </Select>
           )}
@@ -302,46 +331,53 @@ class RegistrationForm extends React.Component {
             )}
           </FormItem>
 
-          <FormItem
-             {...formItemLayout}
-             label="是否关联项目"
-           >
-           {getFieldDecorator('radio-group', {
-             initialValue:`${isLimit}`
-           })(
-             <RadioGroup onChange={this.changeradio}>
-               <Radio value="1">是</Radio>
-               <Radio value="0">否</Radio>
-             </RadioGroup>
-           )}
-         </FormItem>
+
+          {/* accountType 1 如果是外部账户这不能选否 */}
+          {
+            accountType>0?
+            <FormItem
+              {...formItemLayout}
+              label="是否关联项目"
+              >
+                {getFieldDecorator('radio-group', {
+                  rules : [{required : isLimit>0, message : '请选择项目!'}],
+                  initialValue:`${isLimit}`
+                })(
+                  <RadioGroup onChange={this.changeradio} options={this.state.optionsWithDisabled2} />
+                )}
+              </FormItem>
+              :
+              <FormItem
+                {...formItemLayout}
+                label="是否关联项目"
+                >
+                  {getFieldDecorator('radio-group', {
+                    rules : [{required : isLimit>0, message : '请选择项目!'}],
+                    initialValue:`${isLimit}`
+                  })(
+                    <RadioGroup onChange={this.changeradio} options={this.state.optionsWithDisabled} />
+                  )}
+                </FormItem>
+          }
 
          {
-           this.state.isconnect>0?
-           <FormItem
-             {...formItemLayout2}
-             label=""
-           >
-             {getFieldDecorator('select-multiple')(
-               <Select mode="multiple" placeholder="请选择项目">
-                 <Option value="12345">12345 人众项目</Option>
-                 <Option value="12344">12344 浙银资产</Option>
-               </Select>
-             )}
-           </FormItem>
-           :
+           this.state._postdata.isLimit>0 ?
            <FormItem
              {...formItemLayout}
              label="请配置关联项目"
-           >
-             {getFieldDecorator('select-multiple')(
-               <Select mode="multiple" placeholder="请选择项目">
-                 <Option value="12345">12345 人众项目</Option>
-                 <Option value="12344">12344 浙银资产</Option>
-               </Select>
-             )}
-           </FormItem>
+             >
+               {getFieldDecorator('select-multiple', {
+                 rules : [{required : isLimit>0, message : '请选择项目!'}],
+                 initialValue:this.state._postdata.projectList?this.state._postdata.projectList.split(','):[]
+               })(
+                 <Select mode="multiple" placeholder="请选择项目" onChange={(val) =>this.prochange(val,'select-multiple')}>
+                   {allproject}
+                 </Select>
+               )}
+             </FormItem>
+           :''
          }
+
           <FormItem {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit" size="large">保存</Button>
           </FormItem>

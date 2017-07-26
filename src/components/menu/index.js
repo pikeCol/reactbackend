@@ -53,9 +53,10 @@ class Menus extends React.Component{
   componentWillMount () {
     let {menudata} = this.state
     // sys/getMenu.do  请求权限
+    let oid = localStorage.getItem('oid')
     reqwest({
       url:'/sys/getMenu.do',
-      method:'POST',
+      method:'POST'
     }).then((res) => {
       console.log(res)
       if ( res.restCode === 200 ) {
@@ -75,8 +76,8 @@ class Menus extends React.Component{
     const menunode = menuchildren  => menuchildren.map((item) => {
       if (item.children) {
         for (let variable of item.children) {
-          if (globalPemission.indexOf(variable.permissionName)<0){
-            globalPemission.push(variable.permissionName)
+          if (globalPemission.indexOf(variable.content)<0 && variable.permissionType ==2){
+            globalPemission.push(variable.content)
           }
         }
       }

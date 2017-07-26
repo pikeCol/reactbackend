@@ -142,6 +142,9 @@ export default class Listadd extends React.Component{
     }
     let that = this
     console.log(pushdata)
+
+    const { tepname } = this.state
+
     $.ajax({
       url:'/template/add.do',
       method:'POST',
@@ -151,7 +154,6 @@ export default class Listadd extends React.Component{
         type:this.state.type,
         tableCol:[...pushdata]
       }
-      // url:'../../api/templatedetail.json'
     }).then((result) => {
       let { data } = this.state
       let index = data.length-1
@@ -162,6 +164,8 @@ export default class Listadd extends React.Component{
           redirect: true,
           data:[...data]
         })
+      } else {
+        Myalert.success('Error', result.data.msg )
       }
     })
   }
@@ -184,12 +188,12 @@ export default class Listadd extends React.Component{
     return(
       <div style={{paddingLeft:'20px'}}>
         <Row type="flex" style={{marginTop:'40px'}}>
-          <Col span={4} style={{lineHeight:'28px'}}>模板名称</Col>
-          <Col span={6}><Input placeholder="Basic usage" onChange={this.nameChang}/></Col>
+          <Col span={2} style={{lineHeight:'28px'}}>模板名称</Col>
+          <Col span={4}><Input placeholder="Basic usage" onChange={this.nameChang}/></Col>
         </Row>
         <Row type="flex" style={{marginTop:'40px',margiLeft:'20px'}}>
-          <Col span={4} style={{lineHeight:'28px'}}>报表模板</Col>
-          <Col span={4}>表报性质</Col>
+          <Col span={2} style={{lineHeight:'28px'}}>报表模板</Col>
+          <Col span={2}>表报性质</Col>
           <Col span={4}>
             <Select
               size={size}

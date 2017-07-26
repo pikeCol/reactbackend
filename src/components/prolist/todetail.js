@@ -26,8 +26,15 @@ class Todetail extends React.Component{
             return(
               <div className="td_a">
                 {
-                globalPemission.indexOf("列表详情")>=0?
-                  <Link to={{pathname:`/menu/prolist/basic`,state:{oid:oid}}}>{text}</Link>
+                  globalPemission.indexOf("projectListDetail")>=0?
+                  <div>
+                    {
+                      globalPemission.indexOf('reportDetail')>=0?
+                      <Link to={{pathname:`/menu/prolist/basic`,state:{oid:oid}}}>{text}</Link>
+                      :
+                      <Link to={{pathname:`/menu/prolist/report`,state:{oid:oid}}}>{text}</Link>
+                    }
+                  </div>
                   :
                   <p>{text}</p>
                 }
@@ -95,6 +102,7 @@ class Todetail extends React.Component{
 
     fetch = (params = {}) => {
       console.log('params:', params);
+      let oid = localStorage.getItem('oid')
       this.setState({ loading: true });
       reqwest({
         url: '/project/getProjects.do',
@@ -102,7 +110,8 @@ class Todetail extends React.Component{
         data: {
           projectName: params.projectName || '',
           page: params.page || 1,
-          rows: 10
+          rows: 10,
+          accountOid:oid
         },
         type: 'json'
       }).then((data) => {
@@ -144,7 +153,7 @@ class Todetail extends React.Component{
               <Col span={2}><Button type='primary' onClick={this.search}>搜索</Button></Col>
               <Col span={2} offset={10}>
                 {
-                globalPemission.indexOf('列表添加')>0?
+                globalPemission.indexOf('addProject')>=0?
                   <Button type='primary'>
                     <Link to={{pathname:`/menu/addprolist/basic`}}>添加</Link>
                   </Button>

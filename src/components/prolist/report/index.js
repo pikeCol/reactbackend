@@ -9,6 +9,9 @@ import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 import Myalert from '../../common/alert'
 
+import globalPemission from '../../common/permission'
+
+
 class Report extends React.Component{
   state={
     data:[],
@@ -303,24 +306,34 @@ class Report extends React.Component{
          </Row>
         <Row style={{paddingTop:'20px'}}>
           <Col offset={16}>
-            <Button type="primary" onClick={this.output}>导出所选报表</Button>
             {
-              addable?
-              <Button type="primary" style={{margin:'0 10px'}} onClick={this.handleCancel}>取消报表</Button>
-              :
-              <span>
-                <Button type="primary" style={{margin:'0 10px'}} onClick={this.handleAdd}>添加报表</Button>
-                <Button type="primary" onClick={this.eidt}>
-                  {
-                    editable?
-                    '取消编辑'
-                    :
-                    '编辑报表'
-                  }
-                </Button>
-              </span>
+              globalPemission.indexOf('exportReport')>=0?
+              <Button type="primary" onClick={this.output}>导出所选报表</Button>
+              :''
             }
-
+            {globalPemission.indexOf('addReport')>=0?
+              <span>
+                {
+                  addable?
+                  <Button type="primary" style={{margin:'0 10px'}} onClick={this.handleCancel}>取消报表</Button>
+                  :
+                  <span>
+                    <Button type="primary" style={{margin:'0 10px'}} onClick={this.handleAdd}>添加报表</Button>
+                    {
+                      globalPemission.indexOf('editReport')>=0?
+                      <Button type="primary" onClick={this.eidt}>
+                        {
+                          editable?
+                          '取消编辑'
+                          :
+                          '编辑报表'
+                        }
+                      </Button>:''
+                    }
+                  </span>
+                }
+              </span>:''
+            }
           </Col>
         </Row>
         <Row style={{paddingTop:'20px'}}>

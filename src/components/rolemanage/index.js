@@ -11,20 +11,22 @@ class Rolemanage extends React.Component{
      columns:[{
         title:'角色名称',
         dataIndex: 'roleName'
-      },{
-        title:'角色性质',
-        dataIndex: 'roleType',
-        render: (index) => {
-          let roleType = this.state.data[index].roleType
-          return(
-            <div>
-              {
-                roleType==0?'外部性质':'内部性质'
-              }
-            </div>
-          )
-        }
-      },{
+      },
+      // {
+      //   title:'角色性质',
+      //   dataIndex: 'roleType',
+      //   render: (index) => {
+      //     let roleType = this.state.data[index].roleType
+      //     return(
+      //       <div>
+      //         {
+      //           roleType==0?'外部性质':'内部性质'
+      //         }
+      //       </div>
+      //     )
+      //   }
+      // },
+      {
         title:'角色状态',
         dataIndex: 'status',
         render:(text, record, index) => {
@@ -32,7 +34,7 @@ class Rolemanage extends React.Component{
           return (
             <p>
               {
-                status>0?"冻结": "启用"
+                status>0?"停用": "启用"
               }
             </p>
           )
@@ -49,27 +51,27 @@ class Rolemanage extends React.Component{
             <Row   type="flex"  align="middle">
               <Col span={6}>
                 {
-                    globalPemission.indexOf('角色编辑')>=0?
+                    globalPemission.indexOf('editRole')>=0?
                     <a onClick={()=>this.edit(text, record, index)}>编辑</a>
                     :''
                 }
               </Col>
               <Col span={6}>
                 {
-                  globalPemission.indexOf('角色停用')>=0?
+                  globalPemission.indexOf('stopRole')>=0?
                   <span>
                     {
                       status>0?
                       <a onClick={()=>this.start(text, record, index)}>启用</a>
                       :
-                      <a onClick={()=>this.stop(text, record, index)}>冻结</a>
+                      <a onClick={()=>this.stop(text, record, index)}>停用</a>
                     }
                   </span>
                   :''
                 }
               </Col>
               {
-                  globalPemission.indexOf('角色删除')>=0?
+                  globalPemission.indexOf('delRole')>=0?
                   <Col span={6}><a onClick={()=>this.delete(text, record, index)}>删除</a></Col>
                   :
                   ''
@@ -89,7 +91,6 @@ class Rolemanage extends React.Component{
     let roleparams=this.state.data[index]
     param.oid=roleparams.oid,
     param.roleName=roleparams.roleName,
-    param.roleType=roleparams.roleType,
     param.pemissionOids=roleparams.pemissionOids
     this.setState({
       param:param,
@@ -99,8 +100,6 @@ class Rolemanage extends React.Component{
   }
   stop=(text, record, index)=>{
     let that = this
-    let { data } = this.state
-    data[index].status  = 0
     $.ajax({
       type:"POST",
       url: '/role/updateRoleStatus.do',
@@ -108,13 +107,13 @@ class Rolemanage extends React.Component{
         oid: this.state.data[index].oid,
         status: 1
       },
-      // url: '/data.json',
       success:function(datas){
         if( datas.restCode === 200 ){
-          Myalert.success('success', '修改成功')
-          that.setState({
-            data:data
+          that.fetch({
+            page:1,
+            rows:10
           })
+          Myalert.success('success', '修改成功')
         }
       }
     })
@@ -122,7 +121,6 @@ class Rolemanage extends React.Component{
   start=(text, record, index)=>{
     let that = this
     let { data } = this.state
-    data[index].status  = 0
     $.ajax({
       type:"POST",
       url: '/role/updateRoleStatus.do',
@@ -132,31 +130,32 @@ class Rolemanage extends React.Component{
       },
       success:function(datas){
         if( datas.restCode === 200 ){
-          Myalert.success('success', '修改成功')
-          that.setState({
-            data:data
+          that.fetch({
+            page:1,
+            rows:10
           })
+          Myalert.success('success', '修改成功')
         }
       }
     })
   }
   delete=(text, record, index)=>{
     let that = this
-    let { data } = this.state
-    let oid = this.state.data[index].oid
     $.ajax({
       type:"POST",
       url: '/role/delRole.do',
       data:{
-        oid: oid
+        oid: this.state.data[index].oid,
       },
       success:function(datas){
         if( datas.restCode === 200 ){
-          Myalert.success('success', '修改成功')
-          data.splice(index, 1)
-          that.setState({
-            data:data
+          that.fetch({
+            page:1,
+            rows:10
           })
+          Myalert.success('success', '修改成功')
+        } else {
+          Myalert.error('Error', datas.msg)
         }
       }
     })
@@ -185,10 +184,6 @@ class Rolemanage extends React.Component{
              data: datas.rows,
              pagination,
            });
-          // data = datas.data
-          // that.setState({
-          //   data:data
-          // })
       }
     })
   }
@@ -212,7 +207,7 @@ class Rolemanage extends React.Component{
 
 
   render(){
-    // console.log(globalPemission)
+    console.log(globalPemission)
     if(this.state.isnew) {
       return(
         <Redirect to={{pathname:'/menu/rolemanage/edit',state:{param:this.state.param}}} />
@@ -223,7 +218,7 @@ class Rolemanage extends React.Component{
       <div>
         <div className="border_line">
           {
-            globalPemission.indexOf('角色添加')>=0?
+            globalPemission.indexOf('addRole')>=0?
               <Row type="flex" align="middle" style={{height:'60px'}}>
                 <Col span={3} offset={18}>
                   <Button type="primary">

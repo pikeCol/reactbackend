@@ -12,6 +12,7 @@ import Myalert from '../../common/alert'
 // projectOid
 // content
 
+import globalPemission from '../../common/permission'
 
 // project/showImportantEvent.do
 // projectOid
@@ -144,14 +145,17 @@ class Metters extends React.Component{
     return(
       <div>
         <Row className="nav_head ">
-          <Col offset={20}>
-            {
-              addable?
-              <Button type="primary" onClick={this.handleCancel}>取消添加</Button>
-              :
-              <Button type="primary" onClick={this.handleAdd}>添加通报事项</Button>
-            }
-          </Col>
+          {
+            globalPemission.indexOf('addImportantItem')>=0?
+            <Col offset={20}>
+              {
+                addable?
+                <Button type="primary" onClick={this.handleCancel}>取消添加</Button>
+                :
+                <Button type="primary" onClick={this.handleAdd}>添加通报事项</Button>
+              }
+            </Col>:''
+          }
         </Row>
         <div style={{marginTop:'20px'}}>
         <Table
