@@ -1,7 +1,7 @@
 import React from 'react';
 import { DatePicker, Button, Row, Col, Input, Table } from 'antd';
 import moment from 'moment';
-// const { MonthPicker } = DatePicker;
+const { MonthPicker } = DatePicker;
 import reqwest from 'reqwest';
 const dateFormat = 'YYYY';
 const monthFormat = 'MM';
@@ -15,54 +15,48 @@ import globalPemission from '../../common/permission'
 class Report extends React.Component{
   state={
     data:[],
-    columns:[{
-      title:'报表年',
-      dataIndex:'val1',
-      render:(text, record, index) => this.renderColumns(this.state.data, index, 'val1', text)
-    }, {
-      title:'报表月',
-      dataIndex:'val2',
-      render:(text, record, index) => this.renderColumns(this.state.data, index, 'val2', text)
-    }, {
-      title:'最新总资产',
-      dataIndex:'val3',
-      render:(text, record, index) => this.inputColumns(this.state.data, index, 'val3', text)
-    }, {
-      title:'最新净资产',
-      dataIndex:'val4',
-      render:(text, record, index) => this.inputColumns(this.state.data, index, 'val4', text)
-    }, {
-      title:'最新实收资本',
-      dataIndex:'val5',
-      render:(text, record, index) => this.inputColumns(this.state.data, index, 'val5', text)
-    }, {
-      title:'最新货币资金',
-      dataIndex:'val6',
-      render:(text, record, index) => this.inputColumns(this.state.data, index, 'val6', text)
-    }],
+    columns:[],
     editable: false,
     addable:false,
     year:''
   }
   renderColumns(data, index, key, text) {
+    // console.log(index)
+    // const { editable } = this.state
     const { isedit } = data[index];
     if ( isedit == false) {
       return text;
     }
-    if ( key == 'val1' ) {
-      return (<DatePicker defaultValue={moment('2017', dateFormat)}/>);
+    if ( key == 'val1') {
+      return (<DatePicker defaultValue={moment(text, dateFormat)} onChange={(date,datastring) =>this.yearchang(data,datastring,index,'val1')}/>);
     }
+
     if ( key == 'val2' ) {
-      return (<MonthPicker defaultValue={moment('1', 'MM')} />);
+      return (<Input defaultValue={text} onChange={(e) =>this.changemonth(e,data,index,'val2')} />);
     }
   }
+  changemonth=(e,data,index,key) => {
+    data[index][key] = e.target.value
+    this.setState({
+      data
+    })
+  }
+  yearchang =(date,datastring,index,key,) => {
+    let { data } = this.state
+    data[index][key] = datastring
+    this.setState({
+      data
+    })
+    // data
+    console.log(index,key,data,datastring)
+  }
   inputColumns = (data, index, key, text) => {
+    // 渲染普通列
     const { isedit } = data[index];
     const { editable } = this.state;
-    // console.log(editable)
     if (editable) {
       return (
-        <Input defaultValue={text} onChange={(e)=>this.handleChange(e,data,index,key)}/>
+        <Input defaultValue={text} onChange={(e)=>this.handleChange(e,data,index,key)} />
       )
     }
     if ( isedit == false) {
@@ -70,11 +64,7 @@ class Report extends React.Component{
     }
     return (<Input defaultValue={text} onChange={(e)=>this.handleChange(e,data,index,key)}/>);
   }
-  // myrender = (text, record, index) => {
-  //   return(
-  //     this.inputColumns(this.state.data, index, 'val6', text)
-  //   )
-  // }
+
   handleChange = (e,data,index,key) => {
      let newval = e.target.value
      let datas = [...this.state.data]
@@ -88,72 +78,77 @@ class Report extends React.Component{
 
   componentWillMount () {
     let projectOid = localStorage.getItem('projectOid')
-    let { data } = this.state
+      let { columns } = this.state
     reqwest({
       url:'/project/showReportData.do',
       data:{
         projectOid:projectOid
       }
-      // url:'../../../api/item0.json',
     }).then((result)=>{
-      // console.log(result)
-      // templateDetails
-      data = result.data.reportDatas
-      // let templateDetails = result.data.reportDatas
+      let data = result.data.reportDatas
        for (let variable of data) {
          variable.isedit = false
        }
-       // 获取表头信息
       let _cols = result.data.templateDetails
       var str = 'val';
-      if (_cols.length > 5) {
-        for (var count = 5; count < _cols.length; count++) {
-          let txt = str + count
-          _cols[count].title = _cols[count].title
+      console.log(data)
+      // 获取表头
+      if (_cols.length > 0) {
+        for (var count = 0; count < _cols.length; count++) {
           _cols[count].dataIndex = _cols[count].valCode
-          _cols[count].render = ((text, record, index) => this.inputColumns(this.state.data, index, txt, text))
+          _cols[count].title = _cols[count].name
+          let txt = str + (count+1)
+          if( count == 0 || count == 1) {
+            _cols[count].render = ((text, record, index) => this.renderColumns(this.state.data, index, txt, text))
+          } else {
+            _cols[count].render = ((text, record, index) => this.inputColumns(this.state.data, index, txt, text))
+          }
         }
       }
       this.setState({
+        columns:[..._cols],
         data:[...data]
       })
     })
   }
-  filter = () => {
-    let projectOid = localStorage.getItem('projectOid')
-    let { year, data } = this.state
-    reqwest({
-      url:'/project/filterReportData.do',
-      data: {
-        projectOid:projectOid,
-        year:year || '2017'
-      }
-    }).then((result) => {
-
-      // console.log(result)
-      // templateDetails
-      data = result.data.reportDatas
-      // let templateDetails = result.data.reportDatas
-       for (let variable of data) {
-         variable.isedit = false
-       }
-       // 获取表头信息
-      let _cols = result.data.templateDetails
-      var str = 'val';
-      if (_cols.length > 5) {
-        for (var count = 5; count < _cols.length; count++) {
-          let txt = str + count
-          _cols[count].title = _cols[count].title
-          _cols[count].dataIndex = _cols[count].valCode
-          _cols[count].render = ((text, record, index) => this.inputColumns(this.state.data, index, txt, text))
-        }
-      }
-      this.setState({
-        data:[...data]
-      })
-
-    })
-  }
+  //
+  // filter = () => {
+  //   let projectOid = localStorage.getItem('projectOid')
+  //   let { year, data, columns } = this.state
+  //   reqwest({
+  //     url:'/project/filterReportData.do',
+  //     data: {
+  //       projectOid:projectOid,
+  //       year:year || '2017'
+  //     }
+  //   }).then((result) => {
+  //
+  //     // console.log(result)
+  //     // templateDetails
+  //     let data = result.data.reportDatas
+  //     // let templateDetails = result.data.reportDatas
+  //      for (let variable of data) {
+  //        variable.isedit = false
+  //      }
+  //      // 获取表头信息
+  //     let _cols = result.data.templateDetails
+  //     var str = 'val';
+  //     if (_cols.length > 5) {
+  //       for (var count = 5; count < _cols.length; count++) {
+  //         let txt = str + count
+  //         _cols[count].title = _cols[count].title
+  //         _cols[count].editable = false
+  //         _cols[count].dataIndex = _cols[count].valCode
+  //         _cols[count].render = ((text, record, index) => this.inputColumns(this.state.data, index, txt, text))
+  //       }
+  //     }
+  //     this.setState({
+  //       columns:[columns,..._cols]
+  //     })
+  //
+  //   })
+  // }
+  //
   handleAdd = () => {
     const { data } = this.state;
     let newData = {}
@@ -162,7 +157,6 @@ class Report extends React.Component{
         newData[variable] = data[0][variable]
       }
     }
-    // let newData = data[0];
     console.log(newData)
     newData.isedit = true;
     this.setState({
@@ -210,13 +204,15 @@ class Report extends React.Component{
     let index = data.length-1
      data[index].isedit = false
      let datas = data[index]
+     let projectOid = localStorage.getItem('projectOid')
+     let templateOid = localStorage.getItem('templateOid')
     reqwest({
       url:'/project/addReportData.do',
       method:'POST',
       // data:mydata
       data:{
-        projectOid:datas.projectOid,
-        templateOid:datas.templateOid,
+        projectOid:projectOid,
+        templateOid:templateOid,
         val1:datas.val1,
         val2:datas.val2,
         val3:datas.val3,
@@ -282,28 +278,34 @@ class Report extends React.Component{
   output = () => {
     let projectOid = localStorage.getItem('projectOid')
     const {year} = this.setState
-    let url = document.location.origin+'/project/export.do?projectOid='+projectOid+'&year='+year
+    let _year = year || ""
+    let url = document.location.origin+'/project/export.do?projectOid='+projectOid+'&year='+_year
     // console.log(url)
     window.open(url)
   }
-
-  select = (date, datastring) => {
+  changeyear = (date, datastring,key) => {
     this.setState({
       year:datastring
     })
   }
+
+  // select = (date, datastring) => {
+  //   this.setState({
+  //     year:datastring
+  //   })
+  // }
   render(){
     const {editable, addable}=this.state
     return(
       <div>
-        <Row >
+        {/* <Row >
           <Col span={4} offset={2}>
             <DatePicker defaultValue={moment('2017', dateFormat)} format={dateFormat} onChange={this.select}/>
           </Col>
           <Col>
             <Button type="primary" onClick={this.filter}>筛选</Button>
           </Col>
-         </Row>
+         </Row> */}
         <Row style={{paddingTop:'20px'}}>
           <Col offset={16}>
             {

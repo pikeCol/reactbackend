@@ -56,7 +56,10 @@ class Menus extends React.Component{
     let oid = localStorage.getItem('oid')
     reqwest({
       url:'/sys/getMenu.do',
-      method:'POST'
+      method:'POST',
+      headers:{
+
+      }
     }).then((res) => {
       console.log(res)
       if ( res.restCode === 200 ) {

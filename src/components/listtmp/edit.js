@@ -14,6 +14,7 @@ import { Redirect } from 'react-router-dom'
 class Listedit extends React.Component{
   state = {
     redirect:false,
+    addable:true,
     type:'',
     size: 'default',
     columns:[{
@@ -34,6 +35,7 @@ class Listedit extends React.Component{
       }
     }],
     data:[],
+    datalen:'',
     total:{
     },
     choosetype:''
@@ -62,7 +64,8 @@ class Listedit extends React.Component{
            this.setState({
              total: totals,
              data: [...data],
-             choosetype: type
+             choosetype: type,
+             datalen:data.length
            })
         }
         console.log(this.state.total)
@@ -70,16 +73,29 @@ class Listedit extends React.Component{
     }
   }
   save = () => {
-    const {data,total,choosetype} = this.state
+    const {data,total,choosetype, datalen} = this.state
     let index = data.length-1
+    let _datalength = datalen-1
+    console.log(data[index].name)
+    if (  !data[index].name ) {
+      Myalert.success('success', '编辑成功')
+      this.setState({
+        redirect:true
+      })
+      return
+    }
+    if (!total.name) {
+      Myalert.erros('Error', '请输入名字')
+      return
+    }
     reqwest({
       url:'/template/details.do',
       method:'POST',
       data: {
+        name:total.name,
         templateOid:this.props.location.state.oid,
         tableCol:data[index].name
       }
-      // url:'../../api/templatedetail.json'
     }).then((result) => {
       let { data } = this.state
       if (result.restCode === 200) {
@@ -90,6 +106,8 @@ class Listedit extends React.Component{
           data:[...data]
         })
 
+      } else {
+        Myalert.error('Error', result.msg)
       }
     })
   }
@@ -109,7 +127,8 @@ class Listedit extends React.Component{
     }
 
     this.setState({
-        data:[...data, newdata]
+        data:[...data, newdata],
+        addable:false
       })
   }
   delete =() => {
@@ -118,7 +137,8 @@ class Listedit extends React.Component{
     if (len<8) return
     data.splice(len,1)
     this.setState({
-        data:[...data]
+        data:[...data],
+        addable:true
       })
   }
   select = (val) => {
@@ -170,7 +190,7 @@ class Listedit extends React.Component{
               size={size}
               value={choosetype}
               style={{ width: 200 }}
-              onSelect={this.select}
+              disabled
             >
             <Option key="2">季度报表</Option>
             <Option key="1">月度报表</Option>
@@ -180,10 +200,12 @@ class Listedit extends React.Component{
         </Row>
         <Row style={{margin:'40px 0 20px'}}>
           <Col span={2}>
-            <Button type="primary" onClick={this.adddatas}>添加</Button>
-          </Col>
-          <Col  span={4}>
-            <Button type="primary" onClick={this.delete}>删除</Button>
+            {
+              this.state.addable?
+              <Button type="primary" onClick={this.adddatas}>添加</Button>
+              :
+              <Button type="primary" onClick={this.delete}>取消添加</Button>
+            }
           </Col>
         </Row>
         <Table

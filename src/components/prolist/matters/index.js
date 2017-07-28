@@ -1,10 +1,12 @@
 import React from 'react';
-import { Button, Row, Col, Table,DatePicker,Input } from  'antd'
+import { Button, Row, Col, Table,Input } from  'antd'
 import reqwest from 'reqwest';
-import moment from 'moment';
-const dateFormat = 'YYYY-MM-dd';
-import 'moment/locale/zh-cn';
-moment.locale('zh-cn');
+import $ from 'jquery'
+// import moment from 'moment';
+// const dateFormat = 'YYYY-MM-dd';
+// import 'moment/locale/zh-cn';
+// moment.locale('zh-cn');
+
 import Myalert from '../../common/alert'
 
 // http://xx.com/project/editImportantEvent.do
@@ -50,15 +52,7 @@ class Metters extends React.Component{
         dataIndex: 'createTime',
         render:(text, record, index) => {
           return (
-            // <DatePicker defaultValue={moment(text, dateFormat)} disabled/>
-            <div>
-              {
-                this.state.data[index].isedit?
-                <DatePicker defaultValue={moment("2017-07-04", dateFormat)}/>
-                :
-                <p>{text}</p>
-              }
-            </div>
+            <p>{text}</p>
           )
         }
       }, {
@@ -83,13 +77,18 @@ class Metters extends React.Component{
   }
   handleAdd = () => {
     const { data, addable } = this.state;
-    let newData = {}
-    for (var variable in data[0]) {
-      if (data[0].hasOwnProperty(variable)) {
-        newData[variable] = data[0][variable]
-      }
+    var mydate = new Date();
+    var y=mydate.getFullYear()
+    var m=mydate.getMonth() + 1
+    if (m>=1 && m<=9){
+      m= "0" +m
     }
-    // let newData = data[0];
+    var d=mydate.getDate()
+    var time = y+'-'+m+'-'+d
+    let newData = {
+      "createTime":time,
+      "content":''
+    }
     newData.isedit = true;
     this.setState({
       data: [...data, newData],
@@ -98,7 +97,7 @@ class Metters extends React.Component{
     // alert(this.state.data[1].editable)
   }
   save = () => {
-    let { data, addable, content } = this.state;
+    const { data, addable, content } = this.state;
     let projectOid = localStorage.getItem('projectOid')
     reqwest({
       url:'/project/editImportantEvent.do',
@@ -123,11 +122,12 @@ class Metters extends React.Component{
   textval =(e,index) =>{
     console.log(e.target.value)
     let newval = e.target.value
-    let {data} = this.state
+    let {data, content} = this.state
     if (newval) {
       data[index].content = newval
       this.setState({
-        data:[...data]
+        data:[...data],
+        content:newval
       })
     }
 

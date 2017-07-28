@@ -8,7 +8,7 @@ let banklogo = require('../../../images/zylogo.png')
 export default class Headers extends React.Component{
   componentWillMount () {
     let storage = window.localStorage
-    let usrname = storage.getItem("accountName")
+    let usrname = storage.getItem("name")
     this.setState({
       usrname: usrname
     })

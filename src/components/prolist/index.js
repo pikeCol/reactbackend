@@ -49,7 +49,7 @@ class Prolist extends React.Component{
               :''
             }
             {
-              globalPemission.indexOf('projectDetail')>=0?
+              globalPemission.indexOf('material')>=0?
               <ListlMenuLink label="附加资料"  to="/menu/prolist/infos" />
               :''
             }

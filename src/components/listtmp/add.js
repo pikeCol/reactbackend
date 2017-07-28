@@ -2,6 +2,9 @@ import React from 'react';
 import { Row, Col, Input, Select,Button, DatePicker, Table  } from 'antd';
 const Option = Select.Option;
 
+import { Modal } from 'antd';
+const confirm = Modal.confirm;
+
 const dateFormat = 'YYYY';
 
 import reqwest from 'reqwest';
@@ -15,6 +18,7 @@ import Myalert from '../common/alert'
 export default class Listadd extends React.Component{
   state = {
     redirect:false,
+    addable:true,
     tepname:'',
     type:'',
     size: 'default',
@@ -103,17 +107,20 @@ export default class Listadd extends React.Component{
     if (len<8) return
     data.splice(len,1)
     this.setState({
-        data:[...data]
+        data:[...data],
+        addable:true
       })
   }
   adddatas =() => {
     let { data }=this.state
     let newdata={
       name:'',
-      isedit: true
+      isedit:true
     }
+
     this.setState({
-        data:[...data, newdata]
+        data:[...data, newdata],
+        addable:false
       })
   }
   select = (val) => {
@@ -134,41 +141,61 @@ export default class Listadd extends React.Component{
       })
     }
   }
-  save = () => {
+  showConfirm =()=> {
+
     let datas = this.state.data
     let pushdata = []
     for (var variable of datas) {
         pushdata.push(variable.name)
     }
     let that = this
-    console.log(pushdata)
-
     const { tepname } = this.state
-
-    $.ajax({
-      url:'/template/add.do',
-      method:'POST',
-      traditional:true,
-      data: {
-        name:this.state.tepname,
-        type:this.state.type,
-        tableCol:[...pushdata]
-      }
-    }).then((result) => {
-      let { data } = this.state
-      let index = data.length-1
-      if (result.restCode === 200) {
-        data[index].isedit = false
-        Myalert.success('success', '添加成功')
-        that.setState({
-          redirect: true,
-          data:[...data]
+    let { data } = this.state
+    confirm({
+      title: '模板创建或修改后不可删除，请仔细检查?',
+      onOk() {
+        $.ajax({
+          url:'/template/add.do',
+          method:'POST',
+          traditional:true,
+          data: {
+            name:that.state.tepname,
+            type:that.state.type,
+            tableCol:[...pushdata]
+          }
+        }).then((result) => {
+          let index = data.length-1
+          if (result.restCode === 200) {
+            data[index].isedit = false
+            Myalert.success('success', '添加成功')
+            that.setState({
+              redirect: true,
+              data:[...data]
+            })
+          } else {
+            Myalert.error('Error', result.msg )
+          }
         })
-      } else {
-        Myalert.success('Error', result.data.msg )
-      }
-    })
+      },
+      onCancel() {
+        // console.log('Cancel');
+      },
+    });
   }
+  // save = () => {
+  //   // let datas = this.state.data
+  //   // let pushdata = []
+  //   // for (var variable of datas) {
+  //   //     pushdata.push(variable.name)
+  //   // }
+  //   // let that = this
+  //   // // console.log(pushdata)
+  //   // const { tepname } = this.state
+  //
+  //   this.showConfirm()
+  //
+  //
+  // }
   nameChang = (val) => {
     let {tepname} = this.state
     tepname = val.target.value
@@ -211,10 +238,12 @@ export default class Listadd extends React.Component{
           choosetype?
           <Row style={{margin:'40px 0 20px'}}>
             <Col span={2}>
-              <Button type="primary" onClick={this.adddatas}>添加</Button>
-            </Col>
-            <Col  span={4}>
-              <Button type="primary" onClick={this.delete}>删除</Button>
+              {
+                this.state.addable?
+                <Button type="primary" onClick={this.adddatas}>添加</Button>
+                :
+                <Button type="primary" onClick={this.delete}>取消添加</Button>
+              }
             </Col>
           </Row>
           :
@@ -232,7 +261,7 @@ export default class Listadd extends React.Component{
            choosetype?
            <Row>
              <Col offset={16}>
-               <Button type="primary" onClick={this.save}>保存</Button>
+               <Button type="primary" onClick={this.showConfirm}>保存</Button>
              </Col>
            </Row>
            :

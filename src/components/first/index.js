@@ -8,13 +8,13 @@ class First extends React.Component{
       <div>
         <h1 style={{
           paddingTop:'200px',
-          color:'#0099ff',
+          color:'#000',
           fontSize:'36px',
           textAlign:'center',
           marginBottom:'40px'
         }}>浙银资产投资项目管理系统 </h1>
         <h4 style={{
-          color:'#ff3747',
+          color:'#0099ff',
           fontSize:'18px',
           textAlign:'center'
         }}>

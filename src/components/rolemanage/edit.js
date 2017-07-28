@@ -22,6 +22,9 @@ class Roleedit extends React.Component{
   save =() => {
     let { mypost, roleName, roleType } = this.state
     let oid = this.props.location.state.param.oid
+    if (!mypost.length>0){
+      Myalert.error('Error','请选择权限')
+    }
     reqwest({
       url:'/role/editRole.do',
       method:'POST',
@@ -92,14 +95,15 @@ class Roleedit extends React.Component{
   onCheck = (checkedKeys,val) => {
     console.log(checkedKeys,val)
     let {mypost} = this.state
+    let getnode = []
     let checkedNodes = val.checkedNodes
     for (let keys of checkedNodes) {
       if (keys.props.isLeaf) {
-        mypost.push(keys.key)
+        getnode.push(keys.key)
       }
     }
     this.setState({
-      mypost
+      mypost:getnode
     })
    }
    handleChange = (val) => {
@@ -113,7 +117,6 @@ class Roleedit extends React.Component{
      })
    }
   render(){
-
     if ( this.state.redirect ) {
       return(
         <Redirect to={'/menu/rolemanage'} />

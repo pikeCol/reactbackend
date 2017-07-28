@@ -113,10 +113,10 @@ class RegistrationForm extends React.Component {
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   }
   checkAccountName = (rule, value, callback) => {
-    const form = this.props.form;
-
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
+    // const form = this.props.form;
+    var reg = /^[0-9a-zA-Z]+$/
+    if( !reg.test(value) ) {
+      callback('登录账户只能填写英文字母和数字')
     }
     callback();
   }
@@ -171,7 +171,7 @@ class RegistrationForm extends React.Component {
       allproject.push(<Option key={j.id} value={j.oid}>{j.projectName}</Option>)
     }
 
-    getFieldDecorator('accountName', { initialValue: [ ] })
+    // getFieldDecorator('accountName', { initialValue: [ ] })
 
 
     const formItemLayout = {
@@ -355,7 +355,7 @@ class RegistrationForm extends React.Component {
              label="请配置关联项目"
              >
                {getFieldDecorator('select-multiple', {
-                 rules : [{required : this.props.form.getFieldValue('accountType')>0, message : '请选择项目!'}]
+                 rules : [{required : this.props.form.getFieldValue('radio-group')>0, message : '请选择项目!'}]
                })(
                  <Select mode="multiple" placeholder="请选择项目">
                    {allproject}

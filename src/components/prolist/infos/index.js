@@ -4,6 +4,8 @@ import reqwest from 'reqwest';
 import { Radio } from 'antd';
 const RadioGroup = Radio.Group;
 
+import Myalert from '../../common/alert'
+
 import globalPemission from '../../common/permission'
 
 class Infos extends React.Component{
@@ -57,9 +59,11 @@ class Infos extends React.Component{
         let data = result.data.attachment
         let { opt } = this.state
         opt = data.map((item) =>
-          <Col span={4} key={item.id} offset={2}>
-            <Radio value={item.oid}>{item.fileName}</Radio>
-          </Col>
+          <Row key={item.id}>
+            <Col offset={2}>
+              <Radio key={item.oid} value={item.oid}>{item.fileName}</Radio>
+            </Col>
+          </Row>
         )
         this.setState({
           myprops:myprops,
@@ -76,9 +80,12 @@ class Infos extends React.Component{
 
   }
   download = () => {
-    // /attachment/download.do
-      // let projectOid = localStorage.getItem('projectOid')
+
     const {value} = this.state
+    if(!value) {
+      Myalert.error('Error', '请选择要下载的文件')
+      return
+    }
     console.log(value)
     let url = document.location.origin+'/attachment/download.do?oid='+value
     console.log(url)

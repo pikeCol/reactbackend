@@ -3,6 +3,7 @@ import { Table, Row, Col, Input, Button, Select, DatePicker } from 'antd';
 import reqwest from 'reqwest';
 const Option = Select.Option;
 import { Redirect } from 'react-router-dom'
+const { MonthPicker } = DatePicker;
 
 import Myalert from '../../common/alert'
 
@@ -173,7 +174,7 @@ export default class Basic extends React.Component{
   }
   handleChang = ( val ) => {
     const {mypost} = this.state
-    mypost.oid = val
+    mypost.templateOid = val
     this.setState({
       mypost
     })

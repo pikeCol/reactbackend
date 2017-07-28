@@ -19,12 +19,13 @@ class Newrole extends React.Component{
   }
   save =() => {
     let { mypost, roleName } = this.state
-    // if (!roleType) {
-    //   Myalert.error('Error','请选择角色性质')
-    //   return
-    // }
+    console.log(mypost)
     if (!roleName) {
       Myalert.error('Error','请输入角色名')
+      return
+    }
+    if (!mypost.length>0){
+      Myalert.error('Error','请选择权限')
       return
     }
     reqwest({
@@ -63,7 +64,6 @@ class Newrole extends React.Component{
     let { data } = this.state
     let that = this
     reqwest({
-      // url:'../../api/rolepermission.json',
       url:'/permission/getPermissionList.do',
       method:'POST'
     }).then((result) => {
@@ -81,15 +81,19 @@ class Newrole extends React.Component{
   }
   onCheck = (checkedKeys,val) => {
     console.log(checkedKeys,val)
+    // if (val.checked == false) {
+    //   return
+    // }
     let {mypost} = this.state
+    let getnode = []
     let checkedNodes = val.checkedNodes
     for (let keys of checkedNodes) {
       if (keys.props.isLeaf) {
-        mypost.push(keys.key)
+        getnode.push(keys.key)
       }
     }
     this.setState({
-      mypost
+      mypost:getnode
     })
    }
    handleinput  = (e) => {

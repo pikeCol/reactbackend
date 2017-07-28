@@ -13,27 +13,25 @@ class Todetail extends React.Component{
     super(props)
   }
   state = {
+      paths:'',
       data: [],
       projectName:'',
       pagination: {},
       loading: false,
       columns:[{
           title: '项目名称',
+          width: 100,
+          fixed: 'left',
           dataIndex: 'projectName',
           render: (text, record, index) =>{
             let oid = this.state.data[index].oid
-            console.log(this.state.permissions)
+            let templateOid = this.state.data[index].templateOid
             return(
-              <div className="td_a">
+              <div className="td_a" onClick={()=>this.setpro(oid, templateOid)}>
                 {
                   globalPemission.indexOf("projectListDetail")>=0?
                   <div>
-                    {
-                      globalPemission.indexOf('reportDetail')>=0?
-                      <Link to={{pathname:`/menu/prolist/basic`,state:{oid:oid}}}>{text}</Link>
-                      :
-                      <Link to={{pathname:`/menu/prolist/report`,state:{oid:oid}}}>{text}</Link>
-                    }
+                      <Link to={{pathname:this.state.paths,state:{oid:oid}}}>{text}</Link>
                   </div>
                   :
                   <p>{text}</p>
@@ -44,7 +42,8 @@ class Todetail extends React.Component{
         }, {
           title: '主营业务',
           className: 'column-money',
-          dataIndex: 'mainBusiness'
+          dataIndex: 'mainBusiness',
+          with:400
         }, {
           title: '注册资本',
           dataIndex: 'regCapital'
@@ -62,7 +61,7 @@ class Todetail extends React.Component{
           dataIndex: 'ourRate'
         }, {
           title: '投资时间',
-          dataIndex: 'ourInvestmentTime'
+          dataIndex: 'ourInvestmentTimeString'
         }, {
           title: '最新总资产',
           dataIndex: 'val1'
@@ -86,7 +85,7 @@ class Todetail extends React.Component{
           dataIndex: 'remarke'
       }],
       add:false
-    };
+    }
 
   handleTableChange = (pagination) => {
     const pager = { ...this.state.pagination };
@@ -99,7 +98,6 @@ class Todetail extends React.Component{
       page: pagination.current,
     });
   }
-
     fetch = (params = {}) => {
       console.log('params:', params);
       let oid = localStorage.getItem('oid')
@@ -126,6 +124,24 @@ class Todetail extends React.Component{
       });
     }
     componentDidMount() {
+      let { paths } = this.state;
+      console.log(globalPemission)
+      if ( globalPemission.indexOf('projectDetail')>0) {
+        paths = "/menu/prolist/basic"
+      } else if ( globalPemission.indexOf('reportDetail')>0) {
+        paths = "/menu/prolist/report"
+      } else if ( globalPemission.indexOf('importantItem')>0) {
+        paths = "/menu/prolist/matters"
+      } else if (globalPemission.indexOf('material')>=0) {
+        paths = "/menu/prolist/infos"
+      }
+      // tt = globalPemission.indexOf('material')>=0?"/menu/prolist/infos":"";
+      // tt = globalPemission.indexOf('importantItem')>0=?"/menu/prolist/matters":"";
+      // tt = globalPemission.indexOf('reportDetail')>0=?"/menu/prolist/report":"";
+      // tt = globalPemission.indexOf('projectDetail')>0=?"/menu/prolist/basic":"";
+      this.setState({
+        paths
+      })
       this.fetch();
     }
     changes = (e,key) => {
@@ -140,6 +156,10 @@ class Todetail extends React.Component{
         page:1,
         row:10
       })
+    }
+    setpro =(oid, templateOid) => {
+      localStorage.setItem('projectOid',oid)
+      localStorage.setItem('templateOid',templateOid)
     }
     render(){
       const { columns, add } = this.state
@@ -167,6 +187,7 @@ class Todetail extends React.Component{
             columns={columns}
             dataSource={this.state.data}
             bordered
+            scroll={{ x: '130%' }}
             onChange={this.handleTableChange}
           />
         </div>

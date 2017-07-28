@@ -2,32 +2,83 @@ import React from 'react';
 import { Table, Row, Col, Input, Button, Select, DatePicker } from 'antd';
 import reqwest from 'reqwest';
 const Option = Select.Option;
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
+import moment from 'moment';
 
 import Myalert from '../../common/alert'
 import globalPemission from '../../common/permission'
 
 
-const  columnsPartents = [{
-        title: '董事会人数',
-        dataIndex: 'boardNumber',
-        render: (text) => text
-      }, {
-        title: '董事会我方委派人员',
-        dataIndex: 'ourBoardPerson',
-        render: (text) => text
-      }, {
-        title: '监事会人数',
-        dataIndex: 'boardOfVisitorsNumber',
-        render: (text) => text
-      }, {
-        title: '监事会我方委派人员',
-        dataIndex: 'ourBoardOfVisitorsPerson',
-        render: (text) => text
-      }]
-
-
-
 export default class Basic extends React.Component{
+  constructor() {
+    super()
+    this.columnsPartents = [{
+          title: '董事会人数',
+          dataIndex: 'boardNumber',
+          render:(text) => {
+            return(
+              <div>
+                {
+                  this.state.editable?
+                  <Input defaultValue={text} onChange={e => this.importantClause(e, 'boardNumber')}/>
+                  :
+                  <p>{text}</p>
+                }
+              </div>
+            )
+          }
+        }, {
+          title: '董事会我方委派人员',
+          dataIndex: 'ourBoardPerson',
+          render:(text) => {
+            return(
+              <div>
+                {
+                  this.state.editable?
+                  <Input defaultValue={text} onChange={e => this.importantClause(e, 'ourBoardPerson')}/>
+                  :
+                  <p>{text}</p>
+                }
+              </div>
+            )
+          }
+        }, {
+          title: '监事会人数',
+          dataIndex: 'boardOfVisitorsNumber',
+          render:(text) => {
+            return(
+              <div>
+                {
+                  this.state.editable?
+                  <Input defaultValue={text} onChange={e => this.importantClause(e, 'boardOfVisitorsNumber')}/>
+                  :
+                  <p>{text}</p>
+                }
+              </div>
+            )
+          }
+        }, {
+          title: '监事会我方委派人员',
+          dataIndex: 'ourBoardOfVisitorsPerson',
+          render:(text) => {
+            return(
+              <div>
+                {
+                  this.state.editable?
+                  <Input defaultValue={text} onChange={e => this.importantClause(e, 'ourBoardOfVisitorsPerson')}/>
+                  :
+                  <p>{text}</p>
+                }
+              </div>
+            )
+          }
+        }]
+
+  }
+
+
+
   state={
     _Partents : [{
         title: '股东姓名',
@@ -36,9 +87,8 @@ export default class Basic extends React.Component{
           return(
             <div>
             {
-              this.state.data.projectPartents[index].isedit?
-
-              <Input onChange={e => this.addinput(e, index, 'name')}/>
+              this.state.editable?
+              <Input defaultValue={text} onChange={e => this.addinput(e, index, 'name')}/>
               :
               <p>{text}</p>
             }
@@ -47,14 +97,23 @@ export default class Basic extends React.Component{
         }
       }, {
         title: '投资时间',
-        dataIndex: 'investmentTime',
+        dataIndex: 'investmentTimeString',
         render: (text, record, index) => {
+          // let _text = text||'2017'
           return(
             <div>
             {
-              this.state.data.projectPartents[index].isedit?
-              <DatePicker onChange={(date, dateString) =>this.datetime(date, dateString,'investmentTime', index)}/>
-              // <Input onChange={e => this.addinput(e, index, 'name')}/>
+              this.state.editable?
+              // <DatePicker value={moment(text, 'YYYY-MM-DD')}  onChange={(date, dateString) =>this.datetime(date, dateString,'investmentTime', index)}/>
+
+              <div>
+                {
+                  text?
+                  <DatePicker value={moment(text)}  onChange={(date, dateString) =>this.datetime(date, dateString,'investmentTime', index)}/>
+                  :
+                  <DatePicker  onChange={(date, dateString) =>this.datetime(date, dateString,'investmentTime', index)}/>
+                }
+              </div>
               :
               <p>{text}</p>
             }
@@ -68,8 +127,8 @@ export default class Basic extends React.Component{
           return(
             <div>
             {
-              this.state.data.projectPartents[index].isedit?
-              <Input onChange={e => this.addinput(e, index, 'rate')}/>
+              this.state.editable?
+              <Input defaultValue={text} onChange={e => this.addinput(e, index, 'rate')}/>
               :
               <p>{text}</p>
             }
@@ -83,8 +142,8 @@ export default class Basic extends React.Component{
           return(
             <div>
             {
-              this.state.data.projectPartents[index].isedit?
-              <Input onChange={e => this.addinput(e, index, 'subscribedCapital')}/>
+              this.state.editable?
+              <Input defaultValue={text} onChange={e => this.addinput(e, index, 'subscribedCapital')}/>
               :
               <p>{text}</p>
             }
@@ -98,8 +157,8 @@ export default class Basic extends React.Component{
           return(
             <div>
             {
-              this.state.data.projectPartents[index].isedit?
-              <Input onChange={e => this.addinput(e, index, 'contributedCapital')}/>
+              this.state.editable?
+              <Input defaultValue={text} onChange={e => this.addinput(e, index, 'contributedCapital')}/>
               :
               <p>{text}</p>
             }
@@ -112,14 +171,7 @@ export default class Basic extends React.Component{
         dataIndex: 'templateOid',
         render:(text) => {
           return(
-            <div>
-              {
-                this.state.editable?
-                <Input onChange={e => this.importantClause(e, 'templateOid')}/>
-                :
-                <p>{text}</p>
-              }
-            </div>
+            <p>{text}</p>
           )
         }
       }, {
@@ -130,7 +182,7 @@ export default class Basic extends React.Component{
             <div>
               {
                 this.state.editable?
-                <Input onChange={e => this.importantClause(e, 'companyName')}/>
+                <Input defaultValue={text} onChange={e => this.importantClause(e, 'companyName')}/>
                 :
                 <p>{text}</p>
               }
@@ -145,7 +197,7 @@ export default class Basic extends React.Component{
             <div>
               {
                 this.state.editable?
-                <Input onChange={e => this.importantClause(e, 'mainBusiness')}/>
+                <Input defaultValue={text} onChange={e => this.importantClause(e, 'mainBusiness')}/>
                 :
                 <p>{text}</p>
               }
@@ -160,7 +212,7 @@ export default class Basic extends React.Component{
             <div>
               {
                 this.state.editable?
-                <Input onChange={e => this.importantClause(e, 'regCapital')}/>
+                <Input defaultValue={text} onChange={e => this.importantClause(e, 'regCapital')}/>
                 :
                 <p>{text}</p>
               }
@@ -175,7 +227,7 @@ export default class Basic extends React.Component{
             <div>
               {
                 this.state.editable?
-                <Input onChange={e => this.importantClause(e, 'contributedCapital')}/>
+                <Input defaultValue={text} onChange={e => this.importantClause(e, 'contributedCapital')}/>
                 :
                 <p>{text}</p>
               }
@@ -190,7 +242,7 @@ export default class Basic extends React.Component{
             <div>
               {
                 this.state.editable?
-                <Input onChange={e => this.importantClause(e, 'ourInvestors')}/>
+                <Input defaultValue={text} onChange={e => this.importantClause(e, 'ourInvestors')}/>
                 :
                 <p>{text}</p>
               }
@@ -205,7 +257,7 @@ export default class Basic extends React.Component{
             <div>
               {
                 this.state.editable?
-                <Input onChange={e => this.importantClause(e, 'ourRate')}/>
+                <Input defaultValue={text} onChange={e => this.importantClause(e, 'ourRate')}/>
                 :
                 <p>{text}</p>
               }
@@ -220,7 +272,7 @@ export default class Basic extends React.Component{
             <div>
               {
                 this.state.editable?
-                <Input onChange={e => this.importantClause(e, 'actualAmount')}/>
+                <Input defaultValue={text} onChange={e => this.importantClause(e, 'actualAmount')}/>
                 :
                 <p>{text}</p>
               }
@@ -229,13 +281,21 @@ export default class Basic extends React.Component{
         }
       },{
         title: '我方投资时间',
-        dataIndex: 'ourInvestmentTime',
+        dataIndex: 'ourInvestmentTimeString',
         render:(text) => {
           return(
             <div>
               {
                 this.state.editable?
-                <DatePicker onChange={(date, dateString) =>this.protime(date, dateString,'ourInvestmentTime')}/>
+                // <DatePicker value={moment(text, 'YYYY-MM-DD')} onChange={(date, dateString) =>this.protime(date, dateString,'ourInvestmentTime')}/>
+                <div>
+                  {
+                    text?
+                    <DatePicker value={moment(text)}  onChange={(date, dateString) =>this.protime(date, dateString,'ourInvestmentTime')}/>
+                    :
+                    <DatePicker  onChange={(date, dateString) =>this.protime(date, dateString,'ourInvestmentTime')}/>
+                  }
+                </div>
                 :
                 <p>{text}</p>
               }
@@ -245,14 +305,17 @@ export default class Basic extends React.Component{
     }],
     data:{
       project:{},
-      projectPartents:[]
+      projectPartents:[],
+      templateName:''
     },
     editable:false,
-    opt:[]
+    opt:[],
+    datalen:''
   }
   protime = (date, dateString,key) => {
     const {data} = this.state
     data.project[key] = dateString
+    data.project.ourInvestmentTimeString = dateString
     this.setState({
       data
     })
@@ -260,6 +323,7 @@ export default class Basic extends React.Component{
   datetime = (date, dateString, key, index) => {
     const {data} = this.state
     data.projectPartents[index][key] = dateString
+    data.projectPartents[index].investmentTimeString = dateString
     this.setState({
       data
     })
@@ -283,7 +347,7 @@ export default class Basic extends React.Component{
     let oid =_state?_state.oid:localStorage.getItem('projectOid')
     const newData = {
       'name':'',
-      'investmentTime':'',
+      'investmentTimeString':'',
       'rate':'',
       'subscribedCapital':'',
       'contributedCapital':'',
@@ -299,8 +363,29 @@ export default class Basic extends React.Component{
   }
   onDelete = () => {
     const { projectPartents, project } = this.state.data
+    let { datalen } = this.state
     let len = projectPartents.length
-    projectPartents.splice(len-1, 1)
+    let index = len-1
+    if ( datalen ==0) {
+      return
+    } else if (datalen>=len) {
+      reqwest({
+        url:'/project/deleteProjectPartent.do',
+        data:{
+          oid:projectPartents[index].oid
+        }
+      }).then((res) => {
+        if(res.restCode ===200) {
+          projectPartents.splice(len-1, 1)
+          this.setState({
+            datalen:projectPartents.length
+          })
+        }
+      })
+    } else {
+      projectPartents.splice(len-1, 1)
+    }
+
     this.setState({
       data:{
         project:project,
@@ -339,7 +424,8 @@ export default class Basic extends React.Component{
 
         Myalert.success('success', '保存成功')
         this.setState({
-          editable: true,
+          datalen:data.projectPartents.length,
+          editable: false,
           data
         })
 
@@ -355,10 +441,9 @@ export default class Basic extends React.Component{
     let oid =_state?_state.oid:localStorage.getItem('projectOid')
     localStorage.setItem('projectOid',oid)
 
-    let { projectPartents, project } = this.state.data
+    let { projectPartents, project, templateName } = this.state.data
 
     reqwest({
-      // url: '../../api/data.json',
       url: '/project/showBaseInfo.do',
       data: {
         projectOid: oid
@@ -368,11 +453,14 @@ export default class Basic extends React.Component{
         if (result.restCode ===200) {
           project = result.data.project
           projectPartents = result.data.projectPartents
+          templateName = result.data.templateName
           this.setState({
             data:{
               project:project,
-              projectPartents:[...projectPartents]
-            }
+              projectPartents:[...projectPartents],
+              templateName: result.data.templateName
+            },
+            datalen:result.data.projectPartents.length
           })
           console.log(this.state.data.project)
         }
@@ -387,7 +475,9 @@ export default class Basic extends React.Component{
     })
   }
   render(){
+    // console.log(this.state.data.project.remarke,'importantClause')
     const {  editable, opt } = this.state;
+    const { templateName } = this.state.data
     const children = [];
     for (let variable of opt) {
       children.push(<Option key={variable.oid}>{variable.name}</Option>);
@@ -407,20 +497,9 @@ export default class Basic extends React.Component{
           <Col span={2} offset={2}>
             模板名称
           </Col>
-          <Col span={6}>
-              <div>
-                {
-                  editable?
-                  <div className="editable-cell-input-wrapper">
-                    <Input value={this.state.data.project.templateName}  disabled/>
-                  </div>
-                  :
-                  <div className="editable-cell-input-wrapper">
-                    {this.state.data.project.templateName}
-                  </div>
-                }
-              </div>
-          </Col>
+          {
+            templateName
+          }
         </Row>
         <Row>
           <Col offset={2} className="listtitle">
@@ -451,7 +530,7 @@ export default class Basic extends React.Component{
          <h6>董事会/监事会结构</h6>
        </Col>
        <Col span={20} offset={2}>
-          <Table columns={columnsPartents} dataSource={[this.state.data.project]} size="middle" pagination={false}  />
+          <Table columns={this.columnsPartents} dataSource={[this.state.data.project]} size="middle" pagination={false}  />
        </Col>
      </Row>
      <Row>
@@ -459,7 +538,7 @@ export default class Basic extends React.Component{
         <h6>重要条款</h6>
       </Col>
       <Col span={20} offset={2}>
-        <Input type="textarea"  onChange={e =>this.importantClause(e, 'importantClause')} autosize={{ minRows: 5, maxRows: 8 }} />
+          <Input type="textarea" value={this.state.data.project.importantClause || ''}  onChange={e =>this.importantClause(e, 'importantClause')} autosize={{ minRows: 5, maxRows: 8 }} />
       </Col>
       </Row>
       <Row>
@@ -467,7 +546,7 @@ export default class Basic extends React.Component{
          <h6>备注</h6>
        </Col>
        <Col span={20} offset={2}>
-         <Input type="textarea"  onChange={e =>this.importantClause(e, 'remarke')} autosize={{ minRows: 5, maxRows: 8 }} />
+         <Input type="textarea" value={this.state.data.project.remarke || ''}  onChange={e =>this.importantClause(e, 'remarke')} autosize={{ minRows: 5, maxRows: 8 }} />
        </Col>
       </Row>
       {
